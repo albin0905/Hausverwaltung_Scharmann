@@ -1,25 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Header from "./common/components/header/Header";
+import Footer from "./common/components/Footer/Footer";
+import Body from "./common/components/body/Body";
+import Settings from "./common/components/header/Settings";
+import Login from "./common/components/header/Login";
+import Flats74 from "./common/components/body/Flats74";
+import Flats27 from "./common/components/body/Flats27";
+import Impressum from "./common/components/Footer/Impressum";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Body />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/flats_74" element={<Flats74 />} />
+          <Route path="/flats_27" element={<Flats27 />} />
+          <Route path="/impressum" element={<Impressum />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
   );
 }
 
