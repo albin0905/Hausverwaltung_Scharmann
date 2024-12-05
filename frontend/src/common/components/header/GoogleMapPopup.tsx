@@ -1,23 +1,20 @@
 import React from 'react';
-import { Map, GoogleApiWrapper, GoogleAPI, IProvidedProps } from 'google-maps-react';
+import GoogleMapsImage from "../../../assets/GoogleMapsBild.png";
 
-interface GoogleMapPopupProps extends IProvidedProps {
-    onClose: () => void;
-}
-
-const GoogleMapPopup: React.FC<GoogleMapPopupProps> = ({ onClose, google }) => {
+const GoogleMapPopup: React.FC = () => {
     return (
-        <div className="map-popup">
-            <button onClick={onClose}>Schließen</button>
-            <Map
-                google={google}
-                /*zoom={14}*/
-                initialCenter={{ lat: 48.2082, lng: 16.3738 }}  // Beispielkoordinaten für Wien
-            />
+        <div className="marginGoogleMaps background">
+            <div>
+                <img src={GoogleMapsImage} alt="GoogleMapsImage" style={{width:"100%"}}/>
+            </div>
+            <div className="marginAdressdaten">
+                <p>Postleitzahl: 8552</p>
+                <p>Ort: Eibiswald</p>
+                <p>Straße: Ortsdurchfahrtsstraße</p>
+                <p>Hausnummer: 27</p>
+            </div>
         </div>
     );
 }
 
-export default GoogleApiWrapper({
-    apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
-})(GoogleMapPopup);
+export default GoogleMapPopup;

@@ -85,8 +85,35 @@ header{
   margin-bottom: 12%;
 }
 
+.marginGoogleMaps{
+  margin-top: 5%;
+  margin-bottom: 7.4%;
+}
+
+.marginAdressdaten{
+  margin-left: 2%;
+}
+
+.background{
+  background-color: #807a7a;
+}
+
 .marginBody{
   margin-top: 5%;
+}
+
+.marginHausAnzeige{
+  margin-top: 5%;
+  margin-bottom: 7.4%;
+}
+
+.dashboard{
+  padding: 1%;
+  border: solid 1px black;
+}
+
+.hausAdminAnzeige{
+  padding: 1%;
 }
 
 footer .social-links svg {
@@ -94,6 +121,6 @@ footer .social-links svg {
   margin-right: 0.5rem;
 }
 
-footer .impressum, footer .contact-info {
+.impressum {
   text-align: center;
 }

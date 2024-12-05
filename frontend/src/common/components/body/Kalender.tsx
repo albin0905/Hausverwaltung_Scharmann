@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Flats74() {
+function Kalender(props:any) {
     return (
         <div>
 
@@ -8,4 +8,4 @@ function Flats74() {
     );
 }
 
-export default Flats74;
+export default Kalender;

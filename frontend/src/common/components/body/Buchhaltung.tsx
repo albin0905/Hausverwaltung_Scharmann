@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Flats74() {
+function Buchhaltung(props:any) {
     return (
         <div>
 
@@ -8,4 +8,4 @@ function Flats74() {
     );
 }
 
-export default Flats74;
+export default Buchhaltung;

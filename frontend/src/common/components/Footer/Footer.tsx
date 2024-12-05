@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
     return (
-        <footer className="footer">
-            <div className="footer-content">
+        <footer className="d-flex justify-space-between align-items-center">
                 <div className="social-links">
                     <FaInstagram/>
                     <FaFacebook/>
@@ -18,7 +17,6 @@ const Footer: React.FC = () => {
                     <p>Tel. Nr.: +43 664 8201490</p>
                     <p>Email: helmut.scharmann@aon.at</p>
                 </div>
-            </div>
         </footer>
     );
 }

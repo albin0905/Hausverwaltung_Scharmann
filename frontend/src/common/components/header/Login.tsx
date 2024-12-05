@@ -1,11 +1,11 @@
 import React from 'react';
 
-function Flats74() {
+function Login(props:any) {
     return (
         <div>
-
+            Login page
         </div>
     );
 }
 
-export default Flats74;
+export default Login;
