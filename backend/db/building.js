@@ -16,7 +16,7 @@ const FlatSchema = new mongoose.Schema({
 const HouseSchema = new mongoose.Schema({
     buildingId: { type: mongoose.Schema.Types.ObjectId, ref: 'Building', required: true },
     name: { type: String, required: true },
-    floor: { type: Number, required: true },
+    floor: { type: String, required: true },
     numberOfRooms: { type: Number, required: true },
     certainRooms: [RoomSchema],
     garden: { type: Boolean, required: true },

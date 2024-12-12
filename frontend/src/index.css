@@ -78,6 +78,7 @@ header{
   position: fixed;
   width: 100%;
   top: 0;
+  z-index: 10;
 }
 
 .marginSettings{
@@ -108,12 +109,14 @@ header{
 }
 
 .dashboard{
+  position: fixed;
   padding: 1%;
   border: solid 1px black;
 }
 
 .hausAdminAnzeige{
   padding: 1%;
+  overflow-y: auto;
 }
 
 footer .social-links svg {
