@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaMapMarkerAlt, FaCog, FaUserCircle } from 'react-icons/fa';
+import { FaCog, FaUserCircle } from 'react-icons/fa';
 import logo from '../../../assets/logo.png';
-import GoogleMapPopup from "./GoogleMapPopup";
 
 const Header: React.FC = () => {
-    const [isMapOpen, setIsMapOpen] = useState(false);
-
     return (
         <header className="d-flex justify-space-between align-items-center">
             <div className="logo">

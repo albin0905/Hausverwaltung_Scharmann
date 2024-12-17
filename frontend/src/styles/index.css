@@ -44,11 +44,11 @@ nav a, nav button {
 }
 
 .img-button-74 {
-  background-image: url('assets/74.png');
+  background-image: url('../assets/74.png');
 }
 
 .img-button-27 {
-  background-image: url('assets/27.png');
+  background-image: url('../assets/27.png');
 }
 
 .img-button:hover .overlay {
