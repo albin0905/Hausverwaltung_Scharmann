@@ -4,7 +4,10 @@ const { Login } = require('../db/login');
 
 router.post('/', async (req, res) => {
     try {
-        const { email, password } = req.body;
+        let email = req.body.email;
+        let password = req.body.password;
+        console.log(JSON.parse(email));
+        console.log(JSON.parse(password));
 
         if (!email || !password) {
             return res.status(400).json({ message: 'Email und Passwort sind erforderlich' });
@@ -13,6 +16,7 @@ router.post('/', async (req, res) => {
             email,
             password
         });
+
         await newUser.save();
         res.status(201).json({ message: 'Benutzer erfolgreich erstellt' });
     } catch (err) {
