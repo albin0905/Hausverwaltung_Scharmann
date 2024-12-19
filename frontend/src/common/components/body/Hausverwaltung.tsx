@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {useLanguage} from "../../../context/LanguageContext";
 
 const houses = [
     {
@@ -115,14 +116,16 @@ const houses = [
 ];
 
 function Hausverwaltung() {
+    const language = useLanguage();
+
     return (
         <div className="d-flex justify-space-between marginHausAnzeige">
             <div className="card dashboard">
-                <h2>Dashboard</h2>
-                <button><Link to="/">Mainpage</Link></button><br/>
-                <button><Link to="/Buchhaltung">Buchhaltung</Link></button><br/>
-                <button><Link to="/Kalender">Kalender</Link></button><br/>
-                <button><Link to="/Rechte">Rechte</Link></button>
+                <h2>{language.texts.dashboard}</h2>
+                <button><Link to="/">{language.texts.mainpage}</Link></button><br/>
+                <button><Link to="/Buchhaltung">{language.texts.accounting}</Link></button><br/>
+                <button><Link to="/Kalender">{language.texts.calendar}</Link></button><br/>
+                <button><Link to="/Rechte">{language.texts.rights}</Link></button>
             </div>
             <div className="hausAdminAnzeige">
                 {houses.map((house) => (
