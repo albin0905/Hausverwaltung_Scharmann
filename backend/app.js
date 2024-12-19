@@ -6,7 +6,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
-var buildingsRouter = require('./routes/login');
+var buildingsRouter = require('./routes/buildings');
 
 const { initMongoConnect } = require('./db/login');
 

@@ -58,4 +58,26 @@ router.get('/properties', async (req, res) => {
     }
 });
 
+router.get('/allBuildings', async (req, res) => {
+    try {
+        // Abruf aller Wohnungen (Flats)
+        const flats = await Flat.find();
+
+        // Abruf aller Häuser (Houses)
+        const houses = await House.find();
+
+        // Kombiniere beide Ergebnisse in einer Liste
+        const buildings = {
+            flats: flats,   // Wohnungen
+            houses: houses  // Häuser
+        };
+
+        // Rückgabe der kombinierten Daten
+        res.json(buildings);
+    } catch (error) {
+        console.error('Fehler beim Abrufen der Gebäude:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 module.exports = router;
