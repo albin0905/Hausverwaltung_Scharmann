@@ -1,75 +1,60 @@
+// @ts-ignore
 const express = require('express');
+const { Flat, BuildingDb, House, Room } = require("../db/Building.db");
+
 const router = express.Router();
-const Building = require('../db/building');
 
-router.get('/', async (req, res) => {
+router.post('/flats', async (req, res) => {
     try {
-        const buildings = await Building.find({}, 'name flats houses');
-
-        const buildingDetails = buildings.map(building => ({
-            buildingId: building._id,
-            name: building.name,
-            flats: building.flats.map(flat => ({
-                flatId: flat._id,
-                name: flat.name
-            })),
-            houses: building.houses.map(house => ({
-                houseId: house._id,
-                name: house.name
-            }))
-        }));
-
-        res.json(buildingDetails);
-    } catch (err) {
-        console.error('Fehler beim Abrufen der Gebäudeinformationen:', err);
-        res.status(500).json({ message: 'Interner Serverfehler' });
+        const flat = new Flat(req.body);
+        const savedFlat = await flat.save();
+        res.status(201).json(savedFlat);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
     }
 });
 
-router.post('/', async (req, res) => {
+router.get('/flats', async (req, res) => {
     try {
-        const { name, flats, houses } = req.body;
-
-        const newBuilding = new Building({
-            name,
-            flats: flats.map(flat => ({
-                ...flat
-            })),
-            houses: houses.map(house => ({
-                ...house
-            }))
-        });
-
-        await newBuilding.save();
-
-        res.status(201).json({
-            message: 'Gebäude erfolgreich hinzugefügt',
-            buildingId: newBuilding._id
-        });
-    } catch (err) {
-        console.error('Fehler beim Hinzufügen des Gebäudes:', err);
-        res.status(500).json({ message: 'Interner Serverfehler', error: err.message });
+        const flats = await Flat.find();
+        res.json(flats);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
 
-// Route: Details eines spezifischen Gebäudes abrufen
-router.get('/:buildingId', async (req, res) => {
+router.post('/houses', async (req, res) => {
     try {
-        const building = await Building.findById(req.params.buildingId);
+        const house = new House(req.body);
+        const savedHouse = await house.save();
+        res.status(201).json(savedHouse);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
 
-        if (!building) {
-            return res.status(404).json({ message: 'Gebäude nicht gefunden' });
-        }
+router.get('/houses', async (req, res) => {
+    try {
+        const houses = await House.find();
+        res.json(houses);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
-        res.json({
-            buildingId: building._id,
-            name: building.name,
-            flats: building.flats,
-            houses: building.houses
-        });
-    } catch (err) {
-        console.error('Fehler beim Abrufen des Gebäudes:', err);
-        res.status(500).json({ message: 'Interner Serverfehler' });
+router.get('/properties', async (req, res) => {
+    try {
+        const flats = await Flat.find({}, 'name'); // Only the 'name' field is returned
+        const houses = await House.find({}, 'name');
+
+        // Combine the names of flats and houses
+        const propertyNames = {
+            flats: flats.map((flat) => flat.name),
+            houses: houses.map((house) => house.name),
+        };
+        res.json(propertyNames);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
 
