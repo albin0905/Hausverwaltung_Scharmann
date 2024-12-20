@@ -1,11 +1,7 @@
-import {IRoom} from "./IRoom";
+import {IFlat} from "./IFlat";
 
-export interface IHouse{
-    id:number,
-    name:string,
-    floor: number,
-    numberOfRooms: number,
-    certainRoom: IRoom[]
-    garden: boolean,
-    garage: boolean
+export interface IHouse {
+    id:number
+    name: string;
+    flats: IFlat[];
 }

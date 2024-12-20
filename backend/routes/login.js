@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
-        const users = await Login.find();  // Ensure that 'Login' model is correctly used
+        const users = await Login.find();
         res.json(users);
     } catch (err) {
         console.error('Fehler beim Abrufen der Benutzer:', err);

@@ -13,7 +13,6 @@ const initMongoConnect = async () => {
 };
 
 const LoginSchema = new mongoose.Schema({
-    id: { type: Number, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true }
 }, { collection: 'login' }); // Explizit den Sammlungsnamen angeben

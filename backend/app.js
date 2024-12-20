@@ -6,7 +6,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
-var buildingsRouter = require('./routes/buildings');
+var flatsRouter = require('./routes/flats');
+var houseRouter = require('./routes/house');
 
 const { initMongoConnect } = require('./db/login');
 
@@ -21,7 +22,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
-app.use('/buildings', buildingsRouter);
+app.use('/flats', flatsRouter);
+app.use('/houses',houseRouter);
 
 initMongoConnect()
     .then(() => console.log('Erfolgreich mit der Datenbank verbunden'))
