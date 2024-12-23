@@ -1,27 +1,23 @@
 import React, { useState } from 'react';
 
 function Login() {
-    // State für E-Mail, Passwort und Fehlernachricht
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-    // Handler für das Absenden des Login-Formulars
     const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault(); // Verhindere das Standardverhalten des Formulars (Seitenneuladen)
+        event.preventDefault();
 
-        // Sicherstellen, dass sowohl E-Mail als auch Passwort vorhanden sind
         if (!email || !password) {
             setError('Bitte geben Sie sowohl E-Mail als auch Passwort ein');
             return;
         }
 
         try {
-            // POST-Anfrage an den Server senden
             const response = await fetch('http://localhost:3000/login', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json', // JSON-Format
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     email,
@@ -29,14 +25,13 @@ function Login() {
                 }),
             });
 
-            // Überprüfen, ob die Antwort OK ist
             if (!response.ok) {
                 throw new Error('Fehler beim Login, bitte versuchen Sie es später erneut.');
             }
 
             const data = await response.json();
-            console.log(data);  // Hier kannst du etwas mit den zurückgegebenen Daten machen
-            alert('Login erfolgreich!');  // Erfolgsmeldung anzeigen
+            console.log(data);
+            alert('Login erfolgreich!');
         } catch (error) {
             console.error('Fehler:', error);
         }

@@ -112,11 +112,27 @@ header{
   position: fixed;
   padding: 1%;
   border: solid 1px black;
+  width:14%;
 }
 
 .hausAdminAnzeige{
   padding: 1%;
   overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  width:96%;
+  justify-content: center;
+  background-color: #f8f9fa;
+  font-family: Arial, sans-serif;
+}
+
+.haus{
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  width: 48%;
+  padding: 15px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 footer .social-links svg {

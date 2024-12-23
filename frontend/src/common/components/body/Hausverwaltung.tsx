@@ -1,139 +1,70 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {useLanguage} from "../../../context/LanguageContext";
+import axios from "axios";
 
-const houses = [
-    {
-        img: "../../../27.png",
-        name: "Haus Nr 27",
-        flats: [
-            {
-                name: "Wohnung 1",
-                floor: "2 / 3",
-                numberOfRooms: 17,
-                certainRooms: [
-                    "Badezimmer 1",
-                    "Badezimmer 2",
-                    "Toilette 1",
-                    "Toilette 2",
-                    "Küche",
-                    "Balkon 1",
-                    "Balkon 2",
-                    "Schlafzimmer 1",
-                    "Schlafzimmer 2",
-                    "Lagerraum 1",
-                    "Lagerraume 2",
-                ],
-                rent: false,
-            },
-            {
-                name: "Wohnung 2",
-                floor: "2",
-                numberOfRooms: 4,
-                certainRooms: ["Badezimmer", "Toilette", "Küche", "Balkon", "Schlafzimmer"],
-                rent: true,
-            },
-            {
-                name: "Wohnung 3",
-                floor: "1",
-                numberOfRooms: 5,
-                certainRooms: ["Badezimmer", "Toilette", "Küche", "Schlafzimmer", "Lagerraum"],
-                rent: true,
-            },
-            {
-                name: "Wohnung 4",
-                floor: "1 / 2",
-                numberOfRooms: 8,
-                certainRooms: [
-                    "Badezimmer",
-                    "Toilette",
-                    "Küche",
-                    "Schlafzimmer 1",
-                    "Schlafzimmer 2",
-                    "Schlafzimmer 3",
-                    "Lagerraum",
-                    "Balkon",
-                ],
-                rent: true,
-            },
-            {
-                name: "Wohnung 5",
-                floor: "1",
-                numberOfRooms: 10,
-                certainRooms: [
-                    "1 Badezimmer",
-                    "1 Toilette/n",
-                    "1 Küche",
-                    "1 Schlafzimmer",
-                    "1 Lagerräume",
-                ],
-                rent: false,
-            },
-            {
-                name: "Wohnung 6",
-                floor: "2",
-                numberOfRooms: 7,
-                certainRooms: [
-                    "1 Badezimmer",
-                    "1 Toilette",
-                    "1 Küche",
-                    "1 Schlafzimmer",
-                    "1 Lagerräume",
-                    "1 Balkon",
-                ],
-                rent: true,
-            },
-        ],
-    },
-    {
-        img: "../../../27.png",
-        name: "Haus Nr 74",
-        flats: [
-            {
-                name: "Wohnung 1",
-                floor: "3",
-                numberOfRooms: 6,
-                certainRooms: ["Badezimmer", "Toilette", "Küche", "Balkon", "Schlafzimmer"],
-                rent: true,
-            },
-            {
-                name: "Wohnung 2",
-                floor: "2",
-                numberOfRooms: 4,
-                certainRooms: ["Toilette", "Arbeitsraum", "Küche", "Lagerraum"],
-                rent: false,
-            },
-            {
-                name: "Wohnung 3",
-                floor: "1",
-                numberOfRooms: 3,
-                certainRooms: ["Toilette", "Büro"],
-                rent: true,
-            },
-        ],
-    },
-];
+export interface IHouse {
+    id: number
+    name: string;
+    flats: IFlat[];
+}
+
+export interface IFlat {
+    id: number;
+    name: string;
+    floor: number | string;
+    numberOfRooms: number;
+    certainRooms: {
+        bathroom: number;
+        toilets: number;
+        kitchen: number;
+        bedroom: number;
+        balconies?: number;
+        storageRooms?: number;
+        other?: { [key: string]: number };
+    };
+    rentable: boolean;
+}
 
 function Hausverwaltung() {
+    const [houses, setHouses] = useState<IHouse[]>([]);
     const language = useLanguage();
+
+    useEffect(() => {
+        const fetchHouses = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/houses');
+                setHouses(response.data);
+            } catch (err) {
+                console.error('Fehler beim Abrufen der Häuser:', err);
+            }
+        };
+
+        console.log(houses)
+
+        fetchHouses();
+    }, []);
 
     return (
         <div className="d-flex justify-space-between marginHausAnzeige">
             <div className="card dashboard">
                 <h2>{language.texts.dashboard}</h2>
-                <button><Link to="/">{language.texts.mainpage}</Link></button><br/>
-                <button><Link to="/Buchhaltung">{language.texts.accounting}</Link></button><br/>
-                <button><Link to="/Kalender">{language.texts.calendar}</Link></button><br/>
+                <button><Link to="/">{language.texts.mainpage}</Link></button>
+                <br/>
+                <button><Link to="/Buchhaltung">{language.texts.accounting}</Link></button>
+                <br/>
+                <button><Link to="/Kalender">{language.texts.calendar}</Link></button>
+                <br/>
                 <button><Link to="/Rechte">{language.texts.rights}</Link></button>
             </div>
             <div className="hausAdminAnzeige">
                 {houses.map((house) => (
-                    <div key={house.name} className="col-md-6 mb-4">
+                    <div key={house.name} className="col-md-6 mb-4 haus">
                         <div className="card shadow-sm">
                             <div className="card-body">
                                 <h2 className="card-title">{house.name}</h2>
-                                <img src={house.img} alt="Bild vom Haus"/>
+                                <img src="" alt="Bild vom Haus"/>
                                 {house.flats.map((flat, index) => (
                                     <div key={index} className="mt-3">
                                         <h4 className="card-subtitle mb-2">{flat.name}</h4>
@@ -143,11 +74,17 @@ function Hausverwaltung() {
                                         <p className="card-text">
                                             <strong>Zimmeranzahl:</strong> {flat.numberOfRooms}
                                         </p>
+                                        <ul>
+                                            <li><strong>Badezimmer: {flat.certainRooms.bathroom}</strong></li>
+                                            <li><strong>Toiletten: {flat.certainRooms.toilets}</strong></li>
+                                            <li><strong>Küche: {flat.certainRooms.kitchen}</strong></li>
+                                            <li><strong>Balkone: {flat.certainRooms.balconies}</strong></li>
+                                            <li><strong>Schlafzimmer: {flat.certainRooms.bedroom}</strong></li>
+                                            <li><strong>Lagerräume: {flat.certainRooms.storageRooms}</strong></li>
+                                        </ul>
+
                                         <p className="card-text">
-                                            <strong>Räume:</strong> {flat.certainRooms.join(', ')}
-                                        </p>
-                                        <p className="card-text">
-                                            <strong>Zu vermieten:</strong> {flat.rent ? 'Ja' : 'Nein'}
+                                            <strong>Zu vermieten:</strong> {flat.rentable ? 'Ja' : 'Nein'}
                                         </p>
                                     </div>
                                 ))}
@@ -161,3 +98,7 @@ function Hausverwaltung() {
 }
 
 export default Hausverwaltung;
+
+/*<p className="card-text">
+    <strong>Räume:</strong> {flat.certainRooms}
+</p>*/
