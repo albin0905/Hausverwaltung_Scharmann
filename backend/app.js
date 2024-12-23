@@ -13,6 +13,14 @@ const { initMongoConnect } = require('./db/login');
 
 var app = express();
 
+const cors = require('cors');
+
+app.use(cors({
+    origin: '*', // Erlaubt alle Urspr�nge
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
