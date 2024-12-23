@@ -49,15 +49,14 @@ function EditHouseForm({ house, onSave, onCancel }: EditHouseFormProps) {
             });
 
             if (response.ok) {
-                const updatedHouse = await response.json();
-                onSave(house.id, { name, flats }); // Callback, um das Haus im Zustand zu aktualisieren
+                onSave(house.id, { name, flats });
             } else {
                 const errorData = await response.json();
                 alert(`Fehler: ${errorData.message || "Unbekannter Fehler"}`);
             }
         } catch (error) {
             console.error("Fehler beim Aktualisieren des Hauses:", error);
-            alert("Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.");
+
         }
     };
 
@@ -65,12 +64,7 @@ function EditHouseForm({ house, onSave, onCancel }: EditHouseFormProps) {
         <form onSubmit={handleSubmit}>
             <div>
                 <label htmlFor="name">Hausname:</label>
-                <input
-                    id="name"
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
+                <input id="name" type="text" value={name} onChange={(e) => setName(e.target.value)}/>
             </div>
 
             <div>
@@ -79,76 +73,31 @@ function EditHouseForm({ house, onSave, onCancel }: EditHouseFormProps) {
                     <div key={index} className="flat">
                         <h3>Wohnung {index + 1}</h3>
                         <label htmlFor={`flat-name-${index}`}>Name:</label>
-                        <input
-                            id={`flat-name-${index}`}
-                            type="text"
-                            value={flat.name}
-                            onChange={(e) => handleFlatChange(index, "name", e.target.value)}
-                        />
-
+                        <input id={`flat-name-${index}`} type="text" value={flat.name} onChange={(e) => handleFlatChange(index, "name", e.target.value)}/>
+                        <br/>
                         <label htmlFor={`flat-floor-${index}`}>Etage:</label>
-                        <input
-                            id={`flat-floor-${index}`}
-                            type="text"
-                            value={flat.floor}
-                            onChange={(e) => handleFlatChange(index, "floor", e.target.value)}
-                        />
-
+                        <input id={`flat-floor-${index}`} type="text" value={flat.floor} onChange={(e) => handleFlatChange(index, "floor", e.target.value)}/>
+                        <br/>
                         <label htmlFor={`flat-rooms-${index}`}>Zimmeranzahl:</label>
-                        <input
-                            id={`flat-rooms-${index}`}
-                            type="number"
-                            value={flat.numberOfRooms}
-                            onChange={(e) => handleFlatChange(index, "numberOfRooms", parseInt(e.target.value))}
-                        />
-
+                        <input id={`flat-rooms-${index}`} type="number" value={flat.numberOfRooms} onChange={(e) => handleFlatChange(index, "numberOfRooms", parseInt(e.target.value))}/>
+                        <br/>
                         <label htmlFor={`flat-bathroom-${index}`}>Badezimmer:</label>
-                        <input
-                            id={`flat-bathroom-${index}`}
-                            type="number"
-                            value={flat.certainRooms.bathroom}
-                            onChange={(e) => handleFlatChange(index, "certainRooms.bathroom", parseInt(e.target.value))}
-                        />
-
+                        <input id={`flat-bathroom-${index}`} type="number" value={flat.certainRooms.bathroom} onChange={(e) => handleFlatChange(index, "certainRooms.bathroom", parseInt(e.target.value))}/>
+                        <br/>
                         <label htmlFor={`flat-toilets-${index}`}>Toiletten:</label>
-                        <input
-                            id={`flat-toilets-${index}`}
-                            type="number"
-                            value={flat.certainRooms.toilets}
-                            onChange={(e) => handleFlatChange(index, "certainRooms.toilets", parseInt(e.target.value))}
-                        />
-
+                        <input id={`flat-toilets-${index}`} type="number" value={flat.certainRooms.toilets} onChange={(e) => handleFlatChange(index, "certainRooms.toilets", parseInt(e.target.value))}/>
+                        <br/>
                         <label htmlFor={`flat-kitchen-${index}`}>Küche:</label>
-                        <input
-                            id={`flat-kitchen-${index}`}
-                            type="number"
-                            value={flat.certainRooms.kitchen}
-                            onChange={(e) => handleFlatChange(index, "certainRooms.kitchen", parseInt(e.target.value))}
-                        />
-
+                        <input id={`flat-kitchen-${index}`} type="number" value={flat.certainRooms.kitchen} onChange={(e) => handleFlatChange(index, "certainRooms.kitchen", parseInt(e.target.value))}/>
+                        <br/>
                         <label htmlFor={`flat-balconies-${index}`}>Balkone:</label>
-                        <input
-                            id={`flat-balconies-${index}`}
-                            type="number"
-                            value={flat.certainRooms.balconies}
-                            onChange={(e) => handleFlatChange(index, "certainRooms.balconies", parseInt(e.target.value))}
-                        />
-
+                        <input id={`flat-balconies-${index}`} type="number" value={flat.certainRooms.balconies} onChange={(e) => handleFlatChange(index, "certainRooms.balconies", parseInt(e.target.value))}/>
+                        <br/>
                         <label htmlFor={`flat-bedroom-${index}`}>Schlafzimmer:</label>
-                        <input
-                            id={`flat-bedroom-${index}`}
-                            type="number"
-                            value={flat.certainRooms.bedroom}
-                            onChange={(e) => handleFlatChange(index, "certainRooms.bedroom", parseInt(e.target.value))}
-                        />
-
+                        <input id={`flat-bedroom-${index}`} type="number" value={flat.certainRooms.bedroom} onChange={(e) => handleFlatChange(index, "certainRooms.bedroom", parseInt(e.target.value))}/>
+                        <br/>
                         <label htmlFor={`flat-storageRooms-${index}`}>Lagerräume:</label>
-                        <input
-                            id={`flat-storageRooms-${index}`}
-                            type="number"
-                            value={flat.certainRooms.storageRooms}
-                            onChange={(e) => handleFlatChange(index, "certainRooms.storageRooms", parseInt(e.target.value))}
-                        />
+                        <input id={`flat-storageRooms-${index}`} type="number" value={flat.certainRooms.storageRooms} onChange={(e) => handleFlatChange(index, "certainRooms.storageRooms", parseInt(e.target.value))}/>
                     </div>
                 ))}
             </div>

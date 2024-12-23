@@ -70,7 +70,6 @@ function Hausverwaltung() {
             }
         } catch (error) {
             console.error("Fehler beim Löschen des Hauses:", error);
-            alert("Es ist ein Netzwerkfehler aufgetreten. Bitte versuchen Sie es später erneut.");
         }
     }
 
@@ -121,9 +120,9 @@ function Hausverwaltung() {
             <div className="hausAdminAnzeige">
                 {editingHouseId ? (
                     <EditHouseForm
-                        house={houses.find((house) => house.id === editingHouseId)!} // Finde das Haus, das bearbeitet wird
+                        house={houses.find((house) => house.id === editingHouseId)!}
                         onSave={handleSave}
-                        onCancel={() => setEditingHouseId(null)} // Abbrechen-Button, um zurück zur Hausliste zu gehen
+                        onCancel={() => setEditingHouseId(null)}
                     />
                 ) : (
                     houses.map((house) => (
@@ -131,7 +130,6 @@ function Hausverwaltung() {
                             <div className="card shadow-sm">
                                 <div className="card-body">
                                     <h2 className="card-title">{house.name}</h2>
-                                    <img src="" alt="Bild vom Haus" />
                                     {house.flats.map((flat, index) => (
                                         <div key={index} className="mt-3">
                                             <h4 className="card-subtitle mb-2">{flat.name}</h4>
