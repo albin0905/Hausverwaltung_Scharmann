@@ -4,6 +4,7 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -15,24 +16,33 @@ function Login() {
 
         try {
             const response = await fetch('http://localhost:3000/login', {
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    email,
-                    password,
-                }),
             });
 
             if (!response.ok) {
-                throw new Error('Fehler beim Login, bitte versuchen Sie es später erneut.');
+                throw new Error('Fehler beim Abrufen der Benutzerdaten.');
             }
 
-            const data = await response.json();
-            console.log(data);
-            alert('Login erfolgreich!');
-        } catch (error) {
+            const users = await response.json();
+
+            const user = users.find((u: { email: string; password: string }) =>
+                u.email === email && u.password === password
+            );
+
+            if (user) {
+                setSuccess('Login erfolgreich!');
+                setError('');
+                console.log('Eingeloggter Benutzer:', user);
+            } else {
+                setSuccess('');
+                setError('Ungültige E-Mail oder Passwort');
+            }
+        } catch (error: any) {
+            setSuccess('');
+            setError(error.message || 'Ein Fehler ist aufgetreten.');
             console.error('Fehler:', error);
         }
     };
@@ -48,7 +58,7 @@ function Login() {
                         id="email"
                         name="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)} // State aktualisieren
+                        onChange={(e) => setEmail(e.target.value)}
                         required
                     />
                 </div>
@@ -59,11 +69,12 @@ function Login() {
                         id="password"
                         name="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)} // State aktualisieren
+                        onChange={(e) => setPassword(e.target.value)}
                         required
                     />
                 </div>
-                {error && <p className="error-message">{error}</p>}  {/* Fehlernachricht anzeigen, wenn vorhanden */}
+                {error && <p className="error-message">{error}</p>}
+                {success && <p className="success-message">{success}</p>}
                 <button type="submit" className="login-button">Login</button>
             </form>
         </div>
