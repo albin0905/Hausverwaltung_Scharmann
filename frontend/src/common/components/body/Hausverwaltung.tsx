@@ -141,10 +141,7 @@ function Hausverwaltung() {
                 {editingHouseId ? (
                     <EditHouseForm
                         house={houses.find((house) => house.id === editingHouseId)!}
-                        onSave={(houseId, updatedData) => {
-                            updateHouse(houseId, { ...updatedData, id: houseId });
-                            setEditingHouseId(null);
-                        }}
+                        onSave={handleSave}
                         onCancel={() => setEditingHouseId(null)}
                     />
                 ) : (
@@ -162,6 +159,17 @@ function Hausverwaltung() {
                                             <p className="card-text">
                                                 <strong>Zimmeranzahl:</strong> {flat.numberOfRooms}
                                             </p>
+                                            <ul>
+                                                <li><strong>Badezimmer: {flat.certainRooms.bathroom}</strong></li>
+                                                <li><strong>Toiletten: {flat.certainRooms.toilets}</strong></li>
+                                                <li><strong>Küche: {flat.certainRooms.kitchen}</strong></li>
+                                                <li><strong>Balkone: {flat.certainRooms.balconies}</strong></li>
+                                                <li><strong>Schlafzimmer: {flat.certainRooms.bedroom}</strong></li>
+                                                <li><strong>Lagerräume: {flat.certainRooms.storageRooms}</strong></li>
+                                            </ul>
+                                            <p className="card-text">
+                                                <strong>Zu vermieten:</strong> {flat.rentable ? 'Ja' : 'Nein'}
+                                            </p>
                                         </div>
                                     ))}
                                     <button onClick={() => deleteHouse(house.id)}>Löschen</button>
@@ -176,21 +184,13 @@ function Hausverwaltung() {
                         <h3>Neues Haus hinzufügen</h3>
                         <div>
                             <label>ID:</label>
-                            <input
-                                type="number"
-                                value={newHouse.id}
-                                onChange={(e) => setNewHouse({ ...newHouse, id: Number(e.target.value) })}
-                                required
-                            />
+                            <input type="number" value={newHouse.id}
+                                   onChange={(e) => setNewHouse({...newHouse, id: Number(e.target.value)})} required/>
                         </div>
                         <div>
                             <label>Name:</label>
-                            <input
-                                type="text"
-                                value={newHouse.name}
-                                onChange={(e) => setNewHouse({ ...newHouse, name: e.target.value })}
-                                required
-                            />
+                            <input type="text" value={newHouse.name}
+                                   onChange={(e) => setNewHouse({...newHouse, name: e.target.value })} required/>
                         </div>
                         <button type="submit">Hinzufügen</button>
                         <button type="button" onClick={() => setIsAddingHouse(false)}>Abbrechen</button>
