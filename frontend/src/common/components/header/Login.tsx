@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import {useAuth} from "../../../context/AuthContext";
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const auth = useAuth();
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -35,6 +37,7 @@ function Login() {
             if (user) {
                 setSuccess('Login erfolgreich!');
                 setError('');
+                auth.login();
                 console.log('Eingeloggter Benutzer:', user);
             } else {
                 setSuccess('');
@@ -53,25 +56,11 @@ function Login() {
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="email">E-Mail: </label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
+                    <input type="email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
                 </div>
                 <div className="form-group">
                     <label htmlFor="password">Passwort: </label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
+                    <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
                 </div>
                 {error && <p className="error-message">{error}</p>}
                 {success && <p className="success-message">{success}</p>}

@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaCog, FaUserCircle } from 'react-icons/fa';
 import logo from '../../../assets/logo.png';
-import {useLanguage} from "../../../context/LanguageContext";
+import { useLanguage } from "../../../context/LanguageContext";
+import { useAuth } from "../../../context/AuthContext";
 
 const Header: React.FC = () => {
     const language = useLanguage();
+    const auth = useAuth();
 
-    const handleChange = (event:any) => {
-        console.log(event.target.value)
+    const handleChange = (event: any) => {
+        console.log(event.target.value);
         language.setLanguage(event.target.value);
     };
 
@@ -19,25 +21,19 @@ const Header: React.FC = () => {
                     <img src={logo} alt="Hausverwaltung Scharmann Logo" />
                 </Link>
             </div>
+            {auth.isAuthenticated && (
+                <nav>
+                    <Link to="/Hausverwaltung">{language.texts.hausverwaltung}</Link>
+                </nav>
+            )}
             <nav>
-                <Link to="/Hausverwaltung">{language.texts.hausverwaltung}</Link>
-            </nav>
-            <nav>
-                <Link to="/settings"><FaCog/> {language.texts.settings}</Link>
-                <select
-                    id="language-dropdown"
-                    value={language.language}
-                    onChange={handleChange}
-                    style={{
-                        padding: "5px",
-                        fontSize: "16px",
-                    }}
-                >
+                <Link to="/settings"><FaCog /> {language.texts.settings}</Link>
+                <select id="language-dropdown" value={language.language} onChange={handleChange} style={{padding: "5px", fontSize: "16px",}}>
                     <option value="de">{language.texts.german}</option>
                     <option value="en">{language.texts.english}</option>
                     <option value="al">{language.texts.albanian}</option>
                 </select>
-                <Link to="/login"><FaUserCircle/> {language.texts.login}</Link>
+                <Link to="/login"><FaUserCircle /> {language.texts.login}</Link>
                 <Link to={"/GoogleMaps"}>Google Maps</Link>
             </nav>
         </header>
