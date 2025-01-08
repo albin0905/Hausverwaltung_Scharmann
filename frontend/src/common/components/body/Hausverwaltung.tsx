@@ -31,6 +31,8 @@ export interface IFlat {
 function Hausverwaltung() {
     const [houses, setHouses] = useState<IHouse[]>([]);
     const [editingHouseId, setEditingHouseId] = useState<number | null>(null);
+    const [isAddingHouse, setIsAddingHouse] = useState(false);
+    const [newHouse, setNewHouse] = useState<IHouse>({ id: 0, name: '', flats: [] });
     const language = useLanguage();
 
     useEffect(() => {
@@ -92,7 +94,7 @@ function Hausverwaltung() {
                 return data.house;
             } else {
                 const errorData = await response.json();
-                alert(`Fehler: ${errorData.message || "Unbekannter Fehler"}`);
+                alert(`Fehler: ${errorData.message}`);
             }
         } catch (error) {
             console.error("Fehler beim Aktualisieren des Hauses:", error);
@@ -103,6 +105,24 @@ function Hausverwaltung() {
     const handleSave = (houseId: number, updatedData: { name: string; flats: IFlat[] }) => {
         updateHouse(houseId, { ...updatedData, id: houseId });
         setEditingHouseId(null);
+    };
+
+    async function addHouse() {
+        try {
+            const response = await axios.post('http://localhost:3000/houses', newHouse);
+            setHouses([...houses, response.data.house]);
+            alert('Haus erfolgreich hinzugefügt');
+            setIsAddingHouse(false);
+            setNewHouse({ id: 0, name: '', flats: [] }); // Zurücksetzen
+        } catch (err: any) {
+            console.error('Fehler beim Hinzufügen des Hauses:', err);
+            alert(err.response?.data?.message || 'Ein Fehler ist aufgetreten');
+        }
+    }
+
+    const handleAddHouseSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        addHouse();
     };
 
     return (
@@ -147,7 +167,6 @@ function Hausverwaltung() {
                                                 <li><strong>Schlafzimmer: {flat.certainRooms.bedroom}</strong></li>
                                                 <li><strong>Lagerräume: {flat.certainRooms.storageRooms}</strong></li>
                                             </ul>
-
                                             <p className="card-text">
                                                 <strong>Zu vermieten:</strong> {flat.rentable ? 'Ja' : 'Nein'}
                                             </p>
@@ -159,6 +178,25 @@ function Hausverwaltung() {
                             </div>
                         </div>
                     ))
+                )}
+                {isAddingHouse ? (
+                    <form onSubmit={handleAddHouseSubmit} className="add-house-form">
+                        <h3>Neues Haus hinzufügen</h3>
+                        <div>
+                            <label>ID:</label>
+                            <input type="number" value={newHouse.id}
+                                   onChange={(e) => setNewHouse({...newHouse, id: Number(e.target.value)})} required/>
+                        </div>
+                        <div>
+                            <label>Name:</label>
+                            <input type="text" value={newHouse.name}
+                                   onChange={(e) => setNewHouse({...newHouse, name: e.target.value })} required/>
+                        </div>
+                        <button type="submit">Hinzufügen</button>
+                        <button type="button" onClick={() => setIsAddingHouse(false)}>Abbrechen</button>
+                    </form>
+                ) : (
+                    <button onClick={() => setIsAddingHouse(true)}>Neues Haus hinzufügen</button>
                 )}
             </div>
         </div>
