@@ -32,7 +32,7 @@ function Hausverwaltung() {
     const [houses, setHouses] = useState<IHouse[]>([]);
     const [editingHouseId, setEditingHouseId] = useState<number | null>(null);
     const [isAddingHouse, setIsAddingHouse] = useState(false);
-    const [newHouse, setNewHouse] = useState<IHouse>({ id: 0, name: '', flats: [] });
+    const [newHouse, setNewHouse] = useState<Omit<IHouse, 'id'>>({ name: '', flats: [] }); // Keine ID
     const language = useLanguage();
 
     useEffect(() => {
@@ -109,11 +109,12 @@ function Hausverwaltung() {
 
     async function addHouse() {
         try {
-            const response = await axios.post('http://localhost:3000/houses', newHouse);
-            setHouses([...houses, response.data.house]);
+            const response = await axios.post('http://localhost:3000/houses', newHouse); // Ohne ID senden
+            const addedHouse = response.data.house;
+            setHouses((prevHouses) => [...prevHouses, addedHouse]);
             alert('Haus erfolgreich hinzugefügt');
             setIsAddingHouse(false);
-            setNewHouse({ id: 0, name: '', flats: [] }); // Zurücksetzen
+            setNewHouse({ name: '', flats: [] });
         } catch (err: any) {
             console.error('Fehler beim Hinzufügen des Hauses:', err);
             alert(err.response?.data?.message || 'Ein Fehler ist aufgetreten');
@@ -183,14 +184,9 @@ function Hausverwaltung() {
                     <form onSubmit={handleAddHouseSubmit} className="add-house-form">
                         <h3>Neues Haus hinzufügen</h3>
                         <div>
-                            <label>ID:</label>
-                            <input type="number" value={newHouse.id}
-                                   onChange={(e) => setNewHouse({...newHouse, id: Number(e.target.value)})} required/>
-                        </div>
-                        <div>
                             <label>Name:</label>
                             <input type="text" value={newHouse.name}
-                                   onChange={(e) => setNewHouse({...newHouse, name: e.target.value })} required/>
+                                   onChange={(e) => setNewHouse({ ...newHouse, name: e.target.value })} required />
                         </div>
                         <button type="submit">Hinzufügen</button>
                         <button type="button" onClick={() => setIsAddingHouse(false)}>Abbrechen</button>
