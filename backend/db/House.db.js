@@ -12,7 +12,7 @@ const FlatSchema = new mongoose.Schema({
         bedroom: { type: Number, required: true },
         balconies: { type: Number, default: 0 },
         storageRooms: { type: Number, default: 0 },
-        other: { type: Map, of: Number }, // Stores custom rooms like "Büro"
+        other: { type: Map, of: Number },
     },
     rentable: { type: Boolean, required: true },
 });

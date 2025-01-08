@@ -2,11 +2,13 @@ const express = require('express');
 const router = express.Router();
 const { House } = require('../db/House.db'); // Pfad ggf. anpassen
 
+//http://localhost:3000/flats/house/1/flats
+//Wohnungen zu dem jeweiligem Haus
 router.get('/house/:id/flats', async (req, res) => {
-    const houseId = req.params.id; // houseId direkt übernehmen
-
+    const houseId = req.params.id;
     try {
-        const house = await House.findOne({ id: houseId }).populate('flats');
+        const house = await House.findOne({ id: Number(houseId) });
+
         if (!house) {
             return res.status(404).json({ message: 'Haus nicht gefunden' });
         }
@@ -18,6 +20,9 @@ router.get('/house/:id/flats', async (req, res) => {
     }
 });
 
+
+//http://localhost:3000/flats/flats
+//alle Wohnungen
 router.get('/flats', async (req, res) => {
     try {
         const houses = await House.find();
@@ -30,30 +35,97 @@ router.get('/flats', async (req, res) => {
     }
 });
 
-router.post('/house', async (req, res) => {
+// http://localhost:3000/flats/house/:id/flats
+// http://localhost:3000/flats/house/:houseId/flats
+router.post('/house/:houseId/flats', async (req, res) => {
+    const { houseId } = req.params;
+    const { name, floor, numberOfRooms, certainRooms, rentable } = req.body;
+
     try {
-        const { id, name, flats } = req.body;
-
-        if (!id || !name) {
-            return res.status(400).json({ message: 'ID und Name sind erforderlich' });
+        const house = await House.findOne({ id: houseId });
+        if (!house) {
+            return res.status(404).json({ message: 'Haus nicht gefunden' });
         }
 
-        const existingHouse = await House.findOne({ id });
-        if (existingHouse) {
-            return res.status(400).json({ message: 'Ein Haus mit dieser ID existiert bereits' });
-        }
+        const maxId = house.flats.reduce((max, flat) => Math.max(max, Number(flat.id)), 0);
+        const newId = maxId + 1;
 
-        const newHouse = new House({
-            id,
+        const newFlat = {
+            id: newId.toString(),
             name,
-            flats: flats || []
-        });
+            floor,
+            numberOfRooms,
+            certainRooms,
+            rentable
+        };
 
-        await newHouse.save();
+        house.flats.push(newFlat);
+        await house.save();
 
-        res.status(201).json({ message: 'Haus erfolgreich erstellt', house: newHouse });
+        res.status(201).json({ message: 'Wohnung erfolgreich hinzugefügt', flat: newFlat });
     } catch (error) {
-        console.error('Fehler beim Hinzufügen des Hauses:', error);
+        console.error('Fehler beim Hinzufügen der Wohnung:', error);
+        res.status(500).json({ message: 'Interner Serverfehler' });
+    }
+});
+
+
+// PUT: Eine Wohnung in einem Haus bearbeiten
+// http://localhost:3000/flats/house/:houseId/flats/flatId
+router.put('/house/:houseId/flats/:flatId', async (req, res) => {
+    const { houseId, flatId } = req.params;
+    const { name, floor, numberOfRooms, certainRooms, rentable } = req.body;
+
+    try {
+        const house = await House.findOne({ id: houseId });
+        if (!house) {
+            return res.status(404).json({ message: 'Haus nicht gefunden' });
+        }
+
+        const flat = house.flats.find(flat => flat.id === flatId);
+        if (!flat) {
+            return res.status(404).json({ message: 'Wohnung nicht gefunden' });
+        }
+
+        // Aktualisiere die Flat-Daten
+        if (name) flat.name = name;
+        if (floor) flat.floor = floor;
+        if (numberOfRooms) flat.numberOfRooms = numberOfRooms;
+        if (certainRooms) flat.certainRooms = certainRooms;
+        if (rentable !== undefined) flat.rentable = rentable;
+
+        await house.save();
+
+        res.status(200).json({ message: 'Wohnung erfolgreich aktualisiert', flat });
+    } catch (error) {
+        console.error('Fehler beim Aktualisieren der Wohnung:', error);
+        res.status(500).json({ message: 'Interner Serverfehler' });
+    }
+});
+
+// DELETE: Eine Wohnung aus einem Haus löschen
+// http://localhost:3000/flats/house/:houseId/flats/flatId
+router.delete('/house/:houseId/flats/:flatId', async (req, res) => {
+    const { houseId, flatId } = req.params;
+
+    try {
+        const house = await House.findOne({ id: houseId });
+        if (!house) {
+            return res.status(404).json({ message: 'Haus nicht gefunden' });
+        }
+
+        const flatIndex = house.flats.findIndex(flat => flat.id === flatId);
+        if (flatIndex === -1) {
+            return res.status(404).json({ message: 'Wohnung nicht gefunden' });
+        }
+
+        // Wohnung löschen
+        house.flats.splice(flatIndex, 1);
+        await house.save();
+
+        res.status(200).json({ message: 'Wohnung erfolgreich gelöscht' });
+    } catch (error) {
+        console.error('Fehler beim Löschen der Wohnung:', error);
         res.status(500).json({ message: 'Interner Serverfehler' });
     }
 });

@@ -5,21 +5,20 @@ const { House } = require('../db/House.db');
 // http://localhost:3000/houses
 router.post('/', async (req, res) => {
     try {
-        const { id, name, flats } = req.body;
+        const { name, flats } = req.body;
 
-        if (!id || !name) {
-            return res.status(400).json({ message: 'ID und Name sind erforderlich' });
+        if (!name) {
+            return res.status(400).json({ message: 'Name ist erforderlich' });
         }
 
-        const existingHouse = await House.findOne({ id });
-        if (existingHouse) {
-            return res.status(400).json({ message: 'Ein Haus mit dieser ID existiert bereits' });
-        }
+        // Maximal existierende ID ermitteln
+        const maxHouse = await House.findOne().sort({ id: -1 }).exec();
+        const nextId = maxHouse ? maxHouse.id + 1 : 1; // Falls keine Häuser existieren, beginne mit ID 1
 
         const newHouse = new House({
-            id,
+            id: nextId,
             name,
-            flats: flats || []
+            flats: flats || [],
         });
 
         await newHouse.save();
@@ -30,6 +29,30 @@ router.post('/', async (req, res) => {
         res.status(500).json({ message: 'Interner Serverfehler' });
     }
 });
+
+
+// http://localhost:3000/houses/:id
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        // Konvertiere id zu einer Zahl
+        const numericId = parseInt(id, 10);
+
+        const house = await House.findOne({ id: numericId }); // Suche nach der numerischen ID
+
+        if (!house) {
+            return res.status(404).json({ message: 'Haus nicht gefunden' });
+        }
+
+        res.status(200).json(house);
+    } catch (error) {
+        console.error('Fehler beim Abrufen des Hauses:', error);
+        res.status(500).json({ message: 'Interner Serverfehler' });
+    }
+});
+
+
 // http://localhost:3000/houses/:houseId
 router.put('/:houseId', async (req, res) => {
     const { houseId } = req.params;
