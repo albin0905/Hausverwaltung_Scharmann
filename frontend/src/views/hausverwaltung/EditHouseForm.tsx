@@ -11,19 +11,6 @@ interface EditHouseFormProps {
 function EditHouseForm({ house, onSave, onCancel }: EditHouseFormProps) {
     const [name, setName] = useState(house.name || "");
     const [flats, setFlats] = useState<IFlat[]>(house.flats || []);
-    const [newFlat, setNewFlat] = useState<IFlat>({
-        id: 0,
-        name: "",
-        floor: "",
-        numberOfRooms: 0,
-        certainRooms: {
-            bathroom: 0,
-            toilets: 0,
-            kitchen: 0,
-            bedroom: 0,
-        },
-        rentable: false,
-    });
 
     const handleFlatChange = (index: number, field: string, value: any) => {
         setFlats((prevFlats) => {
@@ -31,7 +18,7 @@ function EditHouseForm({ house, onSave, onCancel }: EditHouseFormProps) {
             const flatToUpdate = updatedFlats[index];
 
             if (field.startsWith("certainRooms.")) {
-                const roomField = field.split(".")[1]; // Extrahiere den Namen des verschachtelten Feldes
+                const roomField = field.split(".")[1];
                 updatedFlats[index] = {
                     ...flatToUpdate,
                     certainRooms: {

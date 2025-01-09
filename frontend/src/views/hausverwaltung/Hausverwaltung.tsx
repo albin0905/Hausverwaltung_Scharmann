@@ -118,14 +118,13 @@ function Hausverwaltung() {
             const response = await axios.post(`http://localhost:3000/flats/house/${houseId}/flats`, newFlat);
             const addedFlat = response.data.flat;
 
-            // Aktualisiere die Liste der Häuser mit der neuen Wohnung
             setHouses((prevHouses) =>
                 prevHouses.map((house) =>
                     house.id === houseId ? { ...house, flats: [...house.flats, addedFlat] } : house
                 )
             );
             alert('Wohnung erfolgreich hinzugefügt');
-            setAddingFlatHouseId(null); // Schließe das Formular
+            setAddingFlatHouseId(null);
             setNewFlat({
                 name: '',
                 floor: '',
@@ -145,7 +144,7 @@ function Hausverwaltung() {
     };
 
     return (
-        <div className="d-flex justify-space-between marginHausAnzeige">
+        <div className="d-flex justify-space-between marginHausverwaltungAnzeige">
             <div className="card dashboard">
                 <h2>{language.texts.dashboard}</h2>
                 <button><Link to="/">{language.texts.mainpage}</Link></button>
