@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import {useLanguage} from "../../../context/LanguageContext";
+import {useLanguage} from "../../common/context/LanguageContext";
 
 const Footer: React.FC = () => {
     const language = useLanguage();

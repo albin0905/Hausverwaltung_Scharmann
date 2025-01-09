@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { IFlat, IHouse } from "./Hausverwaltung";
+import {IHouse} from "../../common/models/IHouse.d";
+import {IFlat} from "../../common/models/IFlat.d";
 
 interface EditHouseFormProps {
     house: IHouse;

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaCog, FaUserCircle } from 'react-icons/fa';
-import logo from '../../../assets/logo.png';
-import { useLanguage } from "../../../context/LanguageContext";
-import { useAuth } from "../../../context/AuthContext";
+import logo from '../../assets/logo.png';
+import { useLanguage } from "../../common/context/LanguageContext";
+import { useAuth } from "../../common/context/AuthContext";
 
 const Header: React.FC = () => {
     const language = useLanguage();

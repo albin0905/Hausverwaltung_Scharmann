@@ -1,22 +1,20 @@
 import React from 'react';
 import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Header from "./common/components/header/Header";
-import Footer from "./common/components/Footer/Footer";
-import Body from "./common/components/body/Body";
-import Settings from "./common/components/header/Settings";
-import Login from "./common/components/header/Login";
-import Flats74 from "./common/components/body/Flats74";
-import Flats27 from "./common/components/body/Flats27";
-import Impressum from "./common/components/Footer/Impressum";
+import Header from "./views/layout/Header";
+import Footer from "./views/layout/Footer";
+import Dashboard from "./views/dashboard/Dashboard";
+import Settings from "./views/layout/Settings";
+import Login from "./views/login/Login";
+import Impressum from "./views/layout/Impressum";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import GoogleMapPopup from "./common/components/header/GoogleMapPopup";
-import Hausverwaltung from "./common/components/body/Hausverwaltung";
-import Buchhaltung from "./common/components/body/Buchhaltung";
-import Kalender from "./common/components/body/Kalender";
-import Rechte from "./common/components/body/Rechte";
-import {LanguageProvider} from "./context/LanguageContext";
-import {AuthProvider} from "./context/AuthContext";
+import GoogleMapPopup from "./views/layout/GoogleMapPopup";
+import Hausverwaltung from "./views/hausverwaltung/Hausverwaltung";
+import Buchhaltung from "./views/buchhaltung/Buchhaltung";
+import Kalender from "./views/kalender/Kalender";
+import Rechte from "./views/layout/Rechte";
+import {LanguageProvider} from "./common/context/LanguageContext";
+import {AuthProvider} from "./common/context/AuthContext";
 
 const App: React.FC = () => {
   return (
@@ -25,11 +23,9 @@ const App: React.FC = () => {
               <BrowserRouter>
                   <Header />
                   <Routes>
-                      <Route path="/" element={<Body />} />
+                      <Route path="/" element={<Dashboard />} />
                       <Route path="/settings" element={<Settings />} />
                       <Route path="/login" element={<Login />} />
-                      <Route path="/flats_74" element={<Flats74 />} />
-                      <Route path="/flats_27" element={<Flats27 />} />
                       <Route path="/impressum" element={<Impressum />} />
                       <Route path="/GoogleMaps" element={<GoogleMapPopup />}/>
                       <Route path="/Hausverwaltung" element={<Hausverwaltung/>}/>

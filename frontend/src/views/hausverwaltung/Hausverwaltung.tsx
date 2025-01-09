@@ -1,32 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useLanguage } from "../../../context/LanguageContext";
+import { useLanguage } from "../../common/context/LanguageContext";
 import axios from "axios";
-import EditHouseForm from './EditHouseForm';
-
-export interface IHouse {
-    id: number;
-    name: string;
-    flats: IFlat[];
-}
-
-export interface IFlat {
-    id: number;
-    name: string;
-    floor: number | string;
-    numberOfRooms: number;
-    certainRooms: {
-        bathroom: number;
-        toilets: number;
-        kitchen: number;
-        bedroom: number;
-        balconies?: number;
-        storageRooms?: number;
-        other?: { [key: string]: number };
-    };
-    rentable: boolean;
-}
+import {IHouse} from "../../common/models/IHouse.d";
+import {IFlat} from "../../common/models/IFlat.d";
+import EditHouseForm from "./EditHouseForm";
 
 function Hausverwaltung() {
     const [houses, setHouses] = useState<IHouse[]>([]);
