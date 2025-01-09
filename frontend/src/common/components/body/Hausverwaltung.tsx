@@ -34,6 +34,14 @@ function Hausverwaltung() {
     const [isAddingHouse, setIsAddingHouse] = useState(false);
     const [newHouse, setNewHouse] = useState<Omit<IHouse, 'id'>>({ name: '', flats: [] }); // Keine ID
     const language = useLanguage();
+    const [addingFlatHouseId, setAddingFlatHouseId] = useState<number | null>(null); // State für Formular
+    const [newFlat, setNewFlat] = useState<Omit<IFlat, 'id'>>({
+        name: '',
+        floor: '',
+        numberOfRooms: 0,
+        certainRooms: { bathroom: 0, toilets: 0, kitchen: 0, bedroom: 0 },
+        rentable: false,
+    });
 
     useEffect(() => {
         const fetchHouses = async () => {
@@ -126,6 +134,37 @@ function Hausverwaltung() {
         addHouse();
     };
 
+    async function addFlat(houseId: number) {
+        try {
+            const response = await axios.post(`http://localhost:3000/flats/house/${houseId}/flats`, newFlat);
+            const addedFlat = response.data.flat;
+
+            // Aktualisiere die Liste der Häuser mit der neuen Wohnung
+            setHouses((prevHouses) =>
+                prevHouses.map((house) =>
+                    house.id === houseId ? { ...house, flats: [...house.flats, addedFlat] } : house
+                )
+            );
+            alert('Wohnung erfolgreich hinzugefügt');
+            setAddingFlatHouseId(null); // Schließe das Formular
+            setNewFlat({
+                name: '',
+                floor: '',
+                numberOfRooms: 0,
+                certainRooms: { bathroom: 0, toilets: 0, kitchen: 0, bedroom: 0 },
+                rentable: false,
+            });
+        } catch (err: any) {
+            console.error('Fehler beim Hinzufügen der Wohnung:', err);
+            alert(err.response?.data?.message || 'Ein Fehler ist aufgetreten');
+        }
+    }
+
+    const handleAddFlatSubmit = (e: React.FormEvent, houseId: number) => {
+        e.preventDefault();
+        addFlat(houseId);
+    };
+
     return (
         <div className="d-flex justify-space-between marginHausAnzeige">
             <div className="card dashboard">
@@ -175,6 +214,136 @@ function Hausverwaltung() {
                                     ))}
                                     <button onClick={() => deleteHouse(house.id)}>Löschen</button>
                                     <button onClick={() => setEditingHouseId(house.id)}>Bearbeiten</button>
+
+                                    {addingFlatHouseId === house.id ? (
+                                        <form onSubmit={(e) => handleAddFlatSubmit(e, house.id)}>
+                                            <h4>Neue Wohnung hinzufügen</h4>
+                                            <div>
+                                                <label>Name:</label>
+                                                <input
+                                                    type="text"
+                                                    value={newFlat.name}
+                                                    onChange={(e) => setNewFlat({ ...newFlat, name: e.target.value })}
+                                                    required
+                                                />
+                                            </div>
+                                            <div>
+                                                <label>Etage:</label>
+                                                <input
+                                                    type="text"
+                                                    value={newFlat.floor}
+                                                    onChange={(e) => setNewFlat({ ...newFlat, floor: e.target.value })}
+                                                    required
+                                                />
+                                            </div>
+                                            <div>
+                                                <label>Zimmeranzahl:</label>
+                                                <input
+                                                    type="number"
+                                                    value={newFlat.numberOfRooms}
+                                                    onChange={(e) =>
+                                                        setNewFlat({ ...newFlat, numberOfRooms: Number(e.target.value) })
+                                                    }
+                                                    required
+                                                />
+                                            </div>
+                                            <div>
+                                                <label>Badezimmer:</label>
+                                                <input
+                                                    type="number"
+                                                    value={newFlat.certainRooms.bathroom}
+                                                    onChange={(e) =>
+                                                        setNewFlat({
+                                                            ...newFlat,
+                                                            certainRooms: {
+                                                                ...newFlat.certainRooms,
+                                                                bathroom: Number(e.target.value),
+                                                            },
+                                                        })
+                                                    }
+                                                    required
+                                                />
+                                                <br/>
+                                                <label>Toiletten:</label>
+                                                <input type="number" value={newFlat.certainRooms.toilets}
+                                                       onChange={(e) => setNewFlat({
+                                                           ...newFlat,
+                                                           certainRooms: {
+                                                               ...newFlat.certainRooms,
+                                                               toilets: parseInt(e.target.value),
+                                                           },
+                                                       })
+                                                       }
+                                                />
+                                                <br/>
+                                                <label>Küche:</label>
+                                                <input type="number" value={newFlat.certainRooms.kitchen}
+                                                       onChange={(e) => setNewFlat({
+                                                           ...newFlat,
+                                                           certainRooms: {
+                                                               ...newFlat.certainRooms,
+                                                               kitchen: parseInt(e.target.value),
+                                                           },
+                                                       })
+                                                       }
+                                                />
+                                                <br/>
+                                                <label>Schlafzimmer:</label>
+                                                <input type="number" value={newFlat.certainRooms.bedroom}
+                                                       onChange={(e) => setNewFlat({
+                                                           ...newFlat,
+                                                           certainRooms: {
+                                                               ...newFlat.certainRooms,
+                                                               bedroom: parseInt(e.target.value),
+                                                           },
+                                                       })
+                                                       }
+                                                />
+                                                <br/>
+                                                <label>Balkone:</label>
+                                                <input type="number" value={newFlat.certainRooms.balconies}
+                                                       onChange={(e) => setNewFlat({
+                                                           ...newFlat,
+                                                           certainRooms: {
+                                                               ...newFlat.certainRooms,
+                                                               balconies: parseInt(e.target.value),
+                                                           },
+                                                       })
+                                                       }
+                                                />
+                                                <br/>
+                                                <label>Lagerräume:</label>
+                                                <input type="number" value={newFlat.certainRooms.storageRooms}
+                                                       onChange={(e) => setNewFlat({
+                                                           ...newFlat,
+                                                           certainRooms: {
+                                                               ...newFlat.certainRooms,
+                                                               storageRooms: parseInt(e.target.value),
+                                                           },
+                                                       })
+                                                       }
+                                                />
+                                                <br/>
+                                                <label>Zu vermieten:</label>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={newFlat.rentable}
+                                                    onChange={(e) => setNewFlat({
+                                                        ...newFlat,
+                                                        rentable: e.target.checked
+                                                    })}
+                                                />
+                                            </div>
+                                            <button type="submit">Hinzufügen</button>
+                                            <button type="button" onClick={() => setAddingFlatHouseId(null)}>
+                                                Abbrechen
+                                            </button>
+                                        </form>
+                                    ) : (
+                                        <button onClick={() => setAddingFlatHouseId(house.id)}>
+                                            Neue Wohnung hinzufügen
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -186,7 +355,7 @@ function Hausverwaltung() {
                         <div>
                             <label>Name:</label>
                             <input type="text" value={newHouse.name}
-                                   onChange={(e) => setNewHouse({ ...newHouse, name: e.target.value })} required />
+                                   onChange={(e) => setNewHouse({...newHouse, name: e.target.value})} required/>
                         </div>
                         <button type="submit">Hinzufügen</button>
                         <button type="button" onClick={() => setIsAddingHouse(false)}>Abbrechen</button>
@@ -194,6 +363,8 @@ function Hausverwaltung() {
                 ) : (
                     <button onClick={() => setIsAddingHouse(true)}>Neues Haus hinzufügen</button>
                 )}
+
+
             </div>
         </div>
     );
