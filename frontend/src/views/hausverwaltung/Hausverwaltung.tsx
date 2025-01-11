@@ -143,6 +143,32 @@ function Hausverwaltung() {
         addFlat(houseId);
     };
 
+    async function deleteFlat(houseId: number, flatId: number) {
+        if (!window.confirm("Möchten Sie diese Wohnung wirklich löschen?")) {
+            return;
+        }
+
+        try {
+            const response = await axios.delete(`http://localhost:3000/flats/house/${houseId}/flats/${flatId}`);
+
+            if (response.status === 200) {
+                alert("Wohnung erfolgreich gelöscht");
+                setHouses(prevHouses =>
+                    prevHouses.map(house =>
+                        house.id === houseId
+                            ? { ...house, flats: house.flats.filter(flat => flat.id !== flatId) }
+                            : house
+                    )
+                );
+            } else {
+                alert("Fehler beim Löschen der Wohnung");
+            }
+        } catch (error) {
+            console.error("Fehler beim Löschen der Wohnung:", error);
+            alert("Es ist ein Fehler aufgetreten.");
+        }
+    }
+
     return (
         <div className="d-flex justify-space-between marginHausverwaltungAnzeige">
             <div className="card dashboard">
@@ -188,6 +214,8 @@ function Hausverwaltung() {
                                             <p className="card-text">
                                                 <strong>Zu vermieten:</strong> {flat.rentable ? 'Ja' : 'Nein'}
                                             </p>
+                                            <button onClick={() => deleteFlat(house.id, flat.id)}>Wohnung löschen
+                                            </button>
                                         </div>
                                     ))}
                                     <button onClick={() => deleteHouse(house.id)}>Löschen</button>
@@ -198,39 +226,19 @@ function Hausverwaltung() {
                                             <h4>Neue Wohnung hinzufügen</h4>
                                             <div>
                                                 <label>Name:</label>
-                                                <input
-                                                    type="text"
-                                                    value={newFlat.name}
-                                                    onChange={(e) => setNewFlat({ ...newFlat, name: e.target.value })}
-                                                    required
-                                                />
+                                                <input type="text" value={newFlat.name} onChange={(e) => setNewFlat({ ...newFlat, name: e.target.value })} required/>
                                             </div>
                                             <div>
                                                 <label>Etage:</label>
-                                                <input
-                                                    type="text"
-                                                    value={newFlat.floor}
-                                                    onChange={(e) => setNewFlat({ ...newFlat, floor: e.target.value })}
-                                                    required
-                                                />
+                                                <input type="text" value={newFlat.floor} onChange={(e) => setNewFlat({ ...newFlat, floor: e.target.value })} required/>
                                             </div>
                                             <div>
                                                 <label>Zimmeranzahl:</label>
-                                                <input
-                                                    type="number"
-                                                    value={newFlat.numberOfRooms}
-                                                    onChange={(e) =>
-                                                        setNewFlat({ ...newFlat, numberOfRooms: Number(e.target.value) })
-                                                    }
-                                                    required
-                                                />
+                                                <input type="number" value={newFlat.numberOfRooms} onChange={(e) => setNewFlat({ ...newFlat, numberOfRooms: Number(e.target.value) })} required/>
                                             </div>
                                             <div>
                                                 <label>Badezimmer:</label>
-                                                <input
-                                                    type="number"
-                                                    value={newFlat.certainRooms.bathroom}
-                                                    onChange={(e) =>
+                                                <input type="number" value={newFlat.certainRooms.bathroom} onChange={(e) =>
                                                         setNewFlat({
                                                             ...newFlat,
                                                             certainRooms: {
