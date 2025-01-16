@@ -8,6 +8,7 @@ var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var flatsRouter = require('./routes/flats');
 var houseRouter = require('./routes/house');
+var userRouter = require('./routes/user');
 
 const { initMongoConnect } = require('./db/login');
 
@@ -32,6 +33,7 @@ app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/flats', flatsRouter);
 app.use('/houses',houseRouter);
+app.use('/user',userRouter);
 
 initMongoConnect()
     .then(() => console.log('Erfolgreich mit der Datenbank verbunden'))
