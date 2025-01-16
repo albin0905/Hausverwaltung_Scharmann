@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../../common/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {IUser} from "../../common/models/IUser.d";
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -33,14 +34,16 @@ function Login() {
 
             const users = await response.json();
 
-            const user = users.find((u:any) => u.email === email && u.password === password);
+            const user:IUser = users.find((u:any) => u.email === email && u.password === password);
 
             if (user) {
                 setSuccess('Login erfolgreich!');
                 setError('');
-                auth.login();
+                if(user.administrator === 1){
+                    auth.login(true)
+                }
                 console.log('Eingeloggter Benutzer:', user);
-                navigate('/'); // Redirect to Dashboard
+                navigate('/');
             } else {
                 setSuccess('');
                 setError('Ungültige E-Mail oder Passwort');
