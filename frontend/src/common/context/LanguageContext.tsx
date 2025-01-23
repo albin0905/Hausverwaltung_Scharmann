@@ -8,9 +8,16 @@ interface LanguageContextType {
 }
 
 const texts = {
-    de: {settings:'Einstellungen', german:'Deutsch', english:'Englisch', albanian:'Albanisch', login:'Login', impressum:'Impressum', hausverwaltung:'Hausverwaltung', house:'Haus', dashboard:'Dashboard', mainpage:'Hauptseite', accounting:'Buchhaltung', calendar:'Kalender', rights:'Rechte'},
-    en: {settings:'Settings', german:'German', english:'English', albanian:'Albanian', login:'Login', impressum: 'Imprint', hausverwaltung:'House Management', house:'House', dashboard:'Dashboard', mainpage:'Mainpage', accounting: 'Accounting', calendar: 'Calendar', rights:'Rights'},
-    al:{settings:'Cilësimet', german: 'Gjermane', english:'Anglisht', albanian:'Shqiptare', login:'Identifikimi', impressum:'Gjurmë', hausverwaltung:'Menaxhimi i pronës', house:'Shtëp', dashboard:'Pult', mainpage: 'Faqja Kryesore', accounting:'Kontabilitetit', calendar:'Kalendar', rights:'Drejtë'}
+    de: {settings:'Einstellungen', german:'Deutsch', english:'Englisch', albanian:'Albanisch',
+        login:'Login', impressum:'Impressum', hausverwaltung:'Hausverwaltung', house:'Haus', dashboard:'Dashboard',
+        mainpage:'Hauptseite', accounting:'Buchhaltung', calendar:'Kalender', rights:'Rechte', home:'Startseite'
+    },
+    en: {settings:'Settings', german:'German', english:'English', albanian:'Albanian',
+        login:'Login', impressum: 'Imprint', hausverwaltung:'House Management', house:'House', dashboard:'Dashboard',
+        mainpage:'Mainpage', accounting: 'Accounting', calendar: 'Calendar', rights:'Rights', home: 'Home'},
+    al:{settings:'Cilësimet', german: 'Gjermane', english:'Anglisht', albanian:'Shqiptare', login:'Identifikimi',
+        impressum:'Gjurmë', hausverwaltung:'Menaxhimi i pronës', house:'Shtëp', dashboard:'Pult',
+        mainpage: 'Faqja Kryesore', accounting:'Kontabilitetit', calendar:'Kalendar', rights:'Drejtë', home:'Faqja kryesore'}
 };
 
 export const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
