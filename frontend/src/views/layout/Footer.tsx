@@ -2,16 +2,24 @@ import React from 'react';
 import { FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useLanguage } from "../../common/context/LanguageContext";
-import '../../styles/footer.css'; // Import für die CSS-Datei
+import '../../styles/footer.css';
 
 const Footer: React.FC = () => {
     const language = useLanguage();
     return (
         <footer className="footer-container">
             <div className="social-links">
-                <FaInstagram size={30} />
-                <FaFacebook size={30} />
-                <FaTiktok size={30} />
+                <div>
+                    <a href="https://www.instagram.com/helmutscharmann/" target="_blank" rel="noopener noreferrer">
+                        <FaInstagram size={30}/>
+                    </a>
+                </div>
+                <div>
+                    <a href="https://www.facebook.com/helmut.scharmann.3" target="_blank" rel="noopener noreferrer">
+                        <FaFacebook size={30}/>
+                    </a>
+                </div>
+                <FaTiktok size={30}/>
             </div>
             <div className="impressum">
                 <Link to="/impressum" className="highlighted-link">

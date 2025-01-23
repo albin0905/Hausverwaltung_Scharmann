@@ -127,18 +127,18 @@ const UserAnzeige: React.FC = () => {
             )}
 
             <button className="toggle-form-btn" onClick={() => setShowForm(!showForm)}>
-                {showForm ? 'Formular schließen' : 'Neuen Benutzer hinzufügen'}
+                {showForm ? 'Formular schließen' : language.texts.addUser}
             </button>
 
             {showForm && (
                 <form className="user-form" onSubmit={handleAddUser}>
-                    <h3>Neuen Benutzer hinzufügen</h3>
+                    <h3>{language.texts.addUser}</h3>
                     <div className="form-group">
-                        <label>Vorname</label>
+                        <label>{language.texts.firstname}</label>
                         <input type="text" value={newUser.firstname} onChange={(e) => setNewUser({ ...newUser, firstname: e.target.value })} required />
                     </div>
                     <div className="form-group">
-                        <label>Nachname</label>
+                        <label>{language.texts.lastname}</label>
                         <input type="text" value={newUser.lastname} onChange={(e) => setNewUser({ ...newUser, lastname: e.target.value })} required />
                     </div>
                     <div className="form-group">
@@ -150,31 +150,31 @@ const UserAnzeige: React.FC = () => {
                         <input type="password" value={newUser.password} onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} required />
                     </div>
                     <div className="form-group">
-                        <label>Telefon</label>
+                        <label>{language.texts.phoneNumber}</label>
                         <input type="text" value={newUser.phone} onChange={(e) => setNewUser({ ...newUser, phone: e.target.value })} />
                     </div>
                     <div className="form-group">
-                        <label>Adresse</label>
+                        <label>{language.texts.adresse}</label>
                         <input type="text" value={newUser.address} onChange={(e) => setNewUser({ ...newUser, address: e.target.value })} />
                     </div>
                     <div className="form-group">
-                        <label>Administrator</label>
+                        <label>Admin</label>
                         <input type="checkbox" checked={!!newUser.administrator} onChange={(e) => setNewUser({ ...newUser, administrator: e.target.checked ? 1 : 0 })} />
                     </div>
-                    <button type="submit" className="submit-btn">Benutzer hinzufügen</button>
+                    <button type="submit" className="submit-btn">{language.texts.addUser}</button>
                 </form>
             )}
 
             {showEditForm && editUser && (
                 <form className="user-form" onSubmit={handleUpdateUser}>
-                    <h3>Benutzer bearbeiten</h3>
+                    <h3>{language.texts.updateUser}</h3>
                     <div className="form-group">
-                        <label>Vorname</label>
+                        <label>{language.texts.firstname}</label>
                         <input type="text" value={editUser.firstname}
                                onChange={(e) => setEditUser({...editUser, firstname: e.target.value})} required/>
                     </div>
                     <div className="form-group">
-                        <label>Nachname</label>
+                        <label>{language.texts.lastname}</label>
                         <input type="text" value={editUser.lastname}
                                onChange={(e) => setEditUser({...editUser, lastname: e.target.value})} required/>
                     </div>
@@ -184,12 +184,12 @@ const UserAnzeige: React.FC = () => {
                                onChange={(e) => setEditUser({...editUser, email: e.target.value})} required/>
                     </div>
                     <div className="form-group">
-                        <label>Telefon</label>
+                        <label>{language.texts.phoneNumber}</label>
                         <input type="text" value={editUser.phone}
                                onChange={(e) => setEditUser({...editUser, phone: e.target.value})} required/>
                     </div>
                     <div className="form-group">
-                        <label>Adresse</label>
+                        <label>{language.texts.adresse}</label>
                         <input type="text" value={editUser.address}
                                onChange={(e) => setEditUser({...editUser, address: e.target.value})} required/>
                     </div>
@@ -202,7 +202,7 @@ const UserAnzeige: React.FC = () => {
                             Admin
                         </label>
                     </div>
-                    <button type="submit" className="submit-btn">Änderungen speichern</button>
+                    <button type="submit" className="submit-btn">{language.texts.safe}</button>
                 </form>
             )}
         </div>

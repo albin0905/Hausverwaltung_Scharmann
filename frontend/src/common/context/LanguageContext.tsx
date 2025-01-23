@@ -12,19 +12,19 @@ const texts = {
         login:'Login', impressum:'Impressum', hausverwaltung:'Hausverwaltung', house:'Haus', dashboard:'Dashboard',
         mainpage:'Hauptseite', accounting:'Buchhaltung', calendar:'Kalender', rights:'Rechte', home:'Startseite',
         user:'Nutzer', userList:'Benutzerliste', firstname:'Vorname', lastname:'Nachname', phoneNumber:'Telefon',
-        adresse:'Adresse'
+        adresse:'Adresse', addUser:'Benutzer hinzufügen', updateUser:'Benutzer bearbeiten', safe:'Speichern'
     },
     en: {settings:'Settings', german:'German', english:'English', albanian:'Albanian',
         login:'Login', impressum: 'Imprint', hausverwaltung:'House Management', house:'House', dashboard:'Dashboard',
         mainpage:'Mainpage', accounting: 'Accounting', calendar: 'Calendar', rights:'Rights', home: 'Home',
         user: 'User', userList:'User List', firstname:'Firstname', lastname:'Lastname', phoneNumber:'Phone',
-        adresse:'Address'
+        adresse:'Address', addUser:'Add User', updateUser:'Update user',safe:'Safe'
     },
     al:{settings:'Cilësimet', german: 'Gjermane', english:'Anglisht', albanian:'Shqiptare', login:'Identifikimi',
         impressum:'Gjurmë', hausverwaltung:'Menaxhimi i pronës', house:'Shtëp', dashboard:'Pult',
         mainpage: 'Faqja Kryesore', accounting:'Kontabilitetit', calendar:'Kalendar', rights:'Drejtë', home:'Faqja kryesore',
         user:'Përdorues', userList:'Lista e Përdoruesve', firstname:'Emri i parë', lastname:'Mbiemri', phoneNumber:'Telefon',
-        adresse:'Adresa'
+        adresse:'Adresa',addUser:'Shto përdorues', updateUser:'Përditëso përdoruesin', safe:'Ruaj'
     }
 };
 
