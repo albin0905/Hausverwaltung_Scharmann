@@ -1,8 +1,10 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import {IUser} from "../models/IUser.d";
 
 interface AuthContextProps {
     isAuthenticated: boolean;
-    login: () => void;
+    isAdmin: boolean;
+    login: (isAdmin: boolean) => void;
     logout: () => void;
 }
 
@@ -14,12 +16,20 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
 
-    const login = () => setIsAuthenticated(true);
-    const logout = () => setIsAuthenticated(false);
+    const login = (admin: boolean) => {
+        setIsAuthenticated(true);
+        setIsAdmin(admin);
+    };
+
+    const logout = () => {
+        setIsAuthenticated(false);
+        setIsAdmin(false);
+    };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, isAdmin, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

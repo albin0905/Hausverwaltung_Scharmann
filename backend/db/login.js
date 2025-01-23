@@ -11,15 +11,20 @@ const initMongoConnect = async () => {
         console.error('Fehler beim Verbinden mit MongoDB:', err);
     }
 };
+const UserSchema = new mongoose.Schema({
+    id: { type: Number, required: true, unique: true },
+    firstname: { type: String, required: true },
+    lastname: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    phone: { type: Number, required: true },
+    address: { type: String, required: true },
+    administrator: { type: Number, required: true }
+}, { collection: 'users' });
 
-const LoginSchema = new mongoose.Schema({
-    email: { type: String, required: true },
-    password: { type: String, required: true }
-}, { collection: 'login' }); // Explizit den Sammlungsnamen angeben
-
-const LoginModel = mongoose.model('Login', LoginSchema);
+const UserModel = mongoose.model('User', UserSchema);
 
 module.exports = {
     initMongoConnect,
-    Login: LoginModel
+    User: UserModel
 };

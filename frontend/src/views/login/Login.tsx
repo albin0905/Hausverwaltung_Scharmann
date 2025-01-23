@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 import { useAuth } from '../../common/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../styles/login.css';
 
-const Login: React.FC = () => {
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [error, setError] = useState<string>('');
+function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
     const auth = useAuth();
     const navigate = useNavigate();
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event:any) => {
         event.preventDefault();
 
         if (!email || !password) {
-            setError('Bitte geben Sie sowohl E-Mail als auch Passwort ein.');
+            setError('Bitte geben Sie sowohl E-Mail als auch Passwort ein');
             return;
         }
 
@@ -31,54 +31,67 @@ const Login: React.FC = () => {
                 throw new Error('Fehler beim Abrufen der Benutzerdaten.');
             }
 
-            const users: { email: string; password: string }[] = await response.json();
+            const users = await response.json();
 
-            const user = users.find((u) => u.email === email && u.password === password);
+            const user = users.find((u:any) => u.email === email && u.password === password);
 
             if (user) {
+                setSuccess('Login erfolgreich!');
+                setError('');
                 auth.login();
-                navigate('/');
+                console.log('Eingeloggter Benutzer:', user);
+                navigate('/'); // Redirect to Dashboard
             } else {
-                setError('Ungültige E-Mail oder Passwort.');
+                setSuccess('');
+                setError('Ungültige E-Mail oder Passwort');
             }
         } catch (error) {
-            setError('Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.');
+            setSuccess('');
         }
     };
 
     return (
-        <div className="login-container">
-            <div className="login-card">
-                <h1>Login</h1>
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="email">E-Mail:</label>
-                        <input
-                            type="email"
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Geben Sie Ihre E-Mail ein"
-                            required
-                        />
+        <div className="container mt-5">
+            <div className="row justify-content-center">
+                <div className="col-md-6">
+                    <div className="card">
+                        <div className="card-header bg-primary text-white text-center">
+                            <h1>Login</h1>
+                        </div>
+                        <div className="card-body">
+                            <form onSubmit={handleSubmit}>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="email" className="form-label">E-Mail:</label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        className="form-control"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="password" className="form-label">Passwort:</label>
+                                    <input
+                                        type="password"
+                                        id="password"
+                                        className="form-control"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                {error && <div className="alert alert-danger">{error}</div>}
+                                {success && <div className="alert alert-success">{success}</div>}
+                                <button type="submit" className="btn btn-primary w-100">Login</button>
+                            </form>
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Passwort:</label>
-                        <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Geben Sie Ihr Passwort ein"
-                            required
-                        />
-                    </div>
-                    {error && <div className="error-message">{error}</div>}
-                    <button type="submit" className="btn-login">Login</button>
-                </form>
+                </div>
             </div>
         </div>
     );
-};
+}
 
 export default Login;
