@@ -8,6 +8,8 @@ const UserAnzeige: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [showForm, setShowForm] = useState(false);
+    const [showEditForm, setShowEditForm] = useState<number | null>(null);
+    const [editUser, setEditUser] = useState<IUser | null>(null);
     const [newUser, setNewUser] = useState<Omit<IUser, 'id'>>({
         firstname: '',
         lastname: '',
@@ -49,6 +51,39 @@ const UserAnzeige: React.FC = () => {
         }
     };
 
+    const handleDeleteUser = async (id: number) => {
+        if (!window.confirm('Möchtest du diesen Benutzer wirklich löschen?')) return;
+
+        try {
+            await axios.delete(`http://localhost:3000/user/${id}`);
+            alert('Benutzer erfolgreich gelöscht!');
+            setUsers(users.filter(user => user.id !== id));
+        } catch (err) {
+            console.error('Fehler beim Löschen des Benutzers:', err);
+            alert('Fehler beim Löschen des Benutzers');
+        }
+    };
+
+    const handleUpdateUser = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!editUser) return;
+
+        try {
+            await axios.put(`http://localhost:3000/user/${editUser.id}`, editUser);
+            alert('Benutzer erfolgreich aktualisiert!');
+            setUsers(users.map(u => (u.id === editUser.id ? editUser : u)));
+            setShowEditForm(null);
+        } catch (err) {
+            console.error('Fehler beim Aktualisieren des Benutzers:', err);
+            alert('Fehler beim Aktualisieren des Benutzers');
+        }
+    };
+
+    const handleEditUser = (user: IUser) => {
+        setEditUser(user);
+        setShowEditForm(user.id);
+    };
+
     return (
         <div className="container">
             <h2>{language.texts.userList}</h2>
@@ -80,6 +115,10 @@ const UserAnzeige: React.FC = () => {
                                 <td>{user.phone}</td>
                                 <td>{user.address}</td>
                                 <td>{user.administrator ? 'Ja' : 'Nein'}</td>
+                                <td>
+                                    <button className="edit-btn" onClick={() => handleEditUser(user)}>✏️</button>
+                                    <button className="delete-btn" onClick={() => handleDeleteUser(user.id)}>X</button>
+                                </td>
                             </tr>
                         ))}
                         </tbody>
@@ -123,6 +162,47 @@ const UserAnzeige: React.FC = () => {
                         <input type="checkbox" checked={!!newUser.administrator} onChange={(e) => setNewUser({ ...newUser, administrator: e.target.checked ? 1 : 0 })} />
                     </div>
                     <button type="submit" className="submit-btn">Benutzer hinzufügen</button>
+                </form>
+            )}
+
+            {showEditForm && editUser && (
+                <form className="user-form" onSubmit={handleUpdateUser}>
+                    <h3>Benutzer bearbeiten</h3>
+                    <div className="form-group">
+                        <label>Vorname</label>
+                        <input type="text" value={editUser.firstname}
+                               onChange={(e) => setEditUser({...editUser, firstname: e.target.value})} required/>
+                    </div>
+                    <div className="form-group">
+                        <label>Nachname</label>
+                        <input type="text" value={editUser.lastname}
+                               onChange={(e) => setEditUser({...editUser, lastname: e.target.value})} required/>
+                    </div>
+                    <div className="form-group">
+                        <label>E-Mail</label>
+                        <input type="text" value={editUser.email}
+                               onChange={(e) => setEditUser({...editUser, email: e.target.value})} required/>
+                    </div>
+                    <div className="form-group">
+                        <label>Telefon</label>
+                        <input type="text" value={editUser.phone}
+                               onChange={(e) => setEditUser({...editUser, phone: e.target.value})} required/>
+                    </div>
+                    <div className="form-group">
+                        <label>Adresse</label>
+                        <input type="text" value={editUser.address}
+                               onChange={(e) => setEditUser({...editUser, address: e.target.value})} required/>
+                    </div>
+                    <div className="form-group">
+                        <label>
+                            <input type="checkbox" checked={editUser.administrator === 1} onChange={(e) => setEditUser({
+                                ...editUser,
+                                administrator: e.target.checked ? 1 : 0
+                            })}/>
+                            Admin
+                        </label>
+                    </div>
+                    <button type="submit" className="submit-btn">Änderungen speichern</button>
                 </form>
             )}
         </div>
