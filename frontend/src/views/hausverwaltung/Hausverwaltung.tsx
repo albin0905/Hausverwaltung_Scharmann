@@ -11,9 +11,9 @@ function Hausverwaltung() {
     const [houses, setHouses] = useState<IHouse[]>([]);
     const [editingHouseId, setEditingHouseId] = useState<number | null>(null);
     const [isAddingHouse, setIsAddingHouse] = useState(false);
-    const [newHouse, setNewHouse] = useState<Omit<IHouse, 'id'>>({name: '', flats: []}); // Keine ID
+    const [newHouse, setNewHouse] = useState<Omit<IHouse, 'id'>>({name: '', flats: []});
     const language = useLanguage();
-    const [addingFlatHouseId, setAddingFlatHouseId] = useState<number | null>(null); // State für Formular
+    const [addingFlatHouseId, setAddingFlatHouseId] = useState<number | null>(null);
     const [newFlat, setNewFlat] = useState<Omit<IFlat, 'id'>>({
         name: '',
         floor: '',
@@ -192,34 +192,33 @@ function Hausverwaltung() {
                                         <div key={index} className="mt-3">
                                             <h4 className="card-subtitle mb-2">{flat.name}</h4>
                                             <p className="card-text">
-                                                <strong>Etage:</strong> {flat.floor}
+                                                <strong>{language.texts.floor}:</strong> {flat.floor}
                                             </p>
                                             <p className="card-text">
-                                                <strong>Zimmeranzahl:</strong> {flat.numberOfRooms}
+                                                <strong>{language.texts.numberOfRooms}:</strong> {flat.numberOfRooms}
                                             </p>
                                             <ul>
-                                                <li><strong>Badezimmer: {flat.certainRooms.bathroom}</strong></li>
-                                                <li><strong>Toiletten: {flat.certainRooms.toilets}</strong></li>
-                                                <li><strong>Küche: {flat.certainRooms.kitchen}</strong></li>
-                                                <li><strong>Balkone: {flat.certainRooms.balconies}</strong></li>
-                                                <li><strong>Schlafzimmer: {flat.certainRooms.bedroom}</strong></li>
-                                                <li><strong>Lagerräume: {flat.certainRooms.storageRooms}</strong>
+                                                <li><strong>{language.texts.bathrooms}: {flat.certainRooms.bathroom}</strong></li>
+                                                <li><strong>{language.texts.toilets}: {flat.certainRooms.toilets}</strong></li>
+                                                <li><strong>{language.texts.kitchen}: {flat.certainRooms.kitchen}</strong></li>
+                                                <li><strong>{language.texts.balconies}: {flat.certainRooms.balconies}</strong></li>
+                                                <li><strong>{language.texts.bedrooms}: {flat.certainRooms.bedroom}</strong></li>
+                                                <li><strong>{language.texts.storageRooms}: {flat.certainRooms.storageRooms}</strong>
                                                 </li>
                                             </ul>
                                             <p className="card-text">
-                                                <strong>Zu vermieten:</strong> {flat.rentable ? 'Ja' : 'Nein'}
+                                                <strong>{language.texts.forRent}:</strong> {flat.rentable ? 'Ja' : 'Nein'}
                                             </p>
-                                            <button onClick={() => deleteFlat(house.id, flat.id)}>Wohnung löschen
-                                            </button>
+                                            <button onClick={() => deleteFlat(house.id, flat.id)}>{language.texts.deleteFlat}</button>
                                         </div>
                                     ))}
-                                    <button onClick={() => deleteHouse(house.id)}>Löschen</button>
-                                    <button onClick={() => setEditingHouseId(house.id)}>Bearbeiten</button>
+                                    <button onClick={() => deleteHouse(house.id)}>{language.texts.delete}</button>
+                                    <button onClick={() => setEditingHouseId(house.id)}>{language.texts.edit}</button>
                                     {addingFlatHouseId === house.id ? (
                                         <form onSubmit={(e) => handleAddFlatSubmit(e, house.id)}>
-                                            <h4>Neue Wohnung hinzufügen</h4>
+                                            <h4>{language.texts.add}</h4>
                                             <div>
-                                                <label>Name:</label>
+                                                <label>{language.texts.name}:</label>
                                                 <input type="text" value={newFlat.name}
                                                        onChange={(e) => setNewFlat({
                                                            ...newFlat,
@@ -235,7 +234,7 @@ function Hausverwaltung() {
                                                        })} required/>
                                             </div>
                                             <div>
-                                                <label>Zimmeranzahl:</label>
+                                                <label>{language.texts.numberOfRooms}:</label>
                                                 <input type="number" value={newFlat.numberOfRooms}
                                                        onChange={(e) => setNewFlat({
                                                            ...newFlat,
@@ -243,7 +242,7 @@ function Hausverwaltung() {
                                                        })} required/>
                                             </div>
                                             <div>
-                                                <label>Badezimmer:</label>
+                                                <label>{language.texts.bathrooms}:</label>
                                                 <input type="number" value={newFlat.certainRooms.bathroom}
                                                        onChange={(e) =>
                                                            setNewFlat({
@@ -257,7 +256,7 @@ function Hausverwaltung() {
                                                        required
                                                 />
                                                 <br/>
-                                                <label>Toiletten:</label>
+                                                <label>{language.texts.toilets}:</label>
                                                 <input type="number" value={newFlat.certainRooms.toilets}
                                                        onChange={(e) => setNewFlat({
                                                            ...newFlat,
@@ -269,7 +268,7 @@ function Hausverwaltung() {
                                                        }
                                                 />
                                                 <br/>
-                                                <label>Küche:</label>
+                                                <label>{language.texts.kitchen}:</label>
                                                 <input type="number" value={newFlat.certainRooms.kitchen}
                                                        onChange={(e) => setNewFlat({
                                                            ...newFlat,
@@ -281,7 +280,7 @@ function Hausverwaltung() {
                                                        }
                                                 />
                                                 <br/>
-                                                <label>Schlafzimmer:</label>
+                                                <label>{language.texts.bedrooms}:</label>
                                                 <input type="number" value={newFlat.certainRooms.bedroom}
                                                        onChange={(e) => setNewFlat({
                                                            ...newFlat,
@@ -293,7 +292,7 @@ function Hausverwaltung() {
                                                        }
                                                 />
                                                 <br/>
-                                                <label>Balkone:</label>
+                                                <label>{language.texts.balconies}:</label>
                                                 <input type="number" value={newFlat.certainRooms.balconies}
                                                        onChange={(e) => setNewFlat({
                                                            ...newFlat,
@@ -305,7 +304,7 @@ function Hausverwaltung() {
                                                        }
                                                 />
                                                 <br/>
-                                                <label>Lagerräume:</label>
+                                                <label>{language.texts.storageRooms}:</label>
                                                 <input type="number" value={newFlat.certainRooms.storageRooms}
                                                        onChange={(e) => setNewFlat({
                                                            ...newFlat,
@@ -317,7 +316,7 @@ function Hausverwaltung() {
                                                        }
                                                 />
                                                 <br/>
-                                                <label>Zu vermieten:</label>
+                                                <label>{language.texts.forRent}:</label>
                                                 <input
                                                     type="checkbox"
                                                     checked={newFlat.rentable}
@@ -327,14 +326,14 @@ function Hausverwaltung() {
                                                     })}
                                                 />
                                             </div>
-                                            <button type="submit">Hinzufügen</button>
+                                            <button type="submit">{language.texts.add}</button>
                                             <button type="button" onClick={() => setAddingFlatHouseId(null)}>
-                                                Abbrechen
+                                                {language.texts.cancel}
                                             </button>
                                         </form>
                                     ) : (
                                         <button onClick={() => setAddingFlatHouseId(house.id)}>
-                                            Neue Wohnung hinzufügen
+                                            {language.texts.addNewFlat}
                                         </button>
                                     )}
                                 </div>
@@ -344,17 +343,17 @@ function Hausverwaltung() {
                 )}
                 {isAddingHouse ? (
                     <form onSubmit={handleAddHouseSubmit} className="add-house-form">
-                        <h3>Neues Haus hinzufügen</h3>
+                        <h3>{language.texts.addNewHouse}</h3>
                         <div>
-                            <label>Name:</label>
+                            <label>{language.texts.name}:</label>
                             <input type="text" value={newHouse.name}
                                    onChange={(e) => setNewHouse({...newHouse, name: e.target.value})} required/>
                         </div>
-                        <button type="submit">Hinzufügen</button>
-                        <button type="button" onClick={() => setIsAddingHouse(false)}>Abbrechen</button>
+                        <button type="submit">{language.texts.add}</button>
+                        <button type="button" onClick={() => setIsAddingHouse(false)}>{language.texts.cancel}</button>
                     </form>
                 ) : (
-                    <button onClick={() => setIsAddingHouse(true)}>Neues Haus hinzufügen</button>
+                    <button onClick={() => setIsAddingHouse(true)}>{language.texts.addNewHouse}</button>
                 )}
             </div>
         </div>
