@@ -18,7 +18,7 @@ const texts = {
         floor: 'Etage', numberOfRooms: 'Zimmeranzahl', bathrooms: 'Badezimmer', toilets: 'Toiletten', kitchen: 'Küche',
         balconies: 'Balkone', bedrooms: 'Schlafzimmer', storageRooms: 'Lagerräume', forRent: 'Zu vermieten',
         name: 'Name', cancel: 'Abbrechen', add: 'Hinzufügen', addNewHouse: 'Neues Haus hinzufügen', addNewFlat: 'Neue Wohnung hinzufügen',
-        delete: 'Löschen', deleteFlat: 'Wohnung löschen', edit: 'Bearbeiten', yes:'Ja', no:'Nein'
+        delete: 'Löschen', deleteFlat: 'Wohnung löschen', edit: 'Bearbeiten', yes:'Ja', no:'Nein', password:'Passwort'
     },
     en: {
         settings: 'Settings', german: 'German', english: 'English', albanian: 'Albanian',
@@ -30,7 +30,7 @@ const texts = {
         floor: 'Floor', numberOfRooms: 'Number of rooms', bathrooms: 'Bathrooms', toilets: 'Toilets', kitchen: 'Kitchen',
         balconies: 'Balconies', bedrooms: 'Bedrooms', storageRooms: 'Storage rooms', forRent: 'For rent',
         name: 'Name', cancel: 'Cancel', add: 'Add', addNewHouse: 'Add new house', addNewFlat: 'Add new flats',
-        delete: 'Delete', deleteFlat: 'Delete flat', edit: 'Edit', yes:'Yes', no:'No'
+        delete: 'Delete', deleteFlat: 'Delete flat', edit: 'Edit', yes:'Yes', no:'No', password:'Password'
     },
     al: {
         settings: 'Cilësimet', german: 'Gjermane', english: 'Anglisht', albanian: 'Shqiptare', login: 'Identifikimi',
@@ -42,7 +42,7 @@ const texts = {
         floor: 'Kate', numberOfRooms: 'Numri i dhomave', bathrooms: 'Banjo', toilets: 'Tualete', kitchen: 'Kuzhinë',
         balconies: 'Ballkone', bedrooms: 'Dhoma gjumi', storageRooms: 'Magazina', forRent: 'Me qira',
         name: 'Emri', cancel: 'Anulo', add: 'Shto', addNewHouse: 'Shto shtëpi të re', addNewFlat: 'Shto apartament të ri',
-        delete: 'Fshij', deleteFlat: 'Fshij apartamentin', edit: 'Redakto', yes:'Po', no:'Nr'
+        delete: 'Fshij', deleteFlat: 'Fshij apartamentin', edit: 'Redakto', yes:'Po', no:'Nr', password:'Password'
     }
 };
 

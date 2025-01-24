@@ -96,10 +96,10 @@ const UserAnzeige: React.FC = () => {
                     <table>
                         <thead>
                         <tr>
-                            <th>ID</th>
                             <th>{language.texts.firstname}</th>
                             <th>{language.texts.lastname}</th>
                             <th>E-Mail</th>
+                            <th>{language.texts.password}</th>
                             <th>{language.texts.phoneNumber}</th>
                             <th>{language.texts.adresse}</th>
                             <th>Admin</th>
@@ -108,10 +108,10 @@ const UserAnzeige: React.FC = () => {
                         <tbody>
                         {users.map((user) => (
                             <tr key={user.id}>
-                                <td>{user.id}</td>
                                 <td>{user.firstname}</td>
                                 <td>{user.lastname}</td>
                                 <td>{user.email}</td>
+                                <td>{user.password}</td>
                                 <td>{user.phone}</td>
                                 <td>{user.address}</td>
                                 <td>{user.administrator ? 'Ja' : 'Nein'}</td>
@@ -135,31 +135,33 @@ const UserAnzeige: React.FC = () => {
                     <h3>{language.texts.addUser}</h3>
                     <div className="form-group">
                         <label>{language.texts.firstname}</label>
-                        <input type="text" value={newUser.firstname} onChange={(e) => setNewUser({ ...newUser, firstname: e.target.value })} required />
+                        <input type="text" value={newUser.firstname}
+                               onChange={(e) => setNewUser({...newUser, firstname: e.target.value})} required/>
                     </div>
                     <div className="form-group">
                         <label>{language.texts.lastname}</label>
-                        <input type="text" value={newUser.lastname} onChange={(e) => setNewUser({ ...newUser, lastname: e.target.value })} required />
+                        <input type="text" value={newUser.lastname}
+                               onChange={(e) => setNewUser({...newUser, lastname: e.target.value})} required/>
                     </div>
                     <div className="form-group">
                         <label>Email</label>
-                        <input type="email" value={newUser.email} onChange={(e) => setNewUser({ ...newUser, email: e.target.value })} required />
+                        <input type="email" value={newUser.email}
+                               onChange={(e) => setNewUser({...newUser, email: e.target.value})} required/>
                     </div>
                     <div className="form-group">
-                        <label>Passwort</label>
-                        <input type="password" value={newUser.password} onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} required />
+                        <label>{language.texts.password}</label>
+                        <input type="password" value={newUser.password}
+                               onChange={(e) => setNewUser({...newUser, password: e.target.value})} required/>
                     </div>
                     <div className="form-group">
                         <label>{language.texts.phoneNumber}</label>
-                        <input type="text" value={newUser.phone} onChange={(e) => setNewUser({ ...newUser, phone: e.target.value })} />
+                        <input type="text" value={newUser.phone}
+                               onChange={(e) => setNewUser({...newUser, phone: e.target.value})}/>
                     </div>
                     <div className="form-group">
                         <label>{language.texts.adresse}</label>
-                        <input type="text" value={newUser.address} onChange={(e) => setNewUser({ ...newUser, address: e.target.value })} />
-                    </div>
-                    <div className="form-group">
-                        <label>Admin</label>
-                        <input type="checkbox" checked={!!newUser.administrator} onChange={(e) => setNewUser({ ...newUser, administrator: e.target.checked ? 1 : 0 })} />
+                        <input type="text" value={newUser.address}
+                               onChange={(e) => setNewUser({...newUser, address: e.target.value})}/>
                     </div>
                     <button type="submit" className="submit-btn">{language.texts.addUser}</button>
                 </form>
@@ -184,6 +186,11 @@ const UserAnzeige: React.FC = () => {
                                onChange={(e) => setEditUser({...editUser, email: e.target.value})} required/>
                     </div>
                     <div className="form-group">
+                        <label>{language.texts.password}</label>
+                        <input type="text" value={editUser.password}
+                               onChange={(e) => setEditUser({...editUser, password: e.target.value})} required/>
+                    </div>
+                    <div className="form-group">
                         <label>{language.texts.phoneNumber}</label>
                         <input type="text" value={editUser.phone}
                                onChange={(e) => setEditUser({...editUser, phone: e.target.value})} required/>
@@ -192,15 +199,6 @@ const UserAnzeige: React.FC = () => {
                         <label>{language.texts.adresse}</label>
                         <input type="text" value={editUser.address}
                                onChange={(e) => setEditUser({...editUser, address: e.target.value})} required/>
-                    </div>
-                    <div className="form-group">
-                        <label>
-                            <input type="checkbox" checked={editUser.administrator === 1} onChange={(e) => setEditUser({
-                                ...editUser,
-                                administrator: e.target.checked ? 1 : 0
-                            })}/>
-                            Admin
-                        </label>
                     </div>
                     <button type="submit" className="submit-btn">{language.texts.safe}</button>
                 </form>

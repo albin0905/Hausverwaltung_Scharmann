@@ -171,8 +171,6 @@ function Hausverwaltung() {
                 <br/>
                 <button><Link to="/Kalender">{language.texts.calendar}</Link></button>
                 <br/>
-                <button><Link to="/Rechte">{language.texts.rights}</Link></button>
-                <br/>
                 <button><Link to="/User">{language.texts.user}</Link></button>
             </div>
             <div className="hausAdminAnzeige">
