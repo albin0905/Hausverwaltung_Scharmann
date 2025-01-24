@@ -1,0 +1,57 @@
+### GET: Alle Häuser abrufen
+GET http://localhost:3000/houses
+Accept: application/json
+
+### GET: Ein spezifisches Haus mit ID abrufen (falls Route existiert)
+GET http://localhost:3000/houses/4
+Accept: application/json
+
+### DELETE: Ein Haus löschen
+DELETE http://localhost:3000/houses/4
+Content-Type: application/json
+
+### POST: Neues Haus erstellen
+POST http://localhost:3000/houses
+Content-Type: application/json
+
+{
+  "name": "Neues Haus",
+  "flats": [
+    {
+      "id": "1",
+      "name": "Wohnung 1",
+      "floor": 1,
+      "numberOfRooms": 3,
+      "certainRooms": {
+        "bedroom": true,
+        "kitchen": true,
+        "toilets": true,
+        "bathroom": true
+      },
+      "rentable": true
+    }
+  ]
+}
+
+### PUT: Ein Haus aktualisieren
+PUT http://localhost:3000/houses/2
+Content-Type: application/json
+
+{
+  "name": "Aktualisiertes Haus",
+  "flats": [
+    {
+      "id": "1",
+      "name": "Wohnung 1",
+      "floor": 2,
+      "numberOfRooms": 3,
+      "certainRooms": {
+        "bedroom": true,
+        "kitchen": true,
+        "toilets": false,
+        "bathroom": true
+      },
+      "rentable": true
+    }
+  ]
+}

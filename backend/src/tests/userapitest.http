@@ -1,0 +1,33 @@
+### GET: Alle Benutzer abrufen
+GET http://localhost:3000/user
+Content-Type: application/json
+
+### POST: Neuen Benutzer erstellen
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "firstname": "Max",
+  "lastname": "Mustermann",
+  "email": "max.mustermann@example.com",
+  "password": "securepassword",
+  "phone": "+49123456789",
+  "address": "Musterstraße 1, 12345 Musterstadt",
+  "administrator": true
+}
+
+### PUT: Benutzer aktualisieren
+PUT http://localhost:3000/user/4
+Content-Type: application/json
+
+{
+  "firstname": "Maximilian",
+  "lastname": "Mustermann",
+  "phone": "+49198765432",
+  "address": "Neue Musterstraße 2, 54321 Neustadt",
+  "administrator": false
+}
+
+### DELETE: Benutzer löschen
+DELETE http://localhost:3000/user/4
+Content-Type: application/json

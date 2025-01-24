@@ -1,0 +1,45 @@
+### GET: Alle Wohnungen eines bestimmten Hauses abrufen
+GET http://localhost:3000/flats/house/1/flats
+Content-Type: application/json
+
+### GET: Alle Wohnungen aus allen Häusern abrufen
+GET http://localhost:3000/flats/flats
+Content-Type: application/json
+
+### POST: Eine neue Wohnung zu einem Haus hinzufügen
+POST http://localhost:3000/flats/house/2/flats
+Content-Type: application/json
+
+{
+  "name": "Neue Wohnung",
+  "floor": 2,
+  "numberOfRooms": 3,
+  "certainRooms": {
+    "bedroom": true,
+    "kitchen": true,
+    "toilets": false,
+    "bathroom": true
+  },
+  "rentable": true
+}
+
+### PUT: Eine Wohnung in einem Haus bearbeiten
+PUT http://localhost:3000/flats/house/2/flats/1
+Content-Type: application/json
+
+{
+  "name": "Aktualisierte Wohnung",
+  "floor": 3,
+  "numberOfRooms": 4,
+  "certainRooms": {
+    "bedroom": true,
+    "kitchen": false,
+    "toilets": true,
+    "bathroom": true
+  },
+  "rentable": false
+}
+
+### DELETE: Eine Wohnung aus einem Haus löschen
+DELETE http://localhost:3000/flats/house/2/flats/1
+Content-Type: application/json

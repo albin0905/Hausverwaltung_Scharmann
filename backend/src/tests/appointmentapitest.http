@@ -1,0 +1,40 @@
+### GET: Alle Termine abrufen
+GET http://localhost:3000/appointments
+Content-Type: application/json
+
+
+### GET: Termine eines bestimmten Benutzers abrufen
+GET http://localhost:3000/appointments/user/1
+Content-Type: application/json
+
+
+### POST: Einen neuen Termin erstellen
+POST http://localhost:3000/appointments
+Content-Type: application/json
+
+
+{
+  "userId": 1,
+  "date": "2025-02-15",
+  "time": "15:00",
+  "description": "Testbesprechung"
+}
+
+
+### PUT: Termin aktualisieren
+PUT http://localhost:3000/appointments/1
+Content-Type: application/json
+
+
+{
+  "date": "2025-02-16",
+  "time": "16:00",
+  "description": "Aktualisierte Testbesprechung"
+}
+
+
+### DELETE: Termin löschen
+DELETE http://localhost:3000/appointments/1
+Content-Type: application/json
+
+
