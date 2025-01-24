@@ -1,0 +1,76 @@
+/* Allgemeine Header-Stile */
+.header-container {
+    background-color: #2d3b3c;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.logo img {
+    height: 50px;
+}
+
+.nav-container {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.nav-link .icon {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.nav-text {
+    display: inline-block;
+}
+
+/* Sprachwechsel-Select */
+.language-select {
+    padding: 5px;
+    font-size: 16px;
+    margin-left: 10px;
+    background-color: #fff;
+    color: #2d3b3c;
+}
+
+/* Dropdown Menü für kleine Bildschirme */
+.dropdown-container {
+    display: none;
+}
+
+/* Für Bildschirme unter 768px */
+@media (max-width: 768px) {
+    .nav-container {
+        display: none;
+    }
+
+    .dropdown-container {
+        display: block;
+        width: 100%;
+    }
+
+    .dropdown-menu {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        background-color: #2d3b3c;
+        color: white;
+        border: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-link .nav-text {
+        display: none;
+    }
+}

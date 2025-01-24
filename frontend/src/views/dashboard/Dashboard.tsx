@@ -3,11 +3,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {IHouse} from "../../common/models/IHouse.d";
 import axios from "axios";
 import {IFlat} from "../../common/models/IFlat.d";
+import {useLanguage} from "../../common/context/LanguageContext";
 
 const Dashboard: React.FC = () => {
     const [houses, setHouses] = useState<IHouse[]>([]);
     const [flats, setFlats] = useState<IFlat[]>([]);
     const [selectedHouse, setSelectedHouse] = useState<number | null>(null);
+    const language = useLanguage();
 
     useEffect(() => {
         const fetchHouses = async () => {
@@ -58,34 +60,31 @@ const Dashboard: React.FC = () => {
 
             {selectedHouse && (
                 <div>
-                    <button
-                        className="btn btn-secondary mb-3"
-                        onClick={handleBackClick}
-                    >
-                        Zurück zu den Häusern
+                    <button className="btn btn-secondary mb-3" onClick={handleBackClick}>
+                        {language.texts.backToHouses}
                     </button>
-                    <h3>Wohnungen im {houses.find((h) => h.id === selectedHouse)?.name}:</h3>
+                    <h3>{language.texts.flatsInHouse} {houses.find((h) => h.id === selectedHouse)?.name}:</h3>
                     <div className="flats-section">
                         <ul>
                             {flats.map((flat) => (
                                 <div className="mt-3" key={flat.id}>
                                     <h4 className="card-subtitle mb-2">{flat.name}</h4>
                                     <p className="card-text">
-                                        <strong>Etage:</strong> {flat.floor}
+                                        <strong>{language.texts.floor}:</strong> {flat.floor}
                                     </p>
                                     <p className="card-text">
-                                        <strong>Zimmeranzahl:</strong> {flat.numberOfRooms}
+                                        <strong>{language.texts.numberOfRooms}:</strong> {flat.numberOfRooms}
                                     </p>
                                     <ul>
-                                        <li><strong>Badezimmer:</strong> {flat.certainRooms.bathroom}</li>
-                                        <li><strong>Toiletten:</strong> {flat.certainRooms.toilets}</li>
-                                        <li><strong>Küche:</strong> {flat.certainRooms.kitchen}</li>
-                                        <li><strong>Balkone:</strong> {flat.certainRooms.balconies}</li>
-                                        <li><strong>Schlafzimmer:</strong> {flat.certainRooms.bedroom}</li>
-                                        <li><strong>Lagerräume:</strong> {flat.certainRooms.storageRooms}</li>
+                                        <li><strong>{language.texts.bathrooms}:</strong> {flat.certainRooms.bathroom}</li>
+                                        <li><strong>{language.texts.toilets}:</strong> {flat.certainRooms.toilets}</li>
+                                        <li><strong>{language.texts.kitchen}:</strong> {flat.certainRooms.kitchen}</li>
+                                        <li><strong>{language.texts.balconies}:</strong> {flat.certainRooms.balconies}</li>
+                                        <li><strong>{language.texts.bedrooms}:</strong> {flat.certainRooms.bedroom}</li>
+                                        <li><strong>{language.texts.storageRooms}:</strong> {flat.certainRooms.storageRooms}</li>
                                     </ul>
                                     <p className="card-text">
-                                        <strong>Zu vermieten:</strong> {flat.rentable ? 'Ja' : 'Nein'}
+                                        <strong>{language.texts.forRent}:</strong> {flat.rentable ? language.texts.yes : language.texts.no}
                                     </p>
                                 </div>
                             ))}
