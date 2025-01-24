@@ -1,16 +1,5 @@
 const mongoose = require('mongoose');
 
-const initMongoConnect = async () => {
-    try {
-        await mongoose.connect("mongodb://127.0.0.1:27017/hausverwaltung_scharmann", {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
-        console.log('MongoDB erfolgreich verbunden');
-    } catch (err) {
-        console.error('Fehler beim Verbinden mit MongoDB:', err);
-    }
-};
 const UserSchema = new mongoose.Schema({
     id: { type: Number, required: true, unique: true },
     firstname: { type: String, required: true },
@@ -24,7 +13,4 @@ const UserSchema = new mongoose.Schema({
 
 const UserModel = mongoose.model('User', UserSchema);
 
-module.exports = {
-    initMongoConnect,
-    User: UserModel
-};
+module.exports = {User: UserModel};

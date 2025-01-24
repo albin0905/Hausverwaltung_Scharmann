@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { House } = require('../db/House.db');
+const { House } = require('../db/house.db');
 
 // http://localhost:3000/houses
 router.post('/', async (req, res) => {

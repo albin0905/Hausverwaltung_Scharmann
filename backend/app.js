@@ -3,21 +3,22 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var loginRouter = require('./routes/login');
-var flatsRouter = require('./routes/flats');
-var houseRouter = require('./routes/house');
-var userRouter = require('./routes/user');
+var indexRouter = require('./src/routes/index');
+var usersRouter = require('./src/routes/users');
+var loginRouter = require('./src/routes/login');
+var flatsRouter = require('./src/routes/flats');
+var houseRouter = require('./src/routes/house');
+var userRouter = require('./src/routes/user');
+var appointmentsRouter = require('./src/routes/appointment');
 
-const { initMongoConnect } = require('./db/login');
+const { initMongoConnect } = require('./src/db/util.service.db');
 
 var app = express();
 
 const cors = require('cors');
 
 app.use(cors({
-    origin: '*', // Erlaubt alle Urspr�nge
+    origin: '*', // Erlaubt alle Ursprünge
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
@@ -34,6 +35,7 @@ app.use('/login', loginRouter);
 app.use('/flats', flatsRouter);
 app.use('/houses',houseRouter);
 app.use('/user',userRouter);
+app.use('/appointments', appointmentsRouter);
 
 initMongoConnect()
     .then(() => console.log('Erfolgreich mit der Datenbank verbunden'))

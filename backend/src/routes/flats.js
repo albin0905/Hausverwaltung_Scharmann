@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { House } = require('../db/House.db'); // Pfad ggf. anpassen
+const { House } = require('../db/house.db'); // Pfad ggf. anpassen
 
 //http://localhost:3000/flats/house/1/flats
 //Wohnungen zu dem jeweiligem Haus
@@ -10,7 +10,7 @@ router.get('/house/:id/flats', async (req, res) => {
         const house = await House.findOne({ id: Number(houseId) });
 
         if (!house) {
-            return res.status(404).json({ message: 'Haus nicht gefunden' });
+            return res.Qstatus(404).json({ message: 'Haus nicht gefunden' });
         }
 
         res.json(house.flats);
@@ -35,7 +35,6 @@ router.get('/flats', async (req, res) => {
     }
 });
 
-// http://localhost:3000/flats/house/:id/flats
 // http://localhost:3000/flats/house/:houseId/flats
 router.post('/house/:houseId/flats', async (req, res) => {
     const { houseId } = req.params;
