@@ -14,7 +14,7 @@ const texts = {
         mainpage: 'Hauptseite', accounting: 'Buchhaltung', calendar: 'Kalender', rights: 'Rechte', home: 'Startseite',
         user: 'Nutzer', userList: 'Benutzerliste', firstname: 'Vorname', lastname: 'Nachname', phoneNumber: 'Telefon',
         adresse: 'Adresse', addUser: 'Benutzer hinzufügen', updateUser: 'Benutzer bearbeiten', safe: 'Speichern',
-        backToHouses: 'Zurück zu den Häusern', flatsInHouse: 'Wohnungen im Haus', flat: 'Wohnung',
+        backToHouses: 'Zurück zu den Häusern', flatsInHouse: 'Wohnungen in ', flat: 'Wohnung',
         floor: 'Etage', numberOfRooms: 'Zimmeranzahl', bathrooms: 'Badezimmer', toilets: 'Toiletten', kitchen: 'Küche',
         balconies: 'Balkone', bedrooms: 'Schlafzimmer', storageRooms: 'Lagerräume', forRent: 'Zu vermieten',
         name: 'Name', cancel: 'Abbrechen', add: 'Hinzufügen', addNewHouse: 'Neues Haus hinzufügen', addNewFlat: 'Neue Wohnung hinzufügen',

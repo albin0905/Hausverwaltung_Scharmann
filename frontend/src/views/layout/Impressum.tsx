@@ -6,7 +6,7 @@ function Impressum() {
     return (
         <Container className={"marginSettings impressum"}>
             <p>Helmut Scharmann</p>
-            <img src={profilbild} alt="Hier folgt ein Bild von Heli" style={{width:"30%"}}/>
+            <img src={profilbild} alt="" style={{width:"30%"}}/>
             <p>Hier kommt der Text von Scharmann</p>
         </Container>
     );

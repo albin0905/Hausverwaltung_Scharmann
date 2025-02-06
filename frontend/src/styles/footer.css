@@ -1,4 +1,3 @@
-/* Footer-Layout */
 .footer-container {
     display: flex;
     justify-content: space-between;
@@ -7,16 +6,12 @@
     background-color: #333;
     color: white;
     border-top: 1px solid #444;
-
-    position: sticky;
-    bottom: 0;
     width: 100%;
     height: 100px;
 }
 
-/* Soziale Links horizontal anordnen */
 .social-links {
-    display: flex; /* Flexbox für horizontale Anordnung */
+    display: flex;
     gap: 15px;
     position: absolute;
     left: 20px;
@@ -24,17 +19,15 @@
     transform: translateY(-50%);
 }
 
-/* Impressum zentrieren auf der gesamten Seite */
 .impressum {
     position: absolute;
     left: 50%;
-    transform: translateX(-50%); /* Horizontale Mitte der Seite */
+    transform: translateX(-50%);
     text-align: center;
 }
 
-/* Formatierungen für den Link */
 .highlighted-link {
-    color: #f7b731; /* Helle Farbe für das Hervorheben */
+    color: #f7b731;
     font-weight: bold;
     text-decoration: none;
     font-size: 1.1rem;
@@ -44,15 +37,14 @@
     text-decoration: underline;
 }
 
-/* Kontaktinformationen */
 .contact-info {
     position: absolute;
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
     text-align: right;
-    padding-top: 10px; /* Mehr Abstand zum oberen Rand */
-    padding-bottom: 10px; /* Mehr Abstand zum unteren Rand */
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .contact-info p {
@@ -61,7 +53,6 @@
     color: #ccc;
 }
 
-/* Neuanordnung der Tel. Nr. und E-Mail */
 .contact-info p + p {
     margin-top: 5px;
 }
