@@ -8,45 +8,22 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     try {
         const appointments = await Appointment.find();
-        const detailedAppointments = await Promise.all(
-            appointments.map(async (appointment) => {
-                const user = await User.findOne({ id: appointment.userId });
 
-                // Falls der Benutzer nicht existiert, einen Platzhalter verwenden
-                if (!user) {
-                    return {
-                        id: appointment.id,
-                        date: appointment.date,
-                        time: appointment.time,
-                        description: appointment.description,
-                        user: {
-                            firstname: "Unbekannt",
-                            lastname: "Unbekannt",
-                            phone: "Unbekannt",
-                        },
-                    };
-                }
+        const simplifiedAppointments = appointments.map(appointment => ({
+            id: appointment.id,
+            date: appointment.date,
+            time: appointment.time,
+            description: appointment.description,
+            userId: appointment.userId
+        }));
 
-                return {
-                    id: appointment.id,
-                    date: appointment.date,
-                    time: appointment.time,
-                    description: appointment.description,
-                    user: {
-                        firstname: user.firstname,
-                        lastname: user.lastname,
-                        phone: user.phone,
-                    },
-                };
-            })
-        );
-
-        res.json(detailedAppointments);
+        res.json(simplifiedAppointments);
     } catch (err) {
         console.error('Fehler beim Abrufen der Termine:', err);
         res.status(500).json({ message: 'Interner Serverfehler' });
     }
 });
+
 
 
 // GET: Termine eines bestimmten Benutzers abrufen
