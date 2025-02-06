@@ -26,7 +26,8 @@ const Dashboard: React.FC = () => {
     const handleHouseClick = async (houseId: number) => {
         try {
             const response = await axios.get(`http://localhost:3000/flats/house/${houseId}/flats`);
-            setFlats(response.data);
+            const rentableFlats = response.data.filter((flat: IFlat) => flat.rentable);
+            setFlats(rentableFlats);
             setSelectedHouse(houseId);
         } catch (error) {
             console.error('Fehler beim Abrufen der Wohnungen:', error);
@@ -66,28 +67,32 @@ const Dashboard: React.FC = () => {
                     <h3>{language.texts.flatsInHouse} {houses.find((h) => h.id === selectedHouse)?.name}:</h3>
                     <div className="flats-section">
                         <ul>
-                            {flats.map((flat) => (
-                                <div className="mt-3" key={flat.id}>
-                                    <h4 className="card-subtitle mb-2">{flat.name}</h4>
-                                    <p className="card-text">
-                                        <strong>{language.texts.floor}:</strong> {flat.floor}
-                                    </p>
-                                    <p className="card-text">
-                                        <strong>{language.texts.numberOfRooms}:</strong> {flat.numberOfRooms}
-                                    </p>
-                                    <ul>
-                                        <li><strong>{language.texts.bathrooms}:</strong> {flat.certainRooms.bathroom}</li>
-                                        <li><strong>{language.texts.toilets}:</strong> {flat.certainRooms.toilets}</li>
-                                        <li><strong>{language.texts.kitchen}:</strong> {flat.certainRooms.kitchen}</li>
-                                        <li><strong>{language.texts.balconies}:</strong> {flat.certainRooms.balconies}</li>
-                                        <li><strong>{language.texts.bedrooms}:</strong> {flat.certainRooms.bedroom}</li>
-                                        <li><strong>{language.texts.storageRooms}:</strong> {flat.certainRooms.storageRooms}</li>
-                                    </ul>
-                                    <p className="card-text">
-                                        <strong>{language.texts.forRent}:</strong> {flat.rentable ? language.texts.yes : language.texts.no}
-                                    </p>
-                                </div>
-                            ))}
+                            {flats.length > 0 ? (
+                                flats.map((flat) => (
+                                    <div className="mt-3" key={flat.id}>
+                                        <h4 className="card-subtitle mb-2">{flat.name}</h4>
+                                        <p className="card-text">
+                                            <strong>{language.texts.floor}:</strong> {flat.floor}
+                                        </p>
+                                        <p className="card-text">
+                                            <strong>{language.texts.numberOfRooms}:</strong> {flat.numberOfRooms}
+                                        </p>
+                                        <ul>
+                                            <li><strong>{language.texts.bathrooms}:</strong> {flat.certainRooms.bathroom}</li>
+                                            <li><strong>{language.texts.toilets}:</strong> {flat.certainRooms.toilets}</li>
+                                            <li><strong>{language.texts.kitchen}:</strong> {flat.certainRooms.kitchen}</li>
+                                            <li><strong>{language.texts.balconies}:</strong> {flat.certainRooms.balconies}</li>
+                                            <li><strong>{language.texts.bedrooms}:</strong> {flat.certainRooms.bedroom}</li>
+                                            <li><strong>{language.texts.storageRooms}:</strong> {flat.certainRooms.storageRooms}</li>
+                                        </ul>
+                                        <p className="card-text">
+                                            <strong>{language.texts.forRent}:</strong> {flat.rentable ? language.texts.yes : language.texts.no}
+                                        </p>
+                                    </div>
+                                ))
+                            ) : (
+                                <p>Keine Wohnung vorhanden</p>
+                            )}
                         </ul>
                     </div>
                 </div>
