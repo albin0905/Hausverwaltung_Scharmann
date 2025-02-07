@@ -111,7 +111,7 @@ const UserAnzeige: React.FC = () => {
                                 <td>{user.firstname}</td>
                                 <td>{user.lastname}</td>
                                 <td>{user.email}</td>
-                                <td>{user.password}</td>
+                                <td>*****</td>
                                 <td>{user.phone}</td>
                                 <td>{user.address}</td>
                                 <td>{user.administrator ? 'Ja' : 'Nein'}</td>
