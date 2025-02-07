@@ -15,6 +15,30 @@ router.get('/', async (req, res) => {
     }
 });
 
+// GET: Einen einzelnen Benutzer abrufen
+// http://localhost:3000/user/:id
+router.get('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Benutzer mit der ID suchen
+        const user = await User.findOne({ id });
+
+        if (!user) {
+            return res.status(404).json({ message: 'Benutzer nicht gefunden' });
+        }
+
+        res.json(user);
+    } catch (err) {
+        console.error('Fehler beim Abrufen des Benutzers:', err);
+        res.status(500).json({ message: 'Interner Serverfehler' });
+    }
+});
+
+
+
+
+
 // POST: Benutzer erstellen
 // http://localhost:3000/user
 router.post('/', async (req, res) => {

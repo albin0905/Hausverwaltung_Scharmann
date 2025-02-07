@@ -2,6 +2,11 @@
 GET http://localhost:3000/user
 Content-Type: application/json
 
+### GET: Ein Benutzer abrufen
+GET http://localhost:3000/user/1
+Content-Type: application/json
+
+
 ### POST: Neuen Benutzer erstellen
 POST http://localhost:3000/user
 Content-Type: application/json
