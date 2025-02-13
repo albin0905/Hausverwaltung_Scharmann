@@ -1,70 +1,73 @@
-import React, { useState } from 'react';
-import { Container, Typography, Card, CardContent, Button, Divider, List, ListItem, ListItemText } from '@mui/material';
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { useAuth } from "../../common/context/AuthContext";
+import { IUser } from "../../common/models/IUser.d";
+import {useNavigate} from "react-router-dom";
 
-function Settings() {
-    const customerInfo = {
-        name: "David Fink",
-        email: "findaa21@htl-kaindorf.com",
-        nummer: "+43 3075989",
-        address: "Höhenstraße 37"
+export default function Settings() {
+    const { currentUser } = useAuth();
+    const [formData, setFormData] = useState<IUser | null>(currentUser);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (currentUser) {
+            setFormData({ ...currentUser });
+        }
+    }, [currentUser]);
+
+    if (!formData) return <p>Kein Nutzer angemeldet</p>;
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const propertyInfo = {
-        wochungsNummer: 27,
-        wohnungsAdresse: "Eibiswald",
-        mietkosten: "850€",
-        zahltag: "1. des Monats"
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        try {
+            const response = await fetch(`http://localhost:3000/user/${currentUser?.id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
+            });
+
+            const updatedUser = await response.json();
+            if (response.ok) {
+                alert("Daten erfolgreich aktualisiert!");
+            } else {
+                alert("Fehler: " + updatedUser.message);
+            }
+
+            navigate('/');
+        } catch (error) {
+            console.error("Fehler beim Aktualisieren der Daten", error);
+        }
     };
 
     return (
-        <Container className={"marginSettings"}>
-            <Typography variant="h4">Willkommen, {customerInfo.name}!</Typography>
-
-            <Card style={{ marginBottom: '20px' }}>
-                <CardContent>
-                    <Typography variant="h6">Persönliche Daten</Typography>
-                    <Divider style={{ margin: '10px 0' }} />
-                    <List>
-                        <ListItem>
-                            <ListItemText primary="Name" secondary={customerInfo.name} />
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText primary="E-Mail" secondary={customerInfo.email} />
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText primary="Telefon" secondary={customerInfo.nummer} />
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText primary="Adresse" secondary={customerInfo.address} />
-                        </ListItem>
-                    </List>
-                    <Button variant="outlined" color="primary" style={{ marginTop: '10px' }}>Daten bearbeiten</Button>
-                </CardContent>
-            </Card>
-
-            <Card style={{ marginBottom: '20px' }}>
-                <CardContent>
-                    <Typography variant="h6">Immobilieninformationen</Typography>
-                    <Divider style={{ margin: '10px 0' }} />
-                    <List>
-                        <ListItem>
-                            <ListItemText primary="Wochungsnummer" secondary={propertyInfo.wochungsNummer} />
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText primary="Adresse" secondary={propertyInfo.wohnungsAdresse} />
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText primary="Miete" secondary={propertyInfo.mietkosten} />
-                        </ListItem>
-                        <ListItem>
-                            <ListItemText primary="Fälligkeitsdatum" secondary={propertyInfo.zahltag} />
-                        </ListItem>
-                    </List>
-                </CardContent>
-            </Card>
-
-        </Container>
+        <div className="container mx-auto p-4 max-w-md">
+            <h1 className="text-xl font-bold mb-4">Benutzereinstellungen</h1>
+            <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                    <label className="block">Vorname:</label>
+                    <input type="text" name="firstname" value={formData.firstname} onChange={handleChange} className="w-full border p-2" />
+                </div>
+                <div>
+                    <label className="block">Nachname:</label>
+                    <input type="text" name="lastname" value={formData.lastname} onChange={handleChange} className="w-full border p-2" />
+                </div>
+                <div>
+                    <label className="block">E-Mail:</label>
+                    <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full border p-2" />
+                </div>
+                <div>
+                    <label className="block">Telefon:</label>
+                    <input type="text" name="phone" value={formData.phone} onChange={handleChange} className="w-full border p-2" />
+                </div>
+                <div>
+                    <label className="block">Adresse:</label>
+                    <input type="text" name="address" value={formData.address} onChange={handleChange} className="w-full border p-2" />
+                </div>
+                <button type="submit" className="bg-blue-500 text-white p-2 w-full">Speichern</button>
+            </form>
+        </div>
     );
 }
-
-export default Settings;
