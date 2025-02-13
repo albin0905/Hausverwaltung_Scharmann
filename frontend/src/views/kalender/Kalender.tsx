@@ -92,6 +92,21 @@ const Kalender: React.FC = () => {
         }
     };
 
+    const handleDeleteAppointment = async (id: number) => {
+        try {
+            const res = await fetch(`http://localhost:3000/appointments/${id}`, {
+                method: "DELETE",
+            });
+            if (!res.ok) {
+                throw new Error("Fehler beim Löschen des Termins");
+            }
+            setAppointments(appointments.filter(appt => appt.id !== id));
+            setSelectedAppointment(null);
+        } catch (err) {
+            console.error("Fehler beim Löschen des Termins:", err);
+        }
+    };
+
     return (
         <div className="calendar-container">
             <h1 className="calendar-title">Termin-Kalender</h1>
@@ -140,6 +155,7 @@ const Kalender: React.FC = () => {
                     <p><strong>Benutzer:</strong>
                         {user?.firstname + " " + user?.lastname}
                     </p>
+                    <button onClick={() => handleDeleteAppointment(selectedAppointment.id)}>Löschen</button>
                     <button onClick={() => setSelectedAppointment(null)}>Schließen</button>
                 </div>
             )}
