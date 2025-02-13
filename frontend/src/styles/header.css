@@ -7,6 +7,10 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    position: relative; /* Stelle sicher, dass der Header nicht überlappt */
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 .logo img {
