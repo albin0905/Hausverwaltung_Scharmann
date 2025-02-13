@@ -1,68 +1,103 @@
 /* Hausverwaltung Styles */
 .hausAdminAnzeige {
-    padding: 20px;
+    padding: 30px;
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
-    justify-content: space-between;
+    gap: 30px;
+    justify-content: space-around;
+    background-color: #f0f4f8; /* Sanftes Grau-Blau für den Hintergrund */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .haus {
     width: 45%;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    overflow: hidden;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.haus:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
 .card {
     border-radius: 8px;
+    background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
     transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
 .card-body {
-    padding: 15px;
+    padding: 20px;
+    background-color: #fafafa; /* Hellerer Hintergrund für die Karten */
+    border-bottom: 1px solid #eee;
 }
 
 .card-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: #2c3e50; /* Dunkelgrau für den Titel */
+    margin-bottom: 10px;
 }
 
 .card-subtitle {
     font-size: 1.2rem;
-    font-weight: normal;
-    color: #555;
+    font-weight: 500;
+    color: #7f8c8d; /* Helles Grau für Untertitel */
 }
 
 .card-text {
     font-size: 1rem;
-    color: #666;
+    color: #7f8c8d;
+    margin-bottom: 15px;
+}
+
+/* Links in schwarz */
+a {
+    color: #333; /* Schwarze Links */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #333; /* Keine Farbänderung beim Hover */
+    text-decoration: underline;
 }
 
 button {
-    margin: 5px;
-    padding: 10px 20px;
+    margin: 10px 5px;
+    padding: 12px 25px;
     border: none;
-    border-radius: 5px;
-    background-color: #007bff;
+    border-radius: 8px;
+    background-color: #3498db; /* Blau für den Button */
     color: white;
-    font-size: 1rem;
+    font-size: 1.1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    opacity: 0.75; /* 75% Opazität */
+    transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #2980b9; /* Dunkleres Blau im Hover-Effekt */
+    transform: translateY(-5px); /* Leichtes Anheben des Buttons */
+    opacity: 1; /* Opazität auf 100% beim Hover */
 }
 
 form {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -70,21 +105,53 @@ input[type="text"],
 input[type="number"],
 input[type="checkbox"] {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 12px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border 0.3s ease;
 }
 
 input[type="checkbox"] {
     width: auto;
+    margin-top: 10px;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border-color: #3498db; /* Blau bei Fokus */
 }
 
 h3, h4 {
-    color: #333;
+    color: #2c3e50; /* Dunkelgrau für alle Überschriften */
 }
 
 .add-house-form {
     width: 50%;
-    margin: 20px auto;
+    margin: 30px auto;
+    background-color: #f9fafb;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-house-form input[type="text"],
+.add-house-form input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.add-house-form button {
+    background-color: #3498db; /* Blau für den Button */
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.add-house-form button:hover {
+    background-color: #2980b9; /* Dunkleres Blau im Hover-Effekt */
 }

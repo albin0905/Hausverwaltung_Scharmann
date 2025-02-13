@@ -31,6 +31,11 @@
     color: #666;
 }
 
+.image {
+    max-width: 100%;
+    height: auto;
+}
+
 button.btn-secondary {
     background-color: #6c757d;
     color: white;

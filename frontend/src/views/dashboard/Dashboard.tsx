@@ -4,6 +4,8 @@ import {IHouse} from "../../common/models/IHouse.d";
 import axios from "axios";
 import {IFlat} from "../../common/models/IFlat.d";
 import {useLanguage} from "../../common/context/LanguageContext";
+import Haus_27 from "../../assets/27.png"
+import Haus_74 from "../../assets/74.png"
 
 const Dashboard: React.FC = () => {
     const [houses, setHouses] = useState<IHouse[]>([]);
@@ -41,6 +43,7 @@ const Dashboard: React.FC = () => {
 
     return (
         <div className="container mt-5 marginHausDashboardAnzeige">
+            <h1 style={{ textAlign: 'center' }}>Dashboard</h1>
             {!selectedHouse && (
                 <div className="row">
                     {houses.map((house) => (
@@ -51,6 +54,7 @@ const Dashboard: React.FC = () => {
                         >
                             <div className="card shadow-sm">
                                 <div className="card-body">
+                                    <img className={"image"} src={Haus_27} alt={house.name} />
                                     <h2 className="card-title">{house.name}</h2>
                                 </div>
                             </div>

@@ -6,6 +6,7 @@ import axios from "axios";
 import {IHouse} from "../../common/models/IHouse.d";
 import {IFlat} from "../../common/models/IFlat.d";
 import EditHouseForm from "./EditHouseForm";
+import "../../styles/hausverwaltung.css"
 
 function Hausverwaltung() {
     const [houses, setHouses] = useState<IHouse[]>([]);
