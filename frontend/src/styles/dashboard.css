@@ -44,16 +44,8 @@ button.btn-secondary {
     transition: background-color 0.3s ease;
 }
 
-button.btn-secondary:hover {
-    background-color: #5a6268;
-}
-
 .card {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.card:hover {
-    transform: scale(1.05);
-    transition: transform 0.3s ease;
-}

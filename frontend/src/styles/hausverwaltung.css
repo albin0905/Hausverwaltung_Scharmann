@@ -20,10 +20,7 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.haus:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-}
+
 
 .card {
     border-radius: 8px;
@@ -32,10 +29,6 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-}
 
 .card-body {
     padding: 20px;
@@ -69,11 +62,6 @@ a {
     font-weight: bold;
 }
 
-a:hover {
-    color: #333; /* Keine Farbänderung beim Hover */
-    text-decoration: underline;
-}
-
 button {
     margin: 10px 5px;
     padding: 12px 25px;
@@ -86,12 +74,6 @@ button {
     opacity: 0.75; /* 75% Opazität */
     transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-button:hover {
-    background-color: #2980b9; /* Dunkleres Blau im Hover-Effekt */
-    transform: translateY(-5px); /* Leichtes Anheben des Buttons */
-    opacity: 1; /* Opazität auf 100% beim Hover */
 }
 
 form {
@@ -150,8 +132,4 @@ h3, h4 {
     background-color: #3498db; /* Blau für den Button */
     border-radius: 8px;
     transition: background-color 0.3s ease;
-}
-
-.add-house-form button:hover {
-    background-color: #2980b9; /* Dunkleres Blau im Hover-Effekt */
 }
