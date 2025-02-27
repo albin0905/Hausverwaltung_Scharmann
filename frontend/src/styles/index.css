@@ -12,7 +12,6 @@ code {
   monospace;
 }
 
-/* Header, Body, and Footer styles */
 
 header, footer {
   display: flex;
