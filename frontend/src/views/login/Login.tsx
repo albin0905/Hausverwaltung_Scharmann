@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useAuth } from '../../common/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../styles/login.css'
-import {IUser} from "../../common/models/IUser.d";
+import '../../styles/login.css';
+import { IUser } from "../../common/models/IUser.d";
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -13,7 +13,7 @@ function Login() {
     const auth = useAuth();
     const navigate = useNavigate();
 
-    const handleSubmit = async (event:any) => {
+    const handleSubmit = async (event: any) => {
         event.preventDefault();
 
         if (!email || !password) {
@@ -35,13 +35,13 @@ function Login() {
 
             const users = await response.json();
 
-            const user:IUser = users.find((u:any) => u.email === email && u.password === password);
+            const user: IUser = users.find((u: any) => u.email === email && u.password === password);
 
             if (user) {
                 setSuccess('Login erfolgreich!');
                 setError('');
-                if(user.administrator === 1){
-                    auth.login(user)
+                if (user.administrator === 1) {
+                    auth.login(user);
                 }
                 console.log('Eingeloggter Benutzer:', user);
                 navigate('/');
@@ -51,6 +51,7 @@ function Login() {
             }
         } catch (error) {
             setSuccess('');
+            setError('Fehler beim Login');
         }
     };
 
@@ -90,6 +91,10 @@ function Login() {
                                 {success && <div className="alert alert-success">{success}</div>}
                                 <button type="submit" className="btn btn-primary w-100">Login</button>
                             </form>
+                            <div className="text-center mt-3">
+                                <p>Noch kein Konto?</p>
+                                <button className="btn btn-secondary" onClick={() => navigate('/Register')}>Registrieren</button>
+                            </div>
                         </div>
                     </div>
                 </div>

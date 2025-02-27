@@ -43,6 +43,8 @@ router.get('/:id', async (req, res) => {
 // http://localhost:3000/user
 router.post('/', async (req, res) => {
     try {
+        console.log(req.body)
+
         const { firstname, lastname, email, password, phone, address, administrator } = req.body;
 
         if (!email || !password) {

@@ -43,7 +43,7 @@ const Dashboard: React.FC = () => {
 
     return (
         <div className="container mt-5 marginHausDashboardAnzeige">
-            <h1 style={{ textAlign: 'center' }}>Dashboard</h1>
+            <h1 style={{ textAlign: 'center' }}>{language.texts.dashboard}</h1>
             {!selectedHouse && (
                 <div className="row">
                     {houses.map((house) => (
