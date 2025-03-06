@@ -22,7 +22,7 @@ function Login() {
         }
 
         try {
-            const response = await fetch('http://localhost:3000/login', {
+            const response = await fetch('https://macar.info/davidApi/login', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

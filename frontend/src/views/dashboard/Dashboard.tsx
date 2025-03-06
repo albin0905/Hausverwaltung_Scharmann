@@ -16,7 +16,7 @@ const Dashboard: React.FC = () => {
     useEffect(() => {
         const fetchHouses = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/houses');
+                const response = await axios.get('https://macar.info/davidApi/houses');
                 setHouses(response.data);
             } catch (err) {
                 console.error('Fehler beim Abrufen der Häuser:', err);
@@ -27,7 +27,7 @@ const Dashboard: React.FC = () => {
 
     const handleHouseClick = async (houseId: number) => {
         try {
-            const response = await axios.get(`http://localhost:3000/flats/house/${houseId}/flats`);
+            const response = await axios.get(`https://macar.info/davidApi/flats/house/${houseId}/flats`);
             const rentableFlats = response.data.filter((flat: IFlat) => flat.rentable);
             setFlats(rentableFlats);
             setSelectedHouse(houseId);

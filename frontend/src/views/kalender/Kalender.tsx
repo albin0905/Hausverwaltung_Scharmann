@@ -12,7 +12,7 @@ const Kalender: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
-        fetch("http://localhost:3000/appointments")
+        fetch("https://macar.info/davidApi/appointments")
             .then((res) => res.json())
             .then((data: IAppointment[]) => {
                 console.log("Fetched Appointments:", data);
@@ -22,7 +22,7 @@ const Kalender: React.FC = () => {
     }, []);
 
     const fetchUserDetails = (userId: number) => {
-        fetch(`http://localhost:3000/user/${userId}`)
+        fetch(`https://macar.info/davidApi/user/${userId}`)
             .then((res) => res.json())
             .then((data) => {
                 console.log("Fetched User:", data);
@@ -69,13 +69,13 @@ const Kalender: React.FC = () => {
     const handleAddAppointment = async () => {
         setErrorMessage('');
         try {
-            const userRes = await fetch(`http://localhost:3000/user/${newAppointment.userId}`);
+            const userRes = await fetch(`https://macar.info/davidApi/user/${newAppointment.userId}`);
             if (!userRes.ok) {
                 setErrorMessage("Benutzer nicht gefunden");
                 return;
             }
 
-            const res = await fetch("http://localhost:3000/appointments", {
+            const res = await fetch("https://macar.info/davidApi/appointments", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newAppointment),
@@ -94,7 +94,7 @@ const Kalender: React.FC = () => {
 
     const handleDeleteAppointment = async (id: number) => {
         try {
-            const res = await fetch(`http://localhost:3000/appointments/${id}`, {
+            const res = await fetch(`https://macar.info/davidApi/appointments/${id}`, {
                 method: "DELETE",
             });
             if (!res.ok) {
