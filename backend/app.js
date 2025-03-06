@@ -11,7 +11,7 @@
     var userRouter = require('./src/routes/user');
     var appointmentsRouter = require('./src/routes/appointment');
 
-    const { initializeDB } = require('./src/db/util.service.db');
+    const { initMongoConnect } = require('./src/db/util.service.db');
 
     var app = express();
 
@@ -37,6 +37,6 @@
     app.use('/user',userRouter);
     app.use('/appointments', appointmentsRouter);
 
-    initializeDB()
+    initMongoConnect()
 
     module.exports = app;

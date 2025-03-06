@@ -24,6 +24,18 @@ router.get('/', async (req, res) => {
     }
 });
 
+// GET: Unbestätigte Termine abrufen (Admin)
+router.get('/unconfirmed', async (req, res) => {
+    try {
+        const appointments = await Appointment.find({ confirmed: false });
+        res.json(appointments);
+    } catch (err) {
+        console.error('Fehler beim Abrufen unbestätigter Termine:', err);
+        res.status(500).json({ message: 'Interner Serverfehler' });
+    }
+});
+
+
 
 
 // GET: Termine eines bestimmten Benutzers abrufen
