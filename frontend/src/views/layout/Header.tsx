@@ -15,43 +15,6 @@ const Header: React.FC = () => {
         setLanguage(selectedLanguage);
     };
 
-    const handleLogout = () => {
-        const logoutWindow = window.open("", "Logout", "width=300,height=200");
-        if (logoutWindow) {
-            logoutWindow.document.write(`
-                <html>
-                <head>
-                    <title>Abmelden</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-                        button { margin: 10px; padding: 10px; cursor: pointer; }
-                    </style>
-                </head>
-                <body>
-                    <h4>Möchten Sie sich wirklich abmelden?</h4>
-                    <button id="confirmLogout">Abmelden</button>
-                    <button id="cancelLogout">Abbrechen</button>
-                    <script>
-                        document.getElementById("confirmLogout").addEventListener("click", () => {
-                            window.opener.postMessage("logout", "*");
-                            window.close();
-                        });
-                        document.getElementById("cancelLogout").addEventListener("click", () => {
-                            window.close();
-                        });
-                    </script>
-                </body>
-                </html>
-            `);
-        }
-    };
-
-    window.addEventListener("message", (event) => {
-        if (event.data === "logout") {
-            auth.logout();
-        }
-    });
-
     return (
         <header className="header-container d-flex justify-start align-items-center">
             <div className="logo">
@@ -80,10 +43,8 @@ const Header: React.FC = () => {
 
                 {auth.isAuthenticated ? (
                     <div className="user-dropdown">
-                        <span className="nav-link user-name" onClick={handleLogout}>
-                            <FaUserCircle className="icon" />
-                            <span className="nav-text">{auth.currentUser?.firstname} {auth.currentUser?.lastname}</span>
-                        </span>
+                        <FaUserCircle className="icon" />
+                        <span className="nav-text">{auth.currentUser?.firstname} {auth.currentUser?.lastname}</span>
                     </div>
                 ) : (
                     <Link to="/login" className="nav-link">

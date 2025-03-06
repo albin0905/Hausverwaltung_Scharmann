@@ -104,33 +104,37 @@ const Dashboard: React.FC = () => {
 
             {selectedHouse && (
                 <div>
-                    <button className="btn btn-secondary mb-3" onClick={handleBackClick}>
-                        {language.texts.backToHouses}
-                    </button>
-                    <h3>{language.texts.flatsInHouse} {houses.find((h) => h.id === selectedHouse)?.name}:</h3>
-
                     <button className="btn btn-primary mb-3" onClick={() => setShowFilters(!showFilters)}>
                         {showFilters ? 'Filter ausblenden' : 'Filter anzeigen'}
                     </button>
 
                     {showFilters && (
                         <div className="mb-3">
-                            {Object.keys(filters).map((key) => (
-                                <div key={key} className="mb-2">
-                                    <label>{language.texts[key as keyof typeof language.texts]}</label>
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        min="0"
-                                        value={filters[key as keyof typeof filters]}
-                                        onChange={(e) => handleFilterChange(e, key as keyof typeof filters)}
-                                    />
-                                </div>
-                            ))}
-                            <button className="btn btn-success mt-2" onClick={applyFilters}>Anwenden</button>
-                            <button className="btn btn-warning mt-2 ms-2" onClick={resetFilters}>Zurücksetzen</button>
+                            <div className="row">
+                                {Object.keys(filters).map((key, index) => (
+                                    <div key={key} className="col-md-4 mb-2">
+                                        <label>{language.texts[key as keyof typeof language.texts]}</label>
+                                        <input
+                                            type="number"
+                                            className="form-control"
+                                            min="0"
+                                            value={filters[key as keyof typeof filters]}
+                                            onChange={(e) => handleFilterChange(e, key as keyof typeof filters)}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="mt-2">
+                                <button className="btn btn-success" onClick={applyFilters}>Anwenden</button>
+                                <button className="btn btn-warning ms-2" onClick={resetFilters}>Zurücksetzen</button>
+                            </div>
                         </div>
                     )}
+
+                    <button className="btn btn-secondary mb-3" onClick={handleBackClick}>
+                        {language.texts.backToHouses}
+                    </button>
+                    <h3>{language.texts.flatsInHouse} {houses.find((h) => h.id === selectedHouse)?.name}:</h3>
 
                     <div className="flats-section">
                         <ul>
