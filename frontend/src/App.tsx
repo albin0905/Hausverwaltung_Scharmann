@@ -12,7 +12,6 @@ import GoogleMapPopup from "./views/layout/GoogleMapPopup";
 import Hausverwaltung from "./views/hausverwaltung/Hausverwaltung";
 import Buchhaltung from "./views/buchhaltung/Buchhaltung";
 import Kalender from "./views/kalender/Kalender";
-import Rechte from "./views/layout/Rechte";
 import { LanguageProvider } from "./common/context/LanguageContext";
 import { AuthProvider } from "./common/context/AuthContext";
 import UserAnzeige from "./views/hausverwaltung/UserAnzeige";
@@ -33,7 +32,6 @@ const App: React.FC = () => {
                         <Route path="/Hausverwaltung" element={<Hausverwaltung/>}/>
                         <Route path="/Buchhaltung" element={<Buchhaltung />} />
                         <Route path="/Kalender" element={<Kalender />} />
-                        <Route path="/Rechte" element={<Rechte />} />
                         <Route path="/User" element={<UserAnzeige />} />
                         <Route path="/Register" element={<Register/>}></Route>
                     </Routes>

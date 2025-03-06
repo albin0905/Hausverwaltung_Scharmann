@@ -25,7 +25,7 @@ function Hausverwaltung() {
     useEffect(() => {
         const fetchHouses = async () => {
             try {
-                const response = await axios.get('https://macar.info/davidApi/houses');
+                const response = await axios.get('http://localhost:3000/houses');
                 setHouses(response.data);
             } catch (err) {
                 console.error('Fehler beim Abrufen der Häuser:', err);
@@ -39,7 +39,7 @@ function Hausverwaltung() {
             return;
         }
         try {
-            const response = await fetch(`https://macar.info/davidApi/houses/${houseId}`, {
+            const response = await fetch(`http://localhost:3000/houses/${houseId}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -61,7 +61,7 @@ function Hausverwaltung() {
 
     async function updateHouse(houseId: number, updatedData: IHouse) {
         try {
-            const response = await fetch(`https://macar.info/davidApi/houses/${houseId}`, {
+            const response = await fetch(`http://localhost:3000/houses/${houseId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -92,7 +92,7 @@ function Hausverwaltung() {
 
     async function addHouse() {
         try {
-            const response = await axios.post('https://macar.info/davidApi/houses', newHouse); // Ohne ID senden
+            const response = await axios.post('http://localhost:3000/houses', newHouse); // Ohne ID senden
             const addedHouse = response.data.house;
             setHouses((prevHouses) => [...prevHouses, addedHouse]);
             alert('Haus erfolgreich hinzugefügt');
@@ -111,7 +111,7 @@ function Hausverwaltung() {
 
     async function addFlat(houseId: number) {
         try {
-            const response = await axios.post(`https://macar.info/davidApi/flats/house/${houseId}/flats`, newFlat);
+            const response = await axios.post(`http://localhost:3000/flats/house/${houseId}/flats`, newFlat);
             const addedFlat = response.data.flat;
             setHouses((prevHouses) =>
                 prevHouses.map((house) =>
@@ -143,7 +143,7 @@ function Hausverwaltung() {
             return;
         }
         try {
-            const response = await axios.delete(`https://macar.info/davidApi/flats/house/${houseId}/flats/${flatId}`);
+            const response = await axios.delete(`http://localhost:3000/flats/house/${houseId}/flats/${flatId}`);
             if (response.status === 200) {
                 alert("Wohnung erfolgreich gelöscht");
                 setHouses(prevHouses =>

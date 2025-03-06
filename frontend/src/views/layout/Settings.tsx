@@ -23,7 +23,7 @@ export default function Settings() {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await fetch(`https://macar.info/davidApi/user/${currentUser?.id}`, {
+            const response = await fetch(`http://localhost:3000/user/${currentUser?.id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),

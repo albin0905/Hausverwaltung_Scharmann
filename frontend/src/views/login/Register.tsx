@@ -23,7 +23,7 @@ function Register() {
         }
 
         try {
-            const response = await axios.post('https://macar.info/davidApi/user', {
+            const response = await axios.post('http://localhost:3000/user', {
                 firstname,
                 lastname,
                 email,

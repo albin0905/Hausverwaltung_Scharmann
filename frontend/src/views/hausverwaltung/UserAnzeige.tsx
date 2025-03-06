@@ -24,7 +24,7 @@ const UserAnzeige: React.FC = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await axios.get('https://macar.info/davidApi/user');
+                const response = await axios.get('http://localhost:3000/user');
                 setUsers(response.data);
             } catch (err) {
                 console.error('Fehler beim Abrufen der Benutzer:', err);
@@ -40,7 +40,7 @@ const UserAnzeige: React.FC = () => {
     const handleAddUser = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await axios.post('https://macar.info/davidApi/user', newUser);
+            await axios.post('http://localhost:3000/user', newUser);
             alert('Benutzer erfolgreich hinzugefügt!');
             setUsers([...users, { id: users.length + 1, ...newUser }]);
             setNewUser({ firstname: '', lastname: '', email: '', password: '', phone: '', address: '', administrator: 0 });
@@ -55,7 +55,7 @@ const UserAnzeige: React.FC = () => {
         if (!window.confirm('Möchtest du diesen Benutzer wirklich löschen?')) return;
 
         try {
-            await axios.delete(`https://macar.info/davidApi/user/${id}`);
+            await axios.delete(`http://localhost:3000/user/${id}`);
             alert('Benutzer erfolgreich gelöscht!');
             setUsers(users.filter(user => user.id !== id));
         } catch (err) {
@@ -69,7 +69,7 @@ const UserAnzeige: React.FC = () => {
         if (!editUser) return;
 
         try {
-            await axios.put(`https://macar.info/davidApi/user/${editUser.id}`, editUser);
+            await axios.put(`http://localhost:3000/user/${editUser.id}`, editUser);
             alert('Benutzer erfolgreich aktualisiert!');
             setUsers(users.map(u => (u.id === editUser.id ? editUser : u)));
             setShowEditForm(null);
