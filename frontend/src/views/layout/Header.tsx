@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaCog, FaUserCircle, FaHome, FaMapMarkerAlt } from 'react-icons/fa';
 import logo from '../../assets/logo.png';
 import { useLanguage } from "../../common/context/LanguageContext";
 import { useAuth } from "../../common/context/AuthContext";
-import '../../styles/header.css'
+import '../../styles/header.css';
 
 const Header: React.FC = () => {
     const { language, texts, setLanguage } = useLanguage();
@@ -24,7 +24,7 @@ const Header: React.FC = () => {
             </div>
 
             <div className="nav-container d-flex align-items-center">
-                {auth.isAuthenticated && (
+                {auth.isAdmin && (
                     <Link to="/Hausverwaltung" className="nav-link">
                         <FaHome className="icon" />
                         <span className="nav-text">{texts.hausverwaltung}</span>
@@ -44,7 +44,9 @@ const Header: React.FC = () => {
                 {auth.isAuthenticated ? (
                     <div className="user-dropdown">
                         <FaUserCircle className="icon" />
-                        <span className="nav-text">{auth.currentUser?.firstname} {auth.currentUser?.lastname}</span>
+                        <span className="nav-text">
+                             {auth.currentUser?.firstname} {auth.currentUser?.lastname}
+                        </span>
                     </div>
                 ) : (
                     <Link to="/login" className="nav-link">
