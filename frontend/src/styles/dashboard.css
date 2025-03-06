@@ -48,3 +48,27 @@ button.btn-secondary {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+@media (max-width: 1200px) {
+    .dashboard-container {
+        width: 90%;
+    }
+}
+
+@media (max-width: 992px) {
+    .dashboard-container {
+        width: 95%;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-menu {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-container {
+        width: 100%;
+        padding: 5px;
+    }
+}

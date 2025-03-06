@@ -70,3 +70,19 @@ main {
 .contact-info p + p {
     margin-top: 5px;
 }
+
+@media (max-width: 1200px) {
+    .footer-container { width: 90%; }
+}
+
+@media (max-width: 992px) {
+    .footer-container { width: 95%; text-align: center; }
+}
+
+@media (max-width: 768px) {
+    .footer-links { flex-direction: column; }
+}
+
+@media (max-width: 480px) {
+    .footer-container { width: 100%; }
+}

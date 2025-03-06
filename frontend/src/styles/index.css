@@ -149,3 +149,19 @@ footer .social-links svg {
 .impressum {
   text-align: center;
 }
+
+@media (max-width: 1200px) {
+  .main-content { width: 90%; }
+}
+
+@media (max-width: 992px) {
+  .main-content { width: 95%; }
+}
+
+@media (max-width: 768px) {
+  .main-content { text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .main-content { width: 100%; }
+}
