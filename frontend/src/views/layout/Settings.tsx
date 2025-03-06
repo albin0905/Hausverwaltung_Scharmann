@@ -1,10 +1,10 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useAuth } from "../../common/context/AuthContext";
 import { IUser } from "../../common/models/IUser.d";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Settings() {
-    const { currentUser } = useAuth();
+    const { currentUser, logout } = useAuth(); // hier wird 'logout' aus dem AuthContext verwendet
     const [formData, setFormData] = useState<IUser | null>(currentUser);
     const navigate = useNavigate();
 
@@ -42,6 +42,11 @@ export default function Settings() {
         }
     };
 
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
+
     return (
         <div className="container mx-auto p-4 max-w-md">
             <h1 className="text-xl font-bold mb-4">Benutzereinstellungen</h1>
@@ -67,6 +72,7 @@ export default function Settings() {
                     <input type="text" name="address" value={formData.address} onChange={handleChange} className="w-full border p-2" />
                 </div>
                 <button type="submit" className="bg-blue-500 text-white p-2 w-full">Speichern</button>
+                <button onClick={handleLogout} className="bg-red-500 text-white p-2 w-full mt-4">Abmelden</button>
             </form>
         </div>
     );
