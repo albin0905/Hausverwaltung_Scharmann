@@ -197,11 +197,11 @@ function Hausverwaltung() {
                                                 <strong>{language.texts.numberOfRooms}:</strong> {flat.numberOfRooms}
                                             </p>
                                             <ul>
-                                                <li><strong>{language.texts.bathrooms}: {flat.certainRooms.bathroom}</strong></li>
+                                                <li><strong>{language.texts.bathroom}: {flat.certainRooms.bathroom}</strong></li>
                                                 <li><strong>{language.texts.toilets}: {flat.certainRooms.toilets}</strong></li>
                                                 <li><strong>{language.texts.kitchen}: {flat.certainRooms.kitchen}</strong></li>
                                                 <li><strong>{language.texts.balconies}: {flat.certainRooms.balconies}</strong></li>
-                                                <li><strong>{language.texts.bedrooms}: {flat.certainRooms.bedroom}</strong></li>
+                                                <li><strong>{language.texts.bedroom}: {flat.certainRooms.bedroom}</strong></li>
                                                 <li><strong>{language.texts.storageRooms}: {flat.certainRooms.storageRooms}</strong>
                                                 </li>
                                             </ul>
@@ -241,7 +241,7 @@ function Hausverwaltung() {
                                                        })} required/>
                                             </div>
                                             <div>
-                                                <label>{language.texts.bathrooms}:</label>
+                                                <label>{language.texts.bathroom}:</label>
                                                 <input type="number" value={newFlat.certainRooms.bathroom}
                                                        onChange={(e) =>
                                                            setNewFlat({
@@ -279,7 +279,7 @@ function Hausverwaltung() {
                                                        }
                                                 />
                                                 <br/>
-                                                <label>{language.texts.bedrooms}:</label>
+                                                <label>{language.texts.bedroom}:</label>
                                                 <input type="number" value={newFlat.certainRooms.bedroom}
                                                        onChange={(e) => setNewFlat({
                                                            ...newFlat,
