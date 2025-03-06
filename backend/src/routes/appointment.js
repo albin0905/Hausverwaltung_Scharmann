@@ -35,6 +35,49 @@ router.get('/unconfirmed', async (req, res) => {
     }
 });
 
+// PUT: Termin bestätigen (Admin)
+router.put('/confirm/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const updatedAppointment = await Appointment.findOneAndUpdate(
+            { id: Number(id) },
+            { confirmed: true },
+            { new: true }
+        );
+
+        if (!updatedAppointment) {
+            return res.status(404).json({ message: 'Termin nicht gefunden' });
+        }
+
+        res.json({ message: 'Termin erfolgreich bestätigt', appointment: updatedAppointment });
+    } catch (err) {
+        console.error('Fehler beim Bestätigen des Termins:', err);
+        res.status(500).json({ message: 'Interner Serverfehler' });
+    }
+});
+
+// GET: Alle bestätigten Termine abrufen (Admin/User)
+router.get('/', async (req, res) => {
+    try {
+        const appointments = await Appointment.find({ confirmed: true });
+
+        const simplifiedAppointments = appointments.map(appointment => ({
+            id: appointment.id,
+            date: appointment.date,
+            time: appointment.time,
+            description: appointment.description,
+            userId: appointment.userId
+        }));
+
+        res.json(simplifiedAppointments);
+    } catch (err) {
+        console.error('Fehler beim Abrufen der Termine:', err);
+        res.status(500).json({ message: 'Interner Serverfehler' });
+    }
+});
+
+
 
 
 
