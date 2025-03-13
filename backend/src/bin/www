@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-var app = require('../app'); // Falls der Pfad falsch ist, ggf. anpassen
+var app = require('../../app'); // Falls der Pfad falsch ist, ggf. anpassen
 var debug = require('debug')('backend:server');
 var http = require('http');
 
