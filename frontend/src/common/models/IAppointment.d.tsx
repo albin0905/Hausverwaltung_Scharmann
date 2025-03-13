@@ -3,5 +3,6 @@ export interface IAppointment{
     userId: number,
     date: string,
     time: string,
-    description: string
+    description: string,
+    confirmed:boolean
 };

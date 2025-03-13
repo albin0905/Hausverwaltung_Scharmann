@@ -98,7 +98,7 @@ router.get('/user/:userId', async (req, res) => {
 // http://localhost:3000/appointments
 router.post('/', async (req, res) => {
     try {
-        const { userId, date, time, description } = req.body;
+        const { userId, date, time, description, confirmed } = req.body;
 
         if (!userId || !date || !time) {
             return res.status(400).json({ message: 'Benutzer-ID, Datum und Uhrzeit sind erforderlich' });
@@ -113,6 +113,7 @@ router.post('/', async (req, res) => {
             date,
             time,
             description,
+            confirmed
         });
 
         await newAppointment.save();

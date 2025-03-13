@@ -16,6 +16,7 @@ import { LanguageProvider } from "./common/context/LanguageContext";
 import { AuthProvider } from "./common/context/AuthContext";
 import UserAnzeige from "./views/hausverwaltung/UserAnzeige";
 import Register from "./views/login/Register";
+import Termin from "./views/layout/Termin";
 
 const App: React.FC = () => {
     return (
@@ -34,6 +35,7 @@ const App: React.FC = () => {
                         <Route path="/Kalender" element={<Kalender />} />
                         <Route path="/User" element={<UserAnzeige />} />
                         <Route path="/Register" element={<Register/>}></Route>
+                        <Route path="/Termin" element={<Termin/>}></Route>
                     </Routes>
                     <Footer />
                 </BrowserRouter>

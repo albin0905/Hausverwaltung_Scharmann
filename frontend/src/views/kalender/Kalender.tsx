@@ -15,8 +15,9 @@ const Kalender: React.FC = () => {
         fetch("http://localhost:3000/appointments")
             .then((res) => res.json())
             .then((data: IAppointment[]) => {
-                console.log("Fetched Appointments:", data);
-                setAppointments(data);
+                const confirmedAppointments = data.filter((appt) => appt.confirmed);
+                console.log("Gefilterte bestätigte Termine:", confirmedAppointments);
+                setAppointments(confirmedAppointments);
             })
             .catch((err) => console.error("Fehler beim Laden der Termine:", err));
     }, []);
@@ -78,7 +79,7 @@ const Kalender: React.FC = () => {
             const res = await fetch("http://localhost:3000/appointments", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(newAppointment),
+                body: JSON.stringify({ ...newAppointment, confirmed: true }), // confirmed automatisch auf true setzen
             });
 
             if (!res.ok) {

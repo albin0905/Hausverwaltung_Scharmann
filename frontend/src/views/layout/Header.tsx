@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaCog, FaUserCircle, FaHome, FaMapMarkerAlt } from 'react-icons/fa';
+import {FaCog, FaUserCircle, FaHome, FaMapMarkerAlt, FaCalendar} from 'react-icons/fa';
 import logo from '../../assets/logo.png';
 import { useLanguage } from "../../common/context/LanguageContext";
 import { useAuth } from "../../common/context/AuthContext";
@@ -24,10 +24,15 @@ const Header: React.FC = () => {
             </div>
 
             <div className="nav-container d-flex align-items-center">
-                {auth.isAdmin && (
+                {auth.isAdmin ? (
                     <Link to="/Hausverwaltung" className="nav-link">
                         <FaHome className="icon" />
                         <span className="nav-text">{texts.hausverwaltung}</span>
+                    </Link>
+                ) : auth.isAuthenticated && (
+                    <Link to="/Termin" className="nav-link">
+                        <FaCalendar className="icon" />
+                        <span className="nav-text">Termin</span>
                     </Link>
                 )}
                 <Link to="/settings" className="nav-link">
