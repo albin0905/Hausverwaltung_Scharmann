@@ -40,9 +40,8 @@ function Login() {
             if (user) {
                 setSuccess('Login erfolgreich!');
                 setError('');
-                if (user.administrator === 1) {
-                    auth.login(user);
-                }
+                auth.login(user);
+
                 console.log('Eingeloggter Benutzer:', user);
                 navigate('/');
             } else {
