@@ -5,6 +5,7 @@ import { IUser } from "../../common/models/IUser.d";
 
 const Kalender: React.FC = () => {
     const [appointments, setAppointments] = useState<IAppointment[]>([]);
+    const [unconfirmedAppointments, setUnconfirmedAppointments] = useState<IAppointment[]>([]); // Unbestätigte Termine
     const [user, setUser] = useState<IUser | null>(null);
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedAppointment, setSelectedAppointment] = useState<IAppointment | null>(null);
@@ -18,8 +19,14 @@ const Kalender: React.FC = () => {
                 setAppointments(data);
             })
             .catch((err) => console.error("Fehler beim Laden der Termine:", err));
-    }, []);
 
+        fetch("http://localhost:3000/appointments/unconfirmed")
+            .then((res) => res.json())
+            .then((data) => {
+                setUnconfirmedAppointments(data);
+            })
+            .catch((err) => console.error("Fehler beim Abrufen der unbestätigten Termine:", err));
+    }, []);
     const fetchUserDetails = (userId: number) => {
         fetch(`http://localhost:3000/user/${userId}`)
             .then((res) => res.json())
@@ -38,6 +45,29 @@ const Kalender: React.FC = () => {
 
     const getFirstDayOfMonth = (date: Date) => {
         return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+    };
+
+    const handleConfirmAppointment = async (id: number) => {
+        try {
+            const res = await fetch(`http://localhost:3000/appointments/confirm/${id}`, {
+                method: "PUT",
+            });
+
+            if (!res.ok) {
+                const errorData = await res.json();
+                setErrorMessage(errorData.message || "Fehler beim Bestätigen des Termins");
+                return;
+            }
+
+            const data = await res.json();
+            console.log("Termin bestätigt:", data.appointment);
+
+            setUnconfirmedAppointments(unconfirmedAppointments.filter((appt) => appt.id !== id));
+
+            setAppointments([...appointments, data.appointment]);
+        } catch (err) {
+            console.error("Fehler beim Bestätigen des Termins:", err);
+        }
     };
 
     const handleDayClick = (day: number) => {
@@ -120,66 +150,102 @@ const Kalender: React.FC = () => {
         }
     };
 
-    return <div className="calendar-container">
-        <h1 className="calendar-title">Termin-Kalender</h1>
-        <div className="calendar-header">
-            <button onClick={handlePrevMonth}>&lt;</button>
-            <h2>{currentMonth.toLocaleDateString('de-DE', {year: 'numeric', month: 'long'})}</h2>
-            <button onClick={handleNextMonth}>&gt;</button>
-        </div>
-        <div className="calendar-grid">
-            {weekdays.map((weekday, index) => <div key={index} className="calendar-day weekday">
-                    {weekday}
-                </div>)}
-
-            {[...Array(adjustedFirstDay)].map((_, index) => <div key={"empty-" + index} className="calendar-day empty"></div>)}
-
-            {[...Array(daysInMonth)].map((_, day) => {
-                const currentDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day + 2);
-                const formattedDate = currentDate.toISOString().split('T')[0];
-                const hasAppointment = appointments.some((appt) => appt.date === formattedDate && appt.confirmed !== false);
-
-                return <div
-                        key={day}
-                        className={`calendar-day ${hasAppointment ? "has-appointment" : ""}`}
-                        onClick={() => handleDayClick(day + 2)}
-                        style={{
-                            backgroundColor: hasAppointment ? 'blue' : 'transparent',
-                            color: hasAppointment ? 'white' : 'black'
-                        }}
-                    >
-                        {day + 1}
-                    </div>;
-            })}
-        </div>
-        {selectedAppointment && <div className="appointment-details">
-                <h3>Termin Details</h3>
-                <p><strong>Datum:</strong> {selectedAppointment.date}</p>
-                <p><strong>Uhrzeit:</strong> {selectedAppointment.time}</p>
-                <p><strong>Beschreibung:</strong> {selectedAppointment.description}</p>
-                <p><strong>Benutzer:</strong>
-                    {user?.firstname + " " + user?.lastname}
-                </p>
-
-                <button onClick={() => handleDeleteAppointment(selectedAppointment.id)}>Löschen</button>
-                <button onClick={() => setSelectedAppointment(null)}>Schließen</button>
+    return (
+        <div className="calendar-container">
+            <h1 className="calendar-title">Termin-Kalender</h1>
+            <div className="calendar-header">
+                <button onClick={handlePrevMonth}>&lt;</button>
+                <h2>{currentMonth.toLocaleDateString('de-DE', { year: 'numeric', month: 'long' })}</h2>
+                <button onClick={handleNextMonth}>&gt;</button>
             </div>
-        }
+            <div className="calendar-grid">
+                {weekdays.map((weekday, index) => (
+                    <div key={index} className="calendar-day weekday">
+                        {weekday}
+                    </div>
+                ))}
 
-        <div className="appointment-form">
-            <h3>Neuen Termin hinzufügen</h3>
-            <input type="text" placeholder="Benutzer-ID" value={newAppointment.userId}
-                   onChange={(e) => setNewAppointment({...newAppointment, userId: e.target.value})}/>
-            <input type="date" value={newAppointment.date}
-                   onChange={(e) => setNewAppointment({...newAppointment, date: e.target.value})}/>
-            <input type="time" value={newAppointment.time}
-                   onChange={(e) => setNewAppointment({...newAppointment, time: e.target.value})}/>
-            <input type="text" placeholder="Beschreibung" value={newAppointment.description}
-                   onChange={(e) => setNewAppointment({...newAppointment, description: e.target.value})}/>
-            <button onClick={handleAddAppointment}>Hinzufügen</button>
-            {errorMessage && <p className="error">{errorMessage}</p>}
+                {[...Array(adjustedFirstDay)].map((_, index) => (
+                    <div key={"empty-" + index} className="calendar-day empty"></div>
+                ))}
+
+                {[...Array(daysInMonth)].map((_, day) => {
+                    const currentDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day + 2);
+                    const formattedDate = currentDate.toISOString().split('T')[0];
+                    const hasAppointment = appointments.some((appt) => appt.date === formattedDate && appt.confirmed !== false);
+
+                    return (
+                        <div
+                            key={day}
+                            className={`calendar-day ${hasAppointment ? "has-appointment" : ""}`}
+                            onClick={() => handleDayClick(day + 2)}
+                            style={{
+                                backgroundColor: hasAppointment ? 'blue' : 'transparent',
+                                color: hasAppointment ? 'white' : 'black',
+                            }}
+                        >
+                            {day + 1}
+                        </div>
+                    );
+                })}
+            </div>
+
+            {/* Unbestätigte Termine anzeigen */}
+            {unconfirmedAppointments.length > 0 && (
+                <div className="unconfirmed-appointments">
+                    <h3>Unbestätigte Termine</h3>
+                    <ul>
+                        {unconfirmedAppointments.map((appointment) => (
+                            <li key={appointment.id}>
+                                {appointment.date} - {appointment.time} - {appointment.description}
+                                <button onClick={() => handleConfirmAppointment(appointment.id)}>Bestätigen</button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
+            {selectedAppointment && (
+                <div className="appointment-details">
+                    <h3>Termin Details</h3>
+                    <p><strong>Datum:</strong> {selectedAppointment.date}</p>
+                    <p><strong>Uhrzeit:</strong> {selectedAppointment.time}</p>
+                    <p><strong>Beschreibung:</strong> {selectedAppointment.description}</p>
+                    <p><strong>Benutzer:</strong>{user?.firstname + " " + user?.lastname}</p>
+                    <button onClick={() => handleDeleteAppointment(selectedAppointment.id)}>Löschen</button>
+                    <button onClick={() => setSelectedAppointment(null)}>Schließen</button>
+                </div>
+            )}
+
+            <div className="appointment-form">
+                <h3>Neuen Termin hinzufügen</h3>
+                <input
+                    type="text"
+                    placeholder="Benutzer-ID"
+                    value={newAppointment.userId}
+                    onChange={(e) => setNewAppointment({ ...newAppointment, userId: e.target.value })}
+                />
+                <input
+                    type="date"
+                    value={newAppointment.date}
+                    onChange={(e) => setNewAppointment({ ...newAppointment, date: e.target.value })}
+                />
+                <input
+                    type="time"
+                    value={newAppointment.time}
+                    onChange={(e) => setNewAppointment({ ...newAppointment, time: e.target.value })}
+                />
+                <input
+                    type="text"
+                    placeholder="Beschreibung"
+                    value={newAppointment.description}
+                    onChange={(e) => setNewAppointment({ ...newAppointment, description: e.target.value })}
+                />
+                <button onClick={handleAddAppointment}>Hinzufügen</button>
+                {errorMessage && <p className="error">{errorMessage}</p>}
+            </div>
         </div>
-    </div>;
+    );
 };
 
 export default Kalender;
