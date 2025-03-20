@@ -18,7 +18,7 @@
     const cors = require('cors');
 
     app.use(cors({
-        origin: '*', // Erlaubt alle Ursprünge
+        origin: '*',
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization'],
     }));

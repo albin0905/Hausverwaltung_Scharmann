@@ -1,8 +1,8 @@
-export interface IAppointment{
-    id: number,
-    userId: number,
-    date: string,
-    time: string,
-    description: string,
-    confirmed:boolean
-};
+export interface IAppointment {
+    id: number;
+    userId: number;
+    date: string;
+    time: string;
+    description: string;
+    confirmed: boolean;
+}

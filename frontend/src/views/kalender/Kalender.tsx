@@ -14,10 +14,8 @@ const Kalender: React.FC = () => {
     useEffect(() => {
         fetch("http://localhost:3000/appointments")
             .then((res) => res.json())
-            .then((data: IAppointment[]) => {
-                const confirmedAppointments = data.filter((appt) => appt.confirmed);
-                console.log("Gefilterte bestätigte Termine:", confirmedAppointments);
-                setAppointments(confirmedAppointments);
+            .then((data) => {
+                setAppointments(data);
             })
             .catch((err) => console.error("Fehler beim Laden der Termine:", err));
     }, []);
@@ -46,10 +44,12 @@ const Kalender: React.FC = () => {
         const formattedDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
         const formattedDateString = formattedDate.toISOString().split('T')[0];
         const appointment = appointments.find((appt) => appt.date === formattedDateString);
-        console.log(appointment);
-        if (appointment) {
+
+        appointments.forEach((appt) => console.log(`Termin am ${appt.date}: Confirmed=${appt.confirmed}`));
+
+        if(appointment){
             setSelectedAppointment(appointment);
-            fetchUserDetails(appointment.userId); // Benutzer anhand der userId abfragen
+            fetchUserDetails(appointment.userId);
         }
     };
 
@@ -76,15 +76,27 @@ const Kalender: React.FC = () => {
                 return;
             }
 
+            const appointmentData = {
+                userId: newAppointment.userId,
+                date: newAppointment.date,
+                time: newAppointment.time,
+                description: newAppointment.description,
+                confirmed: true,
+            };
+
             const res = await fetch("http://localhost:3000/appointments", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ ...newAppointment, confirmed: true }), // confirmed automatisch auf true setzen
+                body: JSON.stringify(appointmentData),
             });
 
             if (!res.ok) {
-                throw new Error("Fehler beim Erstellen des Termins");
+                const errorData = await res.json();
+                console.error("Error creating appointment:", errorData);
+                setErrorMessage(errorData.message || "Fehler beim Erstellen des Termins");
+                return;
             }
+
             const data = await res.json();
             setAppointments([...appointments, data.appointment]);
             setNewAppointment({ userId: '', date: '', time: '', description: '' });
@@ -108,74 +120,66 @@ const Kalender: React.FC = () => {
         }
     };
 
-    return (
-        <div className="calendar-container">
-            <h1 className="calendar-title">Termin-Kalender</h1>
-            <div className="calendar-header">
-                <button onClick={handlePrevMonth}>&lt;</button>
-                <h2>{currentMonth.toLocaleDateString('de-DE', {year: 'numeric', month: 'long'})}</h2>
-                <button onClick={handleNextMonth}>&gt;</button>
-            </div>
-            <div className="calendar-grid">
-                {weekdays.map((weekday, index) => (
-                    <div key={index} className="calendar-day weekday">
-                        {weekday}
-                    </div>
-                ))}
-
-                {[...Array(adjustedFirstDay)].map((_, index) => (
-                    <div key={"empty-" + index} className="calendar-day empty"></div>
-                ))}
-
-                {[...Array(daysInMonth)].map((_, day) => {
-                    const currentDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day + 2);
-                    const formattedDate = currentDate.toISOString().split('T')[0];
-                    const hasAppointment = appointments.some((appt) => appt.date === formattedDate);
-
-                    return (
-                        <div
-                            key={day}
-                            className={`calendar-day ${hasAppointment ? "has-appointment" : ""}`}
-                            onClick={() => handleDayClick(day + 2)}
-                            style={{
-                                backgroundColor: hasAppointment ? 'blue' : 'transparent',
-                                color: hasAppointment ? 'white' : 'black'
-                            }}
-                        >
-                            {day + 1}
-                        </div>
-                    );
-                })}
-            </div>
-            {selectedAppointment && (
-                <div className="appointment-details">
-                    <h3>Termin Details</h3>
-                    <p><strong>Datum:</strong> {selectedAppointment.date}</p>
-                    <p><strong>Uhrzeit:</strong> {selectedAppointment.time}</p>
-                    <p><strong>Beschreibung:</strong> {selectedAppointment.description}</p>
-                    <p><strong>Benutzer:</strong>
-                        {user?.firstname + " " + user?.lastname}
-                    </p>
-                    <button onClick={() => handleDeleteAppointment(selectedAppointment.id)}>Löschen</button>
-                    <button onClick={() => setSelectedAppointment(null)}>Schließen</button>
-                </div>
-            )}
-
-            <div className="appointment-form">
-                <h3>Neuen Termin hinzufügen</h3>
-                <input type="text" placeholder="Benutzer-ID" value={newAppointment.userId}
-                       onChange={(e) => setNewAppointment({...newAppointment, userId: e.target.value})}/>
-                <input type="date" value={newAppointment.date}
-                       onChange={(e) => setNewAppointment({...newAppointment, date: e.target.value})}/>
-                <input type="time" value={newAppointment.time}
-                       onChange={(e) => setNewAppointment({...newAppointment, time: e.target.value})}/>
-                <input type="text" placeholder="Beschreibung" value={newAppointment.description}
-                       onChange={(e) => setNewAppointment({...newAppointment, description: e.target.value})}/>
-                <button onClick={handleAddAppointment}>Hinzufügen</button>
-                {errorMessage && <p className="error">{errorMessage}</p>}
-            </div>
+    return <div className="calendar-container">
+        <h1 className="calendar-title">Termin-Kalender</h1>
+        <div className="calendar-header">
+            <button onClick={handlePrevMonth}>&lt;</button>
+            <h2>{currentMonth.toLocaleDateString('de-DE', {year: 'numeric', month: 'long'})}</h2>
+            <button onClick={handleNextMonth}>&gt;</button>
         </div>
-    );
+        <div className="calendar-grid">
+            {weekdays.map((weekday, index) => <div key={index} className="calendar-day weekday">
+                    {weekday}
+                </div>)}
+
+            {[...Array(adjustedFirstDay)].map((_, index) => <div key={"empty-" + index} className="calendar-day empty"></div>)}
+
+            {[...Array(daysInMonth)].map((_, day) => {
+                const currentDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day + 2);
+                const formattedDate = currentDate.toISOString().split('T')[0];
+                const hasAppointment = appointments.some((appt) => appt.date === formattedDate && appt.confirmed !== false);
+
+                return <div
+                        key={day}
+                        className={`calendar-day ${hasAppointment ? "has-appointment" : ""}`}
+                        onClick={() => handleDayClick(day + 2)}
+                        style={{
+                            backgroundColor: hasAppointment ? 'blue' : 'transparent',
+                            color: hasAppointment ? 'white' : 'black'
+                        }}
+                    >
+                        {day + 1}
+                    </div>;
+            })}
+        </div>
+        {selectedAppointment && <div className="appointment-details">
+                <h3>Termin Details</h3>
+                <p><strong>Datum:</strong> {selectedAppointment.date}</p>
+                <p><strong>Uhrzeit:</strong> {selectedAppointment.time}</p>
+                <p><strong>Beschreibung:</strong> {selectedAppointment.description}</p>
+                <p><strong>Benutzer:</strong>
+                    {user?.firstname + " " + user?.lastname}
+                </p>
+
+                <button onClick={() => handleDeleteAppointment(selectedAppointment.id)}>Löschen</button>
+                <button onClick={() => setSelectedAppointment(null)}>Schließen</button>
+            </div>
+        }
+
+        <div className="appointment-form">
+            <h3>Neuen Termin hinzufügen</h3>
+            <input type="text" placeholder="Benutzer-ID" value={newAppointment.userId}
+                   onChange={(e) => setNewAppointment({...newAppointment, userId: e.target.value})}/>
+            <input type="date" value={newAppointment.date}
+                   onChange={(e) => setNewAppointment({...newAppointment, date: e.target.value})}/>
+            <input type="time" value={newAppointment.time}
+                   onChange={(e) => setNewAppointment({...newAppointment, time: e.target.value})}/>
+            <input type="text" placeholder="Beschreibung" value={newAppointment.description}
+                   onChange={(e) => setNewAppointment({...newAppointment, description: e.target.value})}/>
+            <button onClick={handleAddAppointment}>Hinzufügen</button>
+            {errorMessage && <p className="error">{errorMessage}</p>}
+        </div>
+    </div>;
 };
 
 export default Kalender;

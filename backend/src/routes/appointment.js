@@ -3,7 +3,7 @@ const { Appointment } = require('../db/appointment.db'); // Pfad anpassen
 const { User } = require('../db/user.db'); // User-Modell importieren
 const router = express.Router();
 
-// GET: Alle Termine abrufen (nur Admin)
+// GET: Alle Termine (nur Admin)
 // http://localhost:3000/appointments
 router.get('/', async (req, res) => {
     try {
@@ -14,7 +14,8 @@ router.get('/', async (req, res) => {
             date: appointment.date,
             time: appointment.time,
             description: appointment.description,
-            userId: appointment.userId
+            userId: appointment.userId,
+            confirmed: appointment.confirmed
         }));
 
         res.json(simplifiedAppointments);
@@ -58,7 +59,8 @@ router.put('/confirm/:id', async (req, res) => {
 });
 
 // GET: Alle bestätigten Termine abrufen (Admin/User)
-router.get('/', async (req, res) => {
+// http://localhost:3000/appointments/confirmed
+router.get('/confirmed', async (req, res) => {
     try {
         const appointments = await Appointment.find({ confirmed: true });
 
@@ -67,12 +69,13 @@ router.get('/', async (req, res) => {
             date: appointment.date,
             time: appointment.time,
             description: appointment.description,
-            userId: appointment.userId
+            userId: appointment.userId,
+            confirmed: appointment.confirmed
         }));
 
         res.json(simplifiedAppointments);
     } catch (err) {
-        console.error('Fehler beim Abrufen der Termine:', err);
+        console.error('Fehler beim Abrufen der bestätigten Termine:', err);
         res.status(500).json({ message: 'Interner Serverfehler' });
     }
 });
@@ -98,7 +101,7 @@ router.get('/user/:userId', async (req, res) => {
 // http://localhost:3000/appointments
 router.post('/', async (req, res) => {
     try {
-        const { userId, date, time, description, confirmed } = req.body;
+        const { userId, date, time, description, confirmed = false } = req.body;
 
         if (!userId || !date || !time) {
             return res.status(400).json({ message: 'Benutzer-ID, Datum und Uhrzeit sind erforderlich' });
@@ -120,7 +123,7 @@ router.post('/', async (req, res) => {
         res.status(201).json({ message: 'Termin erfolgreich erstellt', appointment: newAppointment });
     } catch (err) {
         console.error('Fehler beim Erstellen des Termins:', err);
-        res.status(500).json({ message: 'Interner Serverfehler' });
+        res.status(500).json({ message: 'Interner Serverfehler', error: err.message });
     }
 });
 

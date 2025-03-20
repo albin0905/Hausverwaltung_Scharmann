@@ -16,7 +16,7 @@ export default function Termin() {
             date,
             time: "10:00",
             description: grund,
-            confirmed: false
+            confirmed: false,
         };
 
         try {
