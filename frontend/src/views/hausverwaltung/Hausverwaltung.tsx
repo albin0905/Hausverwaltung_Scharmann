@@ -92,7 +92,7 @@ function Hausverwaltung() {
 
     async function addHouse() {
         try {
-            const response = await axios.post('http://localhost:3000/houses', newHouse); // Ohne ID senden
+            const response = await axios.post('http://localhost:3000/houses', newHouse);
             const addedHouse = response.data.house;
             setHouses((prevHouses) => [...prevHouses, addedHouse]);
             alert('Haus erfolgreich hinzugefügt');
