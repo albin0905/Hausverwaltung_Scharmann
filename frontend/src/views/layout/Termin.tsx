@@ -1,12 +1,14 @@
 import { useState } from "react";
-import {useAuth} from "../../common/context/AuthContext";
+import { useAuth } from "../../common/context/AuthContext";
+import { useNavigate } from "react-router-dom"; // Importiere useNavigate
 
 export default function Termin() {
     const [grund, setGrund] = useState("");
     const [date, setDate] = useState("");
-    const [message, setMessage] = useState("");
+    const [showPopup, setShowPopup] = useState(false);
 
     const auth = useAuth();
+    const navigate = useNavigate(); // Hook zum Navigieren
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -26,23 +28,22 @@ export default function Termin() {
                 body: JSON.stringify(appointmentData),
             });
 
-            const data = await response.json();
             if (response.ok) {
-                setMessage("Termin erfolgreich erstellt!");
-            } else {
-                setMessage(data.message || "Fehler beim Erstellen des Termins");
+                setShowPopup(true);
+                setGrund("");
+                setDate("");
+                setTimeout(() => setShowPopup(false), 3000);
+                setTimeout(() => navigate("/"), 3000);
             }
         } catch (error) {
             console.error("Fehler:", error);
-            setMessage("Netzwerkfehler");
         }
     };
 
     return (
-        <div className="flex justify-center items-center h-screen bg-gray-100">
+        <div className="flex justify-center items-center h-screen bg-gray-100 relative">
             <div className="w-96 p-6 shadow-lg bg-white rounded-lg">
                 <h2 className="text-xl font-bold mb-4">Terminwunsch</h2>
-                {message && <p className="text-green-500">{message}</p>}
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label className="block font-medium">Grund</label>
@@ -72,6 +73,12 @@ export default function Termin() {
                     </button>
                 </form>
             </div>
+
+            {showPopup && (
+                <div className="absolute top-4 right-4 bg-green-500 p-3 rounded">
+                    <p className="font-bold">Termin erfolgreich angefragt!</p>
+                </div>
+            )}
         </div>
     );
 }
