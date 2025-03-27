@@ -6,8 +6,8 @@ const AppointmentSchema = new mongoose.Schema({
     date: { type: String, required: true },
     time: { type: String, required: true },
     description: { type: String, default: '' },
+    confirmed: { type: Boolean, default: false }
 });
-
 
 const AppointmentDb = mongoose.model('Appointment', AppointmentSchema);
 

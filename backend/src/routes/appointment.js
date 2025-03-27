@@ -3,7 +3,7 @@ const { Appointment } = require('../db/appointment.db'); // Pfad anpassen
 const { User } = require('../db/user.db'); // User-Modell importieren
 const router = express.Router();
 
-// GET: Alle Termine abrufen (nur Admin)
+// GET: Alle Termine (nur Admin)
 // http://localhost:3000/appointments
 router.get('/', async (req, res) => {
     try {
@@ -14,7 +14,8 @@ router.get('/', async (req, res) => {
             date: appointment.date,
             time: appointment.time,
             description: appointment.description,
-            userId: appointment.userId
+            userId: appointment.userId,
+            confirmed: appointment.confirmed
         }));
 
         res.json(simplifiedAppointments);
@@ -23,6 +24,63 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: 'Interner Serverfehler' });
     }
 });
+
+// GET: Unbestätigte Termine abrufen (Admin)
+router.get('/unconfirmed', async (req, res) => {
+    try {
+        const appointments = await Appointment.find({ confirmed: false });
+        res.json(appointments);
+    } catch (err) {
+        console.error('Fehler beim Abrufen unbestätigter Termine:', err);
+        res.status(500).json({ message: 'Interner Serverfehler' });
+    }
+});
+
+// PUT: Termin bestätigen (Admin)
+router.put('/confirm/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const updatedAppointment = await Appointment.findOneAndUpdate(
+            { id: Number(id) },
+            { confirmed: true },
+            { new: true }
+        );
+
+        if (!updatedAppointment) {
+            return res.status(404).json({ message: 'Termin nicht gefunden' });
+        }
+
+        res.json({ message: 'Termin erfolgreich bestätigt', appointment: updatedAppointment });
+    } catch (err) {
+        console.error('Fehler beim Bestätigen des Termins:', err);
+        res.status(500).json({ message: 'Interner Serverfehler' });
+    }
+});
+
+// GET: Alle bestätigten Termine abrufen (Admin/User)
+// http://localhost:3000/appointments/confirmed
+router.get('/confirmed', async (req, res) => {
+    try {
+        const appointments = await Appointment.find({ confirmed: true });
+
+        const simplifiedAppointments = appointments.map(appointment => ({
+            id: appointment.id,
+            date: appointment.date,
+            time: appointment.time,
+            description: appointment.description,
+            userId: appointment.userId,
+            confirmed: appointment.confirmed
+        }));
+
+        res.json(simplifiedAppointments);
+    } catch (err) {
+        console.error('Fehler beim Abrufen der bestätigten Termine:', err);
+        res.status(500).json({ message: 'Interner Serverfehler' });
+    }
+});
+
+
 
 
 
@@ -43,7 +101,7 @@ router.get('/user/:userId', async (req, res) => {
 // http://localhost:3000/appointments
 router.post('/', async (req, res) => {
     try {
-        const { userId, date, time, description } = req.body;
+        const { userId, date, time, description, confirmed = false } = req.body;
 
         if (!userId || !date || !time) {
             return res.status(400).json({ message: 'Benutzer-ID, Datum und Uhrzeit sind erforderlich' });
@@ -58,13 +116,14 @@ router.post('/', async (req, res) => {
             date,
             time,
             description,
+            confirmed
         });
 
         await newAppointment.save();
         res.status(201).json({ message: 'Termin erfolgreich erstellt', appointment: newAppointment });
     } catch (err) {
         console.error('Fehler beim Erstellen des Termins:', err);
-        res.status(500).json({ message: 'Interner Serverfehler' });
+        res.status(500).json({ message: 'Interner Serverfehler', error: err.message });
     }
 });
 
