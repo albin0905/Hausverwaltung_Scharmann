@@ -205,7 +205,7 @@ const Kalender: React.FC = () => {
                     <ul>
                         {unconfirmedAppointments.map((appointment) => (
                             <li key={appointment.id}>
-                                {appointment.date} - {appointment.time} - {appointment.description}
+                                 {appointment.date} - {appointment.time} - {appointment.description}
                                 <button onClick={() => handleConfirmAppointment(appointment.id)}>Bestätigen</button>
                                 <button onClick={() => handleRejectAppointment(appointment.id)}>Ablehnen</button>
                             </li>
