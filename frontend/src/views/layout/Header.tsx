@@ -61,7 +61,7 @@ const Header: React.FC = () => {
                 )}
                 <Link to="/GoogleMaps" className="nav-link">
                     <FaMapMarkerAlt className="icon" />
-                    <span className="nav-text">Google Maps</span>
+                    <span className="nav-text">{texts.location}</span>
                 </Link>
             </div>
         </header>
