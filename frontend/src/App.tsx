@@ -8,7 +8,7 @@ import Settings from "./views/layout/Settings";
 import Login from "./views/login/Login";
 import Impressum from "./views/layout/Impressum";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import GoogleMapPopup from "./views/layout/GoogleMapPopup";
+import Location from "./views/layout/Location";
 import Hausverwaltung from "./views/hausverwaltung/Hausverwaltung";
 import Buchhaltung from "./views/buchhaltung/Buchhaltung";
 import Kalender from "./views/kalender/Kalender";
@@ -29,7 +29,7 @@ const App: React.FC = () => {
                         <Route path="/settings" element={<Settings />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/impressum" element={<Impressum />} />
-                        <Route path="/GoogleMaps" element={<GoogleMapPopup />} />
+                        <Route path="/GoogleMaps" element={<Location />} />
                         <Route path="/Hausverwaltung" element={<Hausverwaltung/>}/>
                         <Route path="/Buchhaltung" element={<Buchhaltung />} />
                         <Route path="/Kalender" element={<Kalender />} />

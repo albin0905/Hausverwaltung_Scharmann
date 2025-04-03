@@ -1,0 +1,11 @@
+.div-haeuser {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.image {
+    width: auto;
+    height: 500px;
+}

@@ -14,7 +14,7 @@ const texts = {
         mainpage: 'Hauptseite', accounting: 'Buchhaltung', calendar: 'Kalender', rights: 'Rechte', home: 'Startseite',
         user: 'Nutzer', userList: 'Benutzerliste', firstname: 'Vorname', lastname: 'Nachname', phoneNumber: 'Telefon',
         adresse: 'Adresse', addUser: 'Benutzer hinzufügen', updateUser: 'Benutzer bearbeiten', safe: 'Speichern',
-        backToHouses: 'Zurück zu den Häusern', flatsInHouse: 'Wohnungen in ', flat: 'Wohnung',
+        backToHouses: 'Zurück zu den Häusern', flatsInHouse: 'Wohnungen in ', flat: 'Wohnung', location:'Standort',
         floor: 'Etage', numberOfRooms: 'Zimmeranzahl', bathroom: 'Badezimmer', toilets: 'Toiletten', kitchen: 'Küche',
         balconies: 'Balkone', bedroom: 'Schlafzimmer', storageRooms: 'Lagerräume', forRent: 'Zu vermieten',
         name: 'Name', cancel: 'Abbrechen', add: 'Hinzufügen', addNewHouse: 'Neues Haus hinzufügen', addNewFlat: 'Neue Wohnung hinzufügen',
@@ -26,7 +26,7 @@ const texts = {
         mainpage: 'Mainpage', accounting: 'Accounting', calendar: 'Calendar', rights: 'Rights', home: 'Home',
         user: 'User', userList: 'User List', firstname: 'Firstname', lastname: 'Lastname', phoneNumber: 'Phone',
         adresse: 'Address', addUser: 'Add User', updateUser: 'Update User', safe: 'Save',
-        backToHouses: 'Back to houses', flatsInHouse: 'Flats in house', flat: 'Flat',
+        backToHouses: 'Back to houses', flatsInHouse: 'Flats in house', flat: 'Flat',location:'Location',
         floor: 'Floor', numberOfRooms: 'Number of rooms', bathroom: 'Bathrooms', toilets: 'Toilets', kitchen: 'Kitchen',
         balconies: 'Balconies', bedroom: 'Bedrooms', storageRooms: 'Storage rooms', forRent: 'For rent',
         name: 'Name', cancel: 'Cancel', add: 'Add', addNewHouse: 'Add new house', addNewFlat: 'Add new flats',
@@ -40,7 +40,7 @@ const texts = {
         adresse: 'Adresa', addUser: 'Shto përdorues', updateUser: 'Përditëso përdoruesin', safe: 'Ruaj',
         backToHouses: 'Kthehu te shtëpitë', flatsInHouse: 'Apartamentet në shtëpi', flat: 'Apartament',
         floor: 'Kate', numberOfRooms: 'Numri i dhomave', bathroom: 'Banjo', toilets: 'Tualete', kitchen: 'Kuzhinë',
-        balconies: 'Ballkone', bedroom: 'Dhoma gjumi', storageRooms: 'Magazina', forRent: 'Me qira',
+        balconies: 'Ballkone', bedroom: 'Dhoma gjumi', storageRooms: 'Magazina', forRent: 'Me qira', location:'Vendndodhja',
         name: 'Emri', cancel: 'Anulo', add: 'Shto', addNewHouse: 'Shto shtëpi të re', addNewFlat: 'Shto apartament të ri',
         delete: 'Fshij', deleteFlat: 'Fshij apartamentin', edit: 'Redakto', yes:'Po', no:'Nr', password:'Password'
     }
