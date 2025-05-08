@@ -17,6 +17,7 @@
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "cors": "^2.8.5",
+    "framer-motion": "^12.9.0",
     "install": "^0.13.0",
     "mui": "^0.0.1",
     "or": "^0.2.0",
@@ -51,5 +52,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.0.17"
   }
 }

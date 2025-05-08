@@ -7,6 +7,7 @@ import {IHouse} from "../../common/models/IHouse.d";
 import {IFlat} from "../../common/models/IFlat.d";
 import EditHouseForm from "./EditHouseForm";
 import "../../styles/hausverwaltung.css"
+import Footer from "../layout/Footer";
 
 function Hausverwaltung() {
     const [houses, setHouses] = useState<IHouse[]>([]);

@@ -7,7 +7,7 @@ import '../../styles/footer.css';
 const Footer: React.FC = () => {
     const language = useLanguage();
     return (
-        <footer className="footer-container">
+        <footer className="footer-container ">
             <div className="social-links">
                 <div>
                     <a href="https://www.instagram.com/helmutscharmann/" target="_blank" rel="noopener noreferrer">

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Footer from "../layout/Footer";
 
 function Register() {
     const [firstname, setFirstname] = useState('');
@@ -92,6 +93,7 @@ function Register() {
                     </div>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }

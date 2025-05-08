@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../styles/login.css';
 import { IUser } from "../../common/models/IUser.d";
+import Footer from "../layout/Footer";
 
 function Login() {
     const [email, setEmail] = useState('');

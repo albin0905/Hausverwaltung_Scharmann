@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import '../../styles/appointmentCalender.css';
 import { IAppointment } from "../../common/models/IAppointment.d";
 import { IUser } from "../../common/models/IUser.d";
+import Footer from "../layout/Footer";
 
 const Kalender: React.FC = () => {
     const [appointments, setAppointments] = useState<IAppointment[]>([]);
