@@ -6,7 +6,7 @@ import Footer from "../layout/Footer";
 
 const Kalender: React.FC = () => {
     const [appointments, setAppointments] = useState<IAppointment[]>([]);
-    const [unconfirmedAppointments, setUnconfirmedAppointments] = useState<IAppointment[]>([]); // Unbestätigte Termine
+    const [unconfirmedAppointments, setUnconfirmedAppointments] = useState<IAppointment[]>([]);
     const [user, setUser] = useState<IUser | null>(null);
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedAppointment, setSelectedAppointment] = useState<IAppointment | null>(null);
@@ -28,6 +28,7 @@ const Kalender: React.FC = () => {
             })
             .catch((err) => console.error("Fehler beim Abrufen der unbestätigten Termine:", err));
     }, []);
+
     const fetchUserDetails = (userId: number) => {
         fetch(`http://localhost:3000/user/${userId}`)
             .then((res) => res.json())
@@ -36,16 +37,6 @@ const Kalender: React.FC = () => {
                 setUser(data);
             })
             .catch((err) => console.error("Fehler beim Laden der Benutzerdaten:", err));
-    };
-
-    const getDaysInMonth = (date: Date) => {
-        const year = date.getFullYear();
-        const month = date.getMonth();
-        return new Date(year, month + 1, 0).getDate();
-    };
-
-    const getFirstDayOfMonth = (date: Date) => {
-        return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
     };
 
     const handleConfirmAppointment = async (id: number) => {
@@ -64,10 +55,30 @@ const Kalender: React.FC = () => {
             console.log("Termin bestätigt:", data.appointment);
 
             setUnconfirmedAppointments(unconfirmedAppointments.filter((appt) => appt.id !== id));
-
             setAppointments([...appointments, data.appointment]);
         } catch (err) {
             console.error("Fehler beim Bestätigen des Termins:", err);
+        }
+    };
+
+    const handleRejectAppointment = async (id: number) => {
+        try {
+            const res = await fetch(`http://localhost:3000/appointments/${id}`, {
+                method: "DELETE",
+            });
+
+            if (!res.ok) {
+                const errorData = await res.json();
+                setErrorMessage(errorData.message || "Fehler beim Ablehnen des Termins");
+                return;
+            }
+
+            const data = await res.json();
+            console.log("Termin abgelehnt:", data.message);
+
+            setUnconfirmedAppointments(unconfirmedAppointments.filter((appt) => appt.id !== id));
+        } catch (err) {
+            console.error("Fehler beim Ablehnen des Termins:", err);
         }
     };
 
@@ -76,9 +87,7 @@ const Kalender: React.FC = () => {
         const formattedDateString = formattedDate.toISOString().split('T')[0];
         const appointment = appointments.find((appt) => appt.date === formattedDateString);
 
-        appointments.forEach((appt) => console.log(`Termin am ${appt.date}: Confirmed=${appt.confirmed}`));
-
-        if(appointment){
+        if (appointment) {
             setSelectedAppointment(appointment);
             fetchUserDetails(appointment.userId);
         }
@@ -92,8 +101,8 @@ const Kalender: React.FC = () => {
         setCurrentMonth(new Date(currentMonth.setMonth(currentMonth.getMonth() + 1)));
     };
 
-    const daysInMonth = getDaysInMonth(currentMonth);
-    const firstDayOfMonth = getFirstDayOfMonth(currentMonth);
+    const daysInMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
+    const firstDayOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
 
     const weekdays = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
     const adjustedFirstDay = (firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1);
@@ -191,15 +200,15 @@ const Kalender: React.FC = () => {
                 })}
             </div>
 
-            {/* Unbestätigte Termine anzeigen */}
             {unconfirmedAppointments.length > 0 && (
                 <div className="unconfirmed-appointments">
                     <h3>Unbestätigte Termine</h3>
                     <ul>
                         {unconfirmedAppointments.map((appointment) => (
                             <li key={appointment.id}>
-                                {appointment.date} - {appointment.time} - {appointment.description}
+                                 {appointment.date} - {appointment.time} - {appointment.description}
                                 <button onClick={() => handleConfirmAppointment(appointment.id)}>Bestätigen</button>
+                                <button onClick={() => handleRejectAppointment(appointment.id)}>Ablehnen</button>
                             </li>
                         ))}
                     </ul>

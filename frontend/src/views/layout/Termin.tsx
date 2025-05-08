@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {useAuth} from "../../common/context/AuthContext";
-import Footer from "./Footer";
 
 export default function Termin() {
     const [grund, setGrund] = useState("");

@@ -75,7 +75,7 @@ const Dashboard: React.FC = () => {
             balconies: 0,
             numberOfRooms: 0,
         });
-        setFilteredFlats(flats); // Zeige wieder alle Flats an
+        setFilteredFlats(flats);
     };
 
     const handleBackClick = () => {
