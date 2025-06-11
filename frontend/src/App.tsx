@@ -8,7 +8,7 @@ import Settings from "./views/layout/Settings";
 import Login from "./views/login/Login";
 import Impressum from "./views/layout/Impressum";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import GoogleMapPopup from "./views/layout/GoogleMapPopup";
+import GoogleMapPopup from "./components/GoogleMapPopup";
 import Hausverwaltung from "./views/hausverwaltung/Hausverwaltung";
 import Buchhaltung from "./views/buchhaltung/Buchhaltung";
 import Kalender from "./views/kalender/Kalender";
